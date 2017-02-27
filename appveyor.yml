@@ -8,12 +8,8 @@ environment:
   matrix:
     - PYTHON_VERSION: "3.5"
       MPL_VERSION: "1.5"
-    - PYTHON_VERSION: "3.5"
-      MPL_VERSION: "2.0"
     - PYTHON_VERSION: "3.6"
       MPL_VERSION: "1.5"
-    - PYTHON_VERSION: "3.6"
-      MPL_VERSION: "2.0"
 install:
   # Install miniconda Python
   - "powershell ./ci/install_python.ps1"
