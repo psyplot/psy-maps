@@ -40,6 +40,10 @@ install:
   - python setup.py install
   - cd ..
   - ps: Remove-Item -Recurse -Force psyplot
+  # use the branch from psy-simple
+  - git clone "https://github.com/Chilipp/psy-simple.git" -b %APPVEYOR_REPO_BRANCH% || git clone "https://github.com/Chilipp/psy-simple.git"
+  - cd psy-simple && python setup.py install && cd ..
+  - ps: Remove-Item -Recurse -Force psy-simple
   - pip install coveralls
   - python setup.py install
   # export the environment for debugging

@@ -76,6 +76,9 @@ install:
   # NOTE: Remove this when psyplot is stable enough
   - git clone "https://github.com/Chilipp/psyplot.git" -b v1.0.0.dev0
   - cd psyplot && python setup.py install && cd .. && rm -rf psyplot
+  # use the branch from psy-simple
+  - git clone "https://github.com/Chilipp/psy-simple.git" -b $TRAVIS_BRANCH || git clone "https://github.com/Chilipp/psy-simple.git"
+  - cd psy-simple && python setup.py install && cd .. && rm -rf psy-simple
   # install coveralls
   - pip install coveralls
   # install psyplot
