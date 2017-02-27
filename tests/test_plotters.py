@@ -259,16 +259,16 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
         """Test bounds formatoption"""
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
-            np.linspace(235, 310, 11, endpoint=True).tolist())
+            np.round(np.linspace(240, 310, 11, endpoint=True), 2).tolist())
         self.update(bounds='minmax')
-        bounds = [239.91, 246.89, 253.88, 260.87, 267.86, 274.84, 281.83,
-                  288.82, 295.81, 302.79, 309.78]
+        bounds = [241.03, 247.84, 254.65, 261.46, 268.27, 275.08, 281.9,
+                  288.71, 295.52, 302.33, 309.14]
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds)
         self.update(bounds=['rounded', 5, 5, 95])
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
-            np.linspace(245, 300, 5, endpoint=True).tolist())
+            np.round(np.linspace(245, 305, 5, endpoint=True), 2).tolist())
 
     def test_miss_color(self, *args):
         """Test miss_color formatoption"""
@@ -481,8 +481,8 @@ class VectorPlotterTest(FieldPlotterTest, MapReferences):
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
             np.linspace(0, 15, 11, endpoint=True).tolist())
         self.update(bounds='minmax')
-        bounds = [0.36, 1.52, 2.68, 3.85, 5.01, 6.17, 7.33, 8.5, 9.66, 10.82,
-                  11.99]
+        bounds = [0.66, 1.74, 2.81, 3.89, 4.96, 6.04, 7.11, 8.19, 9.26, 10.34,
+                  11.41]
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds)
         self.update(bounds=['rounded', 5, 5, 95])
@@ -815,8 +815,8 @@ class CombinedPlotterTest(VectorPlotterTest):
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
             np.linspace(245, 290, 11, endpoint=True).tolist())
         self.update(bounds='minmax')
-        bounds = [248.07, 252.24, 256.42, 260.6, 264.78, 268.95, 273.13,
-                  277.31, 281.48, 285.66, 289.84]
+        bounds = [248.07, 252.01, 255.96, 259.9, 263.85, 267.79, 271.74,
+                  275.69, 279.63, 283.58, 287.52]
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds)
         self.update(bounds=['rounded', 5, 5, 95])
@@ -830,8 +830,8 @@ class CombinedPlotterTest(VectorPlotterTest):
             np.round(self.plotter.vbounds.norm.boundaries, 2).tolist(),
             np.linspace(0, 15, 11, endpoint=True).tolist())
         self.update(vbounds='minmax')
-        bounds = [0.36, 1.52, 2.68, 3.85, 5.01, 6.17, 7.33, 8.5, 9.66, 10.82,
-                  11.99]
+        bounds = [0.66, 1.74, 2.81, 3.89, 4.96, 6.04, 7.11, 8.19, 9.26, 10.34,
+                  11.41]
         self.assertEqual(
             np.round(self.plotter.vbounds.norm.boundaries, 2).tolist(), bounds)
         self.update(vbounds=['rounded', 5, 5, 95])
@@ -892,8 +892,8 @@ class CircumpolarFieldPlotterTest(FieldPlotterTest):
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
             np.linspace(240, 310, 11, endpoint=True).tolist())
         self.update(bounds='minmax')
-        bounds = [240.33, 246.83, 253.34, 259.85, 266.35, 272.86, 279.36,
-                  285.87, 292.37, 298.88, 305.39]
+        bounds = [241.29, 247.68, 254.07, 260.47, 266.86, 273.25, 279.64,
+                  286.03, 292.43, 298.82, 305.21]
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds)
         self.update(bounds=['rounded', 5, 5, 95])
@@ -998,8 +998,8 @@ class CircumpolarVectorPlotterTest(VectorPlotterTest):
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
             np.linspace(0, 15, 11, endpoint=True).tolist())
         self.update(bounds='minmax')
-        bounds = [0.18, 1.32, 2.46, 3.61, 4.75, 5.89, 7.03, 8.17, 9.31, 10.45,
-                  11.59]
+        bounds = [0.71, 1.74, 2.76, 3.79, 4.81, 5.84, 6.86, 7.89, 8.92, 9.94,
+                  10.97]
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds)
         self.update(bounds=['rounded', 5, 5, 95])
@@ -1110,10 +1110,10 @@ class CircumpolarCombinedPlotterTest(CombinedPlotterTest):
         # test bounds of scalar field
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
-            np.linspace(245, 290, 11, endpoint=True).tolist())
+            np.round(np.linspace(250, 290, 11, endpoint=True), 2).tolist())
         self.update(bounds='minmax')
-        bounds = [249.35, 253.42, 257.48, 261.54, 265.6, 269.67, 273.73,
-                  277.79, 281.85, 285.91, 289.98]
+        bounds = [250.63, 254.38, 258.12, 261.87, 265.62, 269.36, 273.11,
+                  276.85, 280.6, 284.35, 288.09]
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds)
         self.update(bounds=['rounded', 5, 5, 95])
@@ -1127,8 +1127,8 @@ class CircumpolarCombinedPlotterTest(CombinedPlotterTest):
             np.round(self.plotter.vbounds.norm.boundaries, 2).tolist(),
             np.linspace(0, 15, 11, endpoint=True).tolist())
         self.update(vbounds='minmax')
-        bounds = [0.18, 1.32, 2.46, 3.61, 4.75, 5.89, 7.03, 8.17, 9.31, 10.45,
-                  11.59]
+        bounds = [0.71, 1.74, 2.76, 3.79, 4.81, 5.84, 6.86, 7.89, 8.92, 9.94,
+                  10.97]
         self.assertEqual(
             np.round(self.plotter.vbounds.norm.boundaries, 2).tolist(), bounds)
         self.update(vbounds=['rounded', 5, 5, 95])
