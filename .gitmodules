@@ -1,0 +1,48 @@
+[submodule "tests/reference_figures/linux2/py2.7/mpl1.4"]
+	path = tests/reference_figures/linux2/py2.7/mpl1.4
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = linux2_py2.7_mpl1.4
+[submodule "tests/reference_figures/linux2/py2.7/mpl1.5"]
+	path = tests/reference_figures/linux2/py2.7/mpl1.5
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = linux2_py2.7_mpl1.5
+[submodule "tests/reference_figures/linux/py3.5/mpl1.4"]
+	path = tests/reference_figures/linux/py3.5/mpl1.4
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = linux_py3.5_mpl1.4
+[submodule "tests/reference_figures/linux/py3.5/mpl1.5"]
+	path = tests/reference_figures/linux/py3.5/mpl1.5
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = linux_py3.5_mpl1.5
+[submodule "tests/reference_figures/linux/py3.6/mpl1.5"]
+	path = tests/reference_figures/linux/py3.6/mpl1.5
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = linux_py3.6_mpl1.5
+[submodule "tests/reference_figures/win32/py2.7/mpl1.4"]
+	path = tests/reference_figures/win32/py2.7/mpl1.4
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = win32_py2.7_mpl1.4
+[submodule "tests/reference_figures/win32/py2.7/mpl1.5"]
+	path = tests/reference_figures/win32/py2.7/mpl1.5
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = win32_py2.7_mpl1.5
+[submodule "tests/reference_figures/win32/py3.5/mpl1.4"]
+	path = tests/reference_figures/win32/py3.5/mpl1.4
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = win32_py3.5_mpl1.4
+[submodule "tests/reference_figures/win32/py3.5/mpl1.5"]
+	path = tests/reference_figures/win32/py3.5/mpl1.5
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = win32_py3.5_mpl1.5
+[submodule "tests/reference_figures/win32/py3.6/mpl1.5"]
+	path = tests/reference_figures/win32/py3.6/mpl1.5
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = win32_py3.6_mpl1.5
+[submodule "tests/reference_figures/darwin/py3.6/mpl1.5"]
+	path = tests/reference_figures/darwin/py3.6/mpl1.5
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = darwin_py3.6_mpl1.5
+[submodule "tests/reference_figures/darwin/py2.7/mpl1.5"]
+	path = tests/reference_figures/darwin/py2.7/mpl1.5
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = darwin_py2.7_mpl1.5
