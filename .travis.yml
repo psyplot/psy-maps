@@ -1,0 +1,125 @@
+language: generic
+env:
+  global:
+    - COMMIT_AUTHOR_EMAIL="philipp.sommer@unil.ch"
+    - secure: "QocbcpzKkTWjFW8xKiws6W9cQrw+E+wY6dbH+IX7qnBw1OenPkInqMbquyNhmktPPEsnKfcZODDfHeXmvZYEdtTBWac1xMhT/ql4XiiEZY31JvXKsIRo/F6hcbVWjRFgl8vndv7IGiDaQAUys6VQ0yoS/0RRyIIzgzxb0mqedlZqGwc+hS50qXJSLM7TCgf8aFf7rrBK/I638Hq6GziAV8Zrg7dR+6CkaIkV9Lorz+suk/VcZSu1r1PCV4v54siY55FQhya/faEb4NPr5LGgtlLJ4v2trDxyc1jZTCbQtYm/rgpNP8KFMRHHPwlHBSjRHKdGiGnBwdPMKn7C//q0f/45ipnvVB439ku225juLO/ciq73FikOzmvlRCA+/FkR5QPdOhTmXLxrnvz5vKbaEoFncrwZwmh8cnAsCGEWly8RF2wieN1TeREMoDYi0AW5HO1E0tjcjN6ELBJUiw8WnxD0UufNHxUv0uv3g0Xug4JMQqj4qeNdvu1LL+XcqB4M/vnfgw9aZu0yU0PwBphg/xYzr+cMOxmds6SS9VYtYYL+HqQTuEWdlo4Vgk0gw9zfBL38Wxs+u4hcUYkpok0Nt+GTYm8wuQwKyCVbuEz17RLEIez62XWgN8nskFA4IrVDoC2/ADRWAg1cr2Z98aq0bpKOgXcXaBhtAhTofEhJE2o="
+matrix:
+    include:
+        # linux environments
+        - env:
+            - PYTHON_VERSION=3.6
+            - MPL_VERSION=2.0
+          os: linux
+        - env:
+            - PYTHON_VERSION=3.6
+            - MPL_VERSION=1.5
+          os: linux
+        - env:
+            - PYTHON_VERSION=3.5
+            - MPL_VERSION=2.0
+          os: linux
+        - env:
+            - PYTHON_VERSION=3.5
+            -  MPL_VERSION=1.5
+          os: linux
+        - env:
+            - PYTHON_VERSION=2.7
+            - MPL_VERSION=2.0
+          os: linux
+        - env:
+            - PYTHON_VERSION=2.7
+            - MPL_VERSION=1.5
+          os: linux
+        - env:
+            - PYTHON_VERSION=2.7
+            - MPL_VERSION=1.4
+          os: linux
+        # osx environments
+        - env:
+            - PYTHON_VERSION=3.6
+            - MPL_VERSION=2.0
+          os: osx
+        - env:
+            - PYTHON_VERSION=3.6
+            - MPL_VERSION=1.5
+          os: osx
+        - env:
+            - PYTHON_VERSION=2.7
+            - MPL_VERSION=2.0
+          os: osx
+        - env:
+            - PYTHON_VERSION=2.7
+            - MPL_VERSION=1.5
+          os: osx
+before_install:
+  # make sure, gfortran and gnu-sed are installed
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      brew install gnu-sed --with-default-names;
+    fi
+  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+git:
+    submodules: false
+install:
+  # select the os name for the conda installer
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+        OS_NAME=MacOSX;
+    else
+        OS_NAME=Linux;
+    fi
+  # We do this conditionally because it saves us some downloading if the
+  # version is the same.
+  - if [[ "$PYTHON_VERSION" == "2.7" ]]; then
+        wget https://repo.continuum.io/miniconda/Miniconda2-latest-"${OS_NAME}"-x86_64.sh -O miniconda.sh;
+    else
+        wget https://repo.continuum.io/miniconda/Miniconda3-latest-"${OS_NAME}"-x86_64.sh -O miniconda.sh;
+    fi
+  # make sure we use an 'innocent' default matplotlib environment
+  - touch matplotlibrc
+  # setup conda environment
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - pip install pyyaml  # is somehow not included in the current conda installation
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  # Useful for debugging any issues with conda
+  - conda info -a
+  - 'ENVKEY=py"${PYTHON_VERSION}"_mpl"${MPL_VERSION}"'
+  - conda env create -f tests/envs/environment_$ENVKEY.yml
+  - source activate psyplot_$ENVKEY
+  # checkout references
+  - 'export WORK=`pwd`'
+  - 'export REFDIR=`python tests/get_ref_dir.py`'
+  - 'export REFBRANCH=`python tests/get_ref_dir.py -b`'
+  - git submodule update --init $REFDIR
+  # use latest development version
+  # NOTE: Remove this when psyplot is stable enough
+  - git clone "https://github.com/Chilipp/psyplot.git" -b v1.0.0.dev0
+  - cd psyplot && python setup.py install && cd .. && rm -rf psyplot
+  # install coveralls
+  - pip install coveralls
+  # install psyplot
+  - python setup.py install
+  # export the environment for debugging
+  - conda env export -n psyplot_$ENVKEY
+
+script:
+  # create the necessary references
+  - coverage run --source=psy_maps setup.py test -a "-v --ref" && python ci/check_ref_deploy.py
+  # run the tests
+  - coverage run -a --source=psy_maps setup.py test -a "-v"
+
+after_success:
+  - coveralls
+
+deploy:
+  - provider: script
+    script: ci/update_reference_submodule.py
+    skip_cleanup: true
+    on:
+      condition: "-e deploy_references"
+  - provider: script
+    script: ci/update_submodules.py
+    skip_cleanup: true
+    on:
+      condition: "-e deploy_references"

@@ -1,0 +1,13 @@
+name: psyplot_py2.7_mpl1.4
+channels:
+    - conda-forge
+dependencies:
+    - python=2.7
+    - matplotlib=1.4
+    - dask
+    - xarray
+    - netCDF4
+    - cartopy
+    - seaborn
+    - pip:
+        - pytest

@@ -1,0 +1,13 @@
+name: psyplot_py3.5_mpl2.0
+channels:
+    - conda-forge
+dependencies:
+    - python=3.5
+    - matplotlib=2.0
+    - dask
+    - xarray
+    - netCDF4
+    - seaborn
+    - cartopy
+    - pip:
+        - pytest

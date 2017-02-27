@@ -1,0 +1,62 @@
+environment:
+
+  PYTHON_ARCH: "64"
+  PYTHON: "C:\\Python36-conda64"
+  GH_REPO_TOKEN:
+    secure: if/KFvIyudicJz5Rf2DcM96xMItYbe5LSoYQ12jHPFcuvXmktD2zeE6DX8/pjOzn
+
+  matrix:
+    - PYTHON_VERSION: "3.5"
+      MPL_VERSION: "1.5"
+    - PYTHON_VERSION: "3.5"
+      MPL_VERSION: "2.0"
+    - PYTHON_VERSION: "3.6"
+      MPL_VERSION: "1.5"
+    - PYTHON_VERSION: "3.6"
+      MPL_VERSION: "2.0"
+install:
+  # Install miniconda Python
+  - "powershell ./ci/install_python.ps1"
+   # Prepend newly installed Python to the PATH of this build (this cannot be
+  # done from inside the powershell script as it would require to restart
+  # the parent CMD process).
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+
+  # Check that we have the expected version and architecture for Python
+  - "python --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+  # make sure we use an 'innocent' default matplotlib environment
+  - copy /y nul matplotlibrc
+  - conda config --set always_yes yes --set changeps1 no
+  # Useful for debugging any issues with conda
+  - conda info -a
+  - set ENVKEY=py%PYTHON_VERSION%_mpl%MPL_VERSION%
+  - conda env create -f tests/envs/environment_%ENVKEY%.yml
+  - activate psyplot_%ENVKEY%
+  # checkout references
+  - set REFDIR=tests/reference_figures/win32/py%PYTHON_VERSION%/mpl%MPL_VERSION%
+  - set REFBRANCH=win32_%ENVKEY%
+  - git submodule update --init %REFDIR%
+  # use latest development version
+  # NOTE: Remove this when psyplot is stable enough
+  - git clone "https://github.com/Chilipp/psyplot.git" -b v1.0.0.dev0
+  - cd psyplot
+  - python setup.py install
+  - cd ..
+  - ps: Remove-Item -Recurse -Force psyplot
+  - pip install coveralls
+  - python setup.py install
+  # export the environment for debugging
+  - conda env export -n psyplot_%ENVKEY%
+
+build: false
+
+test_script:
+  - coverage run --source=psy_maps setup.py test -a "-v --ref" && python ci/check_ref_deploy.py
+  - coverage run -a --source=psy_maps setup.py test -a "-v"
+
+after_test:
+  - coverage report
+  # deploy references
+  - if exist deploy_references python ci\update_reference_submodule.py
+  - if exist deploy_references ci\update_submodules.py
