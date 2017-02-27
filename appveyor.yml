@@ -3,7 +3,7 @@ environment:
   PYTHON_ARCH: "64"
   PYTHON: "C:\\Python36-conda64"
   GH_REPO_TOKEN:
-    secure: if/KFvIyudicJz5Rf2DcM96xMItYbe5LSoYQ12jHPFcuvXmktD2zeE6DX8/pjOzn
+    secure: AbhjnJXZWHhEiEN6cjQmZ4hCn05Ff/V2CCBv4mZux9NljqdYgHfnVT4nBgsKiaQJ
 
   matrix:
     - PYTHON_VERSION: "3.5"
