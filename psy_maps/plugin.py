@@ -13,6 +13,15 @@ from psy_simple.plugin import (
 from psy_maps import __version__ as plugin_version
 
 
+def get_versions(requirements=True):
+    if requirements:
+        import cartopy
+        return {'version': plugin_version,
+                'requirements': {'cartopy': cartopy.__version__}}
+    else:
+        return {'version': plugin_version}
+
+
 # -----------------------------------------------------------------------------
 # ------------------------- validation functions ------------------------------
 # -----------------------------------------------------------------------------
