@@ -6,6 +6,7 @@ import subprocess as spr
 def deploy(src_dir, target_branch, *what):
     p = spr.Popen('git rev-parse --verify HEAD'.split(),
                   stdout=spr.PIPE)
+    p.wait()
     sha = p.stdout.read().decode('utf-8').splitlines()[0]
     work = os.getcwd()
 
@@ -60,7 +61,8 @@ def deploy(src_dir, target_branch, *what):
             stdout=spr.PIPE, stderr=spr.PIPE)
         print(p.stdout.read().decode('utf-8').replace(
                 os.getenv('GH_REPO_TOKEN'), '<secure>'))
-        if p.returncode:
+        p.wait()
+        if p.poll():
             print(p.stderr.read().decode('utf-8').replace(
                 os.getenv('GH_REPO_TOKEN'), '<secure>'))
             print('Failed')
