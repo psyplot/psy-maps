@@ -199,6 +199,7 @@ class Projection(ProjectionBase):
     # the axes has to be cleared completly if the projection is updated
     priority = START
 
+    #: an update of this formatoption requires that the axes is cleared
     requires_clearing = True
 
     name = 'Projection of the plot'
@@ -210,12 +211,19 @@ class Projection(ProjectionBase):
         self.projection = None
 
     def initialize_plot(self, value, clear=True):
+        """Initialize the plot and set the projection for the axes
+        """
         self.projection = self.set_projection(value)
         if self.plotter.cleared:
             self.ax.projection = self.projection
             self.ax.clear()
 
     def update(self, value):
+        """Update the formatoption
+
+        Since this formatoption requires clearing, this method does nothing.
+        Everything is done in the :meth:`initialize_plot` method.
+        """
         pass
 
 
