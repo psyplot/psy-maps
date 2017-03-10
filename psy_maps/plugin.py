@@ -70,7 +70,8 @@ rcParams = RcParams(defaultParams={
         {'maps': {
              'module': 'psy_maps.plotters',
              'plotter_name': 'MapPlotter',
-             'plot_func': False},
+             'plot_func': False,
+             'summary': 'The data objects visualized on a map'},
          'mapplot': {
              'module': 'psy_maps.plotters',
              'plotter_name': 'FieldPlotter',
