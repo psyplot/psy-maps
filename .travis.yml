@@ -87,6 +87,8 @@ install:
   - conda env export -n psyplot_$ENVKEY
   # get the number of available cores
   - 'NCORES=`python -c "import multiprocessing; print(multiprocessing.cpu_count())"`'
+  # use 8 cores at maximum
+  - 'export NCORES=`dc -e "[8]sM ${NCORES}d 8<Mp"`'
   - echo using $NCORES
   # print versions of all the important requirements
   - psyplot -aV
