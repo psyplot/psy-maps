@@ -88,7 +88,7 @@ install:
   # get the number of available cores
   - 'NCORES=`python -c "import multiprocessing; print(multiprocessing.cpu_count())"`'
   # use 8 cores at maximum
-  - 'export NCORES=`dc -e "[8]sM ${NCORES}d 8<Mp"`'
+  - 'export NCORES=`python -c "print(min(8, ${NCORES}))"`'
   - echo using $NCORES
   # print versions of all the important requirements
   - psyplot -aV
