@@ -440,9 +440,8 @@ class VectorPlotterTest(FieldPlotterTest, MapReferences):
         cls._color_fmts = cls.plotter.fmt_groups['colors']
         # there is an issue with the colorbar that the size of the axes changes
         # slightly after replotting. Therefore we force a replot here
-        if six.PY2:
-            cls.plotter.update(color='absolute')
-            cls.plotter.update(todefault=True, replot=True)
+        cls.plotter.update(color='absolute')
+        cls.plotter.update(todefault=True, replot=True)
 
     def update(self, *args, **kwargs):
         if self._color_fmts.intersection(kwargs) or any(
@@ -654,7 +653,6 @@ class CombinedPlotterTest(VectorPlotterTest):
             prefer_list=True)[0]
         cls._data.attrs['long_name'] = 'Temperature'
         cls._data.attrs['name'] = 't2m'
-        print(cls.ncfile, cls._data[0].min(), cls._data[0].max())
         cls.plotter = CombinedPlotter(cls._data)
         cls.create_dirs()
         cls._color_fmts = cls.plotter.fmt_groups['colors']
