@@ -80,7 +80,7 @@ install:
   - git clone "https://github.com/Chilipp/psy-simple.git" -b $TRAVIS_BRANCH || git clone "https://github.com/Chilipp/psy-simple.git"
   - cd psy-simple && python setup.py install && cd .. && rm -rf psy-simple
   # install coveralls
-  - pip install coveralls pytest-xdist
+  - pip install coveralls pytest-xdist pytest-cov
   # install psyplot
   - python setup.py install
   # export the environment for debugging
