@@ -37,7 +37,7 @@ class MapReferences(object):
         sp.update(datagrid='k-')
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('datagrid')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     def ref_cmap(self, close=True):
         """Create reference file for cmap formatoption.
@@ -48,7 +48,7 @@ class MapReferences(object):
         sp = self.plot(cmap='RdBu')
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('cmap')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     def ref_cbar(self, close=True):
         """Create reference file for cbar formatoption.
@@ -59,7 +59,7 @@ class MapReferences(object):
         sp = self.plot(cbar=['fb', 'fr', 'fl', 'ft', 'b', 'r'])
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('cbar')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     def ref_miss_color(self, close=True):
         """Create reference file for miss_color formatoption.
@@ -74,7 +74,7 @@ class MapReferences(object):
         sp = self.plot(maskless=280, miss_color='0.9', **kwargs)
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('miss_color')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     def ref_cbarspacing(self, close=True):
         """Create reference file for cbarspacing formatoption.
@@ -96,7 +96,7 @@ class MapReferences(object):
             **kwargs)
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('cbarspacing')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     def ref_lonlatbox(self, close=True):
         """Create reference file for lonlatbox formatoption.
@@ -107,7 +107,7 @@ class MapReferences(object):
         sp.update(lonlatbox='Europe|India')
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('lonlatbox')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     def ref_map_extent(self, close=True):
         """Create reference file for map_extent formatoption.
@@ -118,7 +118,7 @@ class MapReferences(object):
         sp.update(map_extent='Europe|India')
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('map_extent')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     def ref_lsm(self, close=True):
         """Create reference file for lsm formatoption.
@@ -129,7 +129,7 @@ class MapReferences(object):
         sp.update(lsm=False)
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('lsm')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     def ref_projection(self, close=True):
         """Create reference file for projection formatoption.
@@ -145,7 +145,7 @@ class MapReferences(object):
         sp.update(projection=ccrs.LambertConformal())
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('projection3')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     def ref_map_grid(self, close=True):
         """Create reference file for xgrid formatoption.
@@ -164,7 +164,7 @@ class MapReferences(object):
             'linestyle': 'dashed'})
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('grid4')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
 
 class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
@@ -174,7 +174,6 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
 
     def plot(self, **kwargs):
         name = kwargs.pop('name', self.var)
-        print(self.ncfile, name, kwargs)
         return psy.plot.mapplot(self.ncfile, name=name, **kwargs)
 
     @classmethod
@@ -386,16 +385,7 @@ class VectorPlotterTest(FieldPlotterTest, MapReferences):
     var = ['u', 'v']
 
     def plot(self, **kwargs):
-        color_fmts = psy.plot.mapvector.plotter_cls().fmt_groups['colors']
-        fix_colorbar = not color_fmts.intersection(kwargs)
-        kwargs.setdefault('color', 'absolute')
-        kwargs.setdefault('lonlatbox', 'Europe')
         sp = psy.plot.mapvector(self.ncfile, name=[self.var], **kwargs)
-        if fix_colorbar:
-            # if we have no color formatoptions, we have to consider that
-            # the position of the plot may have slighty changed
-            sp.update(todefault=True, replot=True, **dict(
-                item for item in kwargs.items() if item[0] != 'color'))
         return sp
 
     @unittest.skip("miss_color formatoption not implemented")
@@ -411,7 +401,7 @@ class VectorPlotterTest(FieldPlotterTest, MapReferences):
         sp = self.plot(arrowsize=100.0)
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('arrowsize')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     def ref_density(self, close=True):
         """Create reference file for density formatoption.
@@ -425,12 +415,13 @@ class VectorPlotterTest(FieldPlotterTest, MapReferences):
         sp.update(density=0.5)
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('density')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     @classmethod
     def setUpClass(cls):
         cls.ds = open_dataset(cls.ncfile)
         rcParams[VectorPlotter().lonlatbox.default_key] = 'Europe'
+        rcParams[VectorPlotter().color.default_key] = 'absolute'
         cls.data = ArrayList.from_dataset(
             cls.ds, t=0, z=0, name=[cls.var], auto_update=True)[0]
         cls.data.attrs['long_name'] = 'absolute wind speed'
@@ -438,16 +429,6 @@ class VectorPlotterTest(FieldPlotterTest, MapReferences):
         cls.plotter = VectorPlotter(cls.data)
         cls.create_dirs()
         cls._color_fmts = cls.plotter.fmt_groups['colors']
-        # there is an issue with the colorbar that the size of the axes changes
-        # slightly after replotting. Therefore we force a replot here
-        cls.plotter.update(color='absolute')
-        cls.plotter.update(todefault=True, replot=True)
-
-    def update(self, *args, **kwargs):
-        if self._color_fmts.intersection(kwargs) or any(
-                re.match('ctick|clabel', fmt) for fmt in kwargs):
-            kwargs.setdefault('color', 'absolute')
-        super(VectorPlotterTest, self).update(*args, **kwargs)
 
     @unittest.skip("Not supported")
     def test_maskless(self):
@@ -730,7 +711,7 @@ class CombinedPlotterTest(VectorPlotterTest):
         sp = self.plot(density=0.5, color='k')
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('density')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     @_do_from_both
     def ref_cbar(self, close=True):
@@ -747,7 +728,7 @@ class CombinedPlotterTest(VectorPlotterTest):
         with self.vector_mode:
             VectorPlotterTest.ref_cbarspacing(self, close=close)
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     @_do_from_both
     def ref_cmap(self, close=True):
@@ -882,7 +863,7 @@ class CircumpolarFieldPlotterTest(FieldPlotterTest):
             'linestyle': 'dashed'})
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('grid4')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     def test_bounds(self):
         """Test bounds formatoption"""
@@ -987,7 +968,7 @@ class CircumpolarVectorPlotterTest(VectorPlotterTest):
             'linestyle': 'dashed'})
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('grid4')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     def test_bounds(self):
         """Test bounds formatoption"""
@@ -1101,7 +1082,7 @@ class CircumpolarCombinedPlotterTest(CombinedPlotterTest):
             'linestyle': 'dashed'})
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('grid4')))
         if close:
-            sp.close(True, True)
+            sp.close(True, True, True)
 
     def test_bounds(self):
         """Test bounds formatoption"""
