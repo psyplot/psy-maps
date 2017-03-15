@@ -55,6 +55,7 @@ docs/_build/
 docs/index.doctree
 
 # test results
+matplotlibrc
 *psyplot_testresults
 tests/envs/cov_psyplot_py*
 tests/envs/psyplot_py*.html
