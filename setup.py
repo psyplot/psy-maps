@@ -56,5 +56,6 @@ setup(name='psy-maps',
       ],
       tests_require=['pytest'],
       cmdclass={'test': PyTest},
-      entry_points={'psyplot': ['plugin=psy_maps.plugin']},
+      entry_points={'psyplot': ['plugin=psy_maps.plugin',
+                                'patches=psy_maps.plugin:patches']},
       zip_safe=False)

@@ -22,6 +22,23 @@ def get_versions(requirements=True):
         return {'version': plugin_version}
 
 
+def patch_prior_1_0(plotter_d, versions):
+    """Patch psy_maps plotters for versions smaller than 1.0
+
+    Before psyplot 1.0.0, the plotters in the psy_maps package where part of
+    the psyplot.plotter.maps module. This has to be corrected"""
+    plotter_d['cls'] = ('psy_maps.plotters', plotter_d['cls'][1])
+
+
+#: patches to apply when loading a project
+patches = {
+    ('psyplot.plotter.maps', 'MapPlotter'): patch_prior_1_0,
+    ('psyplot.plotter.maps', 'VectorPlotter'): patch_prior_1_0,
+    ('psyplot.plotter.maps', 'FieldPlotter'): patch_prior_1_0,
+    ('psyplot.plotter.maps', 'CombinedPlotter'): patch_prior_1_0,
+    }
+
+
 # -----------------------------------------------------------------------------
 # ------------------------- validation functions ------------------------------
 # -----------------------------------------------------------------------------
