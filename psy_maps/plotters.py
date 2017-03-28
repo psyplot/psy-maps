@@ -1014,8 +1014,8 @@ class MapPlot2D(Plot2D):
         self.logger.debug("Plot made. Done.")
         return
 
-    def remove(self):
-        super(MapPlot2D, self).remove()
+    def remove(self, *args, **kwargs):
+        super(MapPlot2D, self).remove(*args, **kwargs)
         if hasattr(self, '_wrapped_plot'):
             self._wrapped_plot.remove()
             del self._wrapped_plot
@@ -1173,6 +1173,10 @@ class CombinedMapVectorPlot(MapVectorPlot):
 class MapPlotter(Base2D):
     """Base plotter for visualizing data on a map
     """
+
+    #: Boolean that is True if triangles with units in radian should be
+    #: converted to degrees
+    convert_radian = True
 
     _rcparams_string = ['plotter.maps.']
 
