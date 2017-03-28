@@ -1030,7 +1030,7 @@ class MapDataGrid(DataGrid):
         triangles = decoder.get_triangles(
             self.data, self.data.coords, copy=True,
             src_crs=self.transform.projection, target_crs=self.ax.projection)
-        mratio = rcParams['plotter.maps.plot.min_circle_ratio']
+        mratio = rcParams['plotter.plot2d.plot.min_circle_ratio']
         if mratio:
             triangles.set_mask(
                 TriAnalyzer(triangles).get_flat_tri_mask(mratio))

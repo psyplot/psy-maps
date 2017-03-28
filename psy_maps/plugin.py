@@ -163,10 +163,6 @@ rcParams = RcParams(defaultParams={
             'projection', ['northpole', 'ortho', 'southpole', 'moll', 'geo',
                            'robin', 'cyl'], True),
         'fmt key to define the native projection of the data'],
-    'plotter.maps.plot.min_circle_ratio': [
-        0.05, validate_float,
-        'fmt key to specify the min_circle_ratio that is used to mask very '
-        ' flat triangles in a triangular plot'],
     'plotter.maps.lsm': [
         True, try_and_error(validate_bool, validate_float),
         'fmt key to draw a land sea mask'],
@@ -183,5 +179,9 @@ rcParams = RcParams(defaultParams={
         'yaml file'],
 
     })
+
+
+rcParams._deprecated_map['plotter.maps.plot.min_circle_ratio'] = (
+    'plotter.plot2d.plot.min_circle_ratio', 0.05)
 
 rcParams.update_from_defaultParams()
