@@ -65,8 +65,8 @@ See the full documentation on
 `plot methods`_ and examples_.
 
 .. _cartopy: http://scitools.org.uk/cartopy
-.. _mapplot: https://psyplot.readthedocs.io/en/v1.0.0.dev0/api/psyplot.project.html#psyplot.project.ProjectPlotter.mapplot
-.. _mapvector: https://psyplot.readthedocs.io/en/v1.0.0.dev0/api/psyplot.project.html#psyplot.project.ProjectPlotter.mapvector
+.. _mapplot: http://psyplot.readthedocs.io/projects/psy-maps/en/latest/generated/psyplot.project.plot.mapplot.html#psyplot.project.plot.mapplot
+.. _mapvector: http://psyplot.readthedocs.io/projects/psy-maps/en/latest/generated/psyplot.project.plot.mapvector.html#psyplot.project.plot.mapvector
 .. _psy-simple: http://psyplot.readthedocs.io/projects/psy-simple/
 .. _plot methods: http://psyplot.readthedocs.io/projects/psy-maps/en/latest/plot_methods
 .. _examples: http://psyplot.readthedocs.io/projects/psy-maps/en/latest/examples
