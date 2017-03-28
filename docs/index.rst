@@ -5,8 +5,8 @@
 
 .. _psy-maps:
 
-Interactive data visualization with python
-==========================================
+psy-maps: The psyplot plugin for visualizations on a map
+========================================================
 
 Welcome to the psyplot plugin for visualizations on a map. This package uses the
 cartopy_ package to project the plots that are made with the psy-simple_ plugin
