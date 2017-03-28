@@ -57,8 +57,7 @@ psy-maps: The psyplot plugin for visualizations on a map
 Welcome to the psyplot plugin for visualizations on a map. This package uses the
 cartopy_ package to project the plots that are made with the psy-simple_ plugin
 to an earth-referenced grid. It's main plot methods are the
-:attr:`~psyplot.project.ProjectPlotter.mapplot` and
-:attr:`~psyplot.project.ProjectPlotter.mapvector` plot methods which can plot
+mapplot_ and mapvector_ plot methods which can plot
 rectangular and triangular plots.
 
 See the full documentation on
@@ -66,6 +65,8 @@ See the full documentation on
 `plot methods`_ and examples_.
 
 .. _cartopy: http://scitools.org.uk/cartopy
+.. _mapplot: https://psyplot.readthedocs.io/en/v1.0.0.dev0/api/psyplot.project.html#psyplot.project.ProjectPlotter.mapplot
+.. _mapvector: https://psyplot.readthedocs.io/en/v1.0.0.dev0/api/psyplot.project.html#psyplot.project.ProjectPlotter.mapvector
 .. _psy-simple: http://psyplot.readthedocs.io/projects/psy-simple/
 .. _plot methods: http://psyplot.readthedocs.io/projects/psy-maps/en/latest/plot_methods
 .. _examples: http://psyplot.readthedocs.io/projects/psy-maps/en/latest/examples
