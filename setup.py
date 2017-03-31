@@ -1,3 +1,4 @@
+import os.path as osp
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 import sys
@@ -23,8 +24,13 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 
+# read the version from version.py
+with open(osp.join('psy_maps', 'version.py')) as f:
+    exec(f.read())
+
+
 setup(name='psy-maps',
-      version='1.0.0.dev0',
+      version=__version__,
       description='Psyplot plugin for visualization on a map',
       long_description=readme(),
       classifiers=[
