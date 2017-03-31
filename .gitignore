@@ -71,3 +71,6 @@ target/
 
 # Example ipython notebook checkpoints
 *.ipynb_checkpoints/
+
+# conda build files
+recipe/meta.yaml
