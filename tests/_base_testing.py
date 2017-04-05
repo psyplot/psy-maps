@@ -50,7 +50,7 @@ class PsyPlotTestCase(TestCase):
     def create_dirs(cls):
         if not os.path.exists(ref_dir):
             os.makedirs(ref_dir)
-        cls.odir = tempfile.mkdtemp()
+        cls.odir = tempfile.mkdtemp(prefix='tmp_psy-maps_')
 
     def get_ref_file(self, identifier):
         """

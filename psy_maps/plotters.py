@@ -455,8 +455,6 @@ class LonLatBox(BoxBase):
                 if value is None:
                     self.lonlatbox = self.data_lonlatbox
                     return data
-            lat_values = value[3:1:-1] if (lat[1:] < lat[:-1]).all() else \
-                value[2:]
             is_unstructured = decoder.is_unstructured(
                 base_var if base_var is not None else data)
             is_rectilinear = lon.ndim == 1 and not is_unstructured
@@ -473,13 +471,20 @@ class LonLatBox(BoxBase):
                 lon = ret[..., 0]
                 lat = ret[..., 1]
             self.lonlatbox = value
+            # transform the lonlatbox to the correct projection
+            value = np.array(value)
+            transformed = self.transform.projection.transform_points(
+                ccrs.PlateCarree(), value[:2], value[2:])[..., :2]
+            value[:2] = transformed[..., 0]
+            value[2:] = transformed[..., 1]
+            self.lonlatbox_transformed = value
+            lat_values = value[3:1:-1] if (lat[1:] < lat[:-1]).all() else \
+                value[2:]
             if is_rectilinear:
                 kwargs = dict(zip(
                     data.dims[-2:], starmap(slice, [lat_values, value[:2]])))
                 return data.sel(**kwargs)
             else:
-                # set values outsite the lonlatbox to nan
-                # TODO: that does currently not work!
                 return self.mask_outside(data.copy(True), lon, lat, *value,
                                          is_unstructured=is_unstructured)
 
@@ -510,11 +515,16 @@ class LonLatBox(BoxBase):
 
     def mask_outside(self, data, lon, lat, lonmin, lonmax, latmin, latmax,
                      is_unstructured=False):
-        ndim = 2 if not is_unstructured else 1
         data.values = data.values.copy()
-        for arr in data.values if data.ndim > ndim else [data.values]:
-            arr[np.any([lon < lonmin, lon > lonmax, lat < latmin,
-                        lat > latmax], axis=0)] = np.nan
+        ndim = 2 if not is_unstructured else 1
+        if data.ndim > ndim:
+            for i, arr in enumerate(data.values):
+                arr[np.any([lon < lonmin, lon > lonmax, lat < latmin,
+                            lat > latmax], axis=0)] = np.nan
+                data.values[i, :] = arr
+        else:
+            data.values[np.any([lon < lonmin, lon > lonmax, lat < latmin,
+                                lat > latmax], axis=0)] = np.nan
         return data
 
     def calc_lonlatbox(self, lon, lat):
@@ -826,6 +836,8 @@ class GridBase(DataTicksCalculator):
     dependencies = ['transform', 'grid_labels', 'grid_color', 'grid_settings',
                     'projection', 'lonlatbox', 'map_extent']
 
+    connections = ['plot']
+
     @abstractproperty
     def axis(self):
         """The axis string"""
@@ -850,7 +862,9 @@ class GridBase(DataTicksCalculator):
         else:
             loc = ticker.FixedLocator(value)
         self._gridliner = self.ax.gridlines(
-            crs=ccrs.PlateCarree(), **self.get_kwargs(loc))
+            crs=ccrs.PlateCarree(),
+            zorder=self.plot.mappable.get_zorder() + 0.1,
+            **self.get_kwargs(loc))
         self._modify_gridliner(self._gridliner)
         self._disable_other_axis()
 
