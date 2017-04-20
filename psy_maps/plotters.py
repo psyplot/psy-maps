@@ -1034,6 +1034,18 @@ class MapPlot2D(Plot2D):
             self._wrapped_plot.remove()
             del self._wrapped_plot
 
+    def add2format_coord(self, x, y):
+        x, y = self.transform.projection.transform_point(
+            x, y, self.ax.projection)
+        # shift if necessary
+        if isinstance(self.transform.projection, ccrs.PlateCarree):
+            coord = self.xcoord
+            if coord.min() >= 0 and x < 0:
+                x -= 360
+            elif coord.max() <= 180 and x > 180:
+                x -= 360
+        return super(MapPlot2D, self).add2format_coord(x, y)
+
 
 class MapDataGrid(DataGrid):
     __doc__ = DataGrid.__doc__
