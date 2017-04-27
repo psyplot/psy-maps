@@ -1186,6 +1186,18 @@ class MapVectorPlot(VectorPlot):
                 norm.boundaries, norm.Ncmap, norm.clip)
         self._plot = self.ax.streamplot(x, y, u, v, **self._kwargs)
 
+    def add2format_coord(self, x, y):
+        x, y = self.transform.projection.transform_point(
+            x, y, self.ax.projection)
+        # shift if necessary
+        if isinstance(self.transform.projection, ccrs.PlateCarree):
+            coord = self.xcoord
+            if coord.min() >= 0 and x < 0:
+                x -= 360
+            elif coord.max() <= 180 and x > 180:
+                x -= 360
+        return super(MapVectorPlot, self).add2format_coord(x, y)
+
 
 class CombinedMapVectorPlot(MapVectorPlot):
 
