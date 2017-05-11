@@ -377,6 +377,29 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
         self.assertEqual([t.get_size() for t in texts], [20] * len(texts))
 
 
+class FieldPlotterContourTest(FieldPlotterTest):
+
+    plot_type = 'map_contour'
+
+    @classmethod
+    def setUpClass(cls):
+        rcParams[FieldPlotter().plot.default_key] = 'contourf'
+        rcParams[FieldPlotter().lonlatbox.default_key] = [-180, 180, -90, 90]
+        super(FieldPlotterContourTest, cls).setUpClass()
+
+    @unittest.skip('Extend keyword not implemented')
+    def test_extend(self):
+        pass
+
+    @unittest.skip('miss_color keyword not implemented')
+    def test_miss_color(self):
+        pass
+
+    @unittest.skip('miss_color keyword not implemented')
+    def ref_miss_color(self):
+        pass
+
+
 class TestProjectedLonlatbox(unittest.TestCase):
     """A test class for testing the lonlatbox of a non-PlateCarree projection
     """

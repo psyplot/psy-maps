@@ -17,7 +17,7 @@ from psyplot.data import InteractiveList, _infer_interval_breaks
 from psyplot.plotter import Formatoption, START, DictFormatoption, END
 from psy_simple.plotters import (
     Base2D, Plot2D, BasePlotter, BaseVectorPlotter, VectorPlot, CombinedBase,
-    DataTicksCalculator, round_to_05, Density,
+    DataTicksCalculator, round_to_05, Density, ContourLevels,
     Simple2DBase, DataGrid, VectorColor, get_cmap)
 from psy_maps.boxes import lonlatboxes
 from psy_simple.colors import FixedBoundaryNorm
@@ -861,9 +861,12 @@ class GridBase(DataTicksCalculator):
                 np.linspace(value[0], value[1], steps, endpoint=True))
         else:
             loc = ticker.FixedLocator(value)
+        try:
+            zorder = self.plot.mappable.get_zorder()
+        except AttributeError:
+            zorder = self.plot.mappable.collections[0].get_zorder()
         self._gridliner = self.ax.gridlines(
-            crs=ccrs.PlateCarree(),
-            zorder=self.plot.mappable.get_zorder() + 0.1,
+            crs=ccrs.PlateCarree(), zorder=zorder + 0.1,
             **self.get_kwargs(loc))
         self._modify_gridliner(self._gridliner)
         self._disable_other_axis()
@@ -969,6 +972,17 @@ class MapPlot2D(Plot2D):
 
     connections = Plot2D.connections + ['transform']
 
+    def _contourf(self):
+        t = self.ax.projection
+        if isinstance(t, ccrs.CRS) and not isinstance(t, ccrs.Projection):
+            raise ValueError('invalid transform:'
+                             ' Spherical contouring is not supported - '
+                             ' consider using PlateCarree/RotatedPole.')
+        elif self.decoder.is_triangular(self.raw_data):
+            warn('Filled contour plots of triangular data are not correctly '
+                 'warped around!')
+        return super(MapPlot2D, self)._contourf()
+
     def _tripcolor(self):
         from matplotlib.tri import Triangulation
         self.logger.debug("Getting triangles")
@@ -1048,7 +1062,12 @@ class MapPlot2D(Plot2D):
 
 
 class MapDataGrid(DataGrid):
-    __doc__ = DataGrid.__doc__
+
+    __doc__ = DataGrid.__doc__ + '\n' + docstrings.dedents("""
+    See Also
+    --------
+    xgrid
+    ygrid""")
 
     def triangles(self):
         from matplotlib.tri import TriAnalyzer
@@ -1130,9 +1149,8 @@ class MapVectorPlot(VectorPlot):
     def set_value(self, value, *args, **kwargs):
         # stream plots for circumpolar grids is not supported
         if (value == 'stream' and self.raw_data is not None and
-                self.decoder.is_circumpolar(self.raw_data)):
-            warn('Cannot make stream plots of circumpolar data!',
-                 logger=self.logger)
+                self.decoder.is_circumpolar(self.raw_data[0])):
+            warn('Cannot make stream plots of circumpolar data!')
             value = 'quiver'
         super(MapVectorPlot, self).set_value(value, *args, **kwargs)
 
@@ -1164,8 +1182,7 @@ class MapVectorPlot(VectorPlot):
 
     def _stream_plot(self):
         if self.decoder.is_circumpolar(self.raw_data):
-            warn('Cannot make stream plots of circumpolar data!',
-                 logger=self.logger)
+            warn('Cannot make stream plots of circumpolar data!')
             return
         # update map extent such that it fits to the data limits (necessary
         # because streamplot scales the density based upon it). This however
@@ -1259,6 +1276,8 @@ class FieldPlotter(Simple2DBase, MapPlotter, BasePlotter):
     """
 
     _rcparams_string = ['plotter.fieldplotter']
+
+    levels = ContourLevels('levels', cbounds='bounds')
     plot = MapPlot2D('plot')
 
 
