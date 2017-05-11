@@ -127,9 +127,11 @@ deploy:
     script: ci/update_reference_submodule.py
     skip_cleanup: true
     on:
+      all_branches: true
       condition: "-e deploy_references"
   - provider: script
     script: ci/update_submodules.py
     skip_cleanup: true
     on:
       condition: "-e deploy_references"
+      all_branches: true
