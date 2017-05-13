@@ -15,6 +15,10 @@ environment:
     - PYTHON_VERSION: "3.6"
       MPL_VERSION: "2.0"
 install:
+  # save local state and delete the GH_REPO_TOKEN because it is not needed
+  # during the installation and therefore increases security
+  - setlocal
+  - set GH_REPO_TOKEN=
   # Install miniconda Python
   - "powershell ./ci/install_python.ps1"
    # Prepend newly installed Python to the PATH of this build (this cannot be
@@ -54,6 +58,7 @@ install:
   - conda env export -n psyplot_%ENVKEY%
   # print versions of all the important requirements
   - psyplot -aV
+  - endlocal
 
 build: false
 

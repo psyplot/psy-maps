@@ -60,6 +60,10 @@ before_install:
 git:
     submodules: false
 install:
+  # unset the global GH_REPO_TOKEN variable because it is not needed during
+  # the installation process. This decreases the vulnerability
+  - GH_REPO_TOKEN_SAVE=$GH_REPO_TOKEN
+  - unset GH_REPO_TOKEN
   # select the os name for the conda installer
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
         OS_NAME=MacOSX;
@@ -112,6 +116,8 @@ install:
   - echo using $NCORES
   # print versions of all the important requirements
   - psyplot -aV
+  # export the token to make it available for the deploy
+  - export GH_REPO_TOKEN=$GH_REPO_TOKEN_SAVE
 
 script:
   # create the necessary references
