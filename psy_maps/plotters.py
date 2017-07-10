@@ -1022,7 +1022,7 @@ class MapPlot2D(Plot2D):
             if arr is None:
                 arr = self.array
             arr_plot = arr[~np.isnan(arr)]
-            self.logger.debug("Creating %i triangles", len(arr))
+            self.logger.debug("Creating %i triangles", len(arr_plot))
             self._plot = self.ax.tripcolor(
                 triangles, arr_plot, norm=self.bounds.norm, cmap=cmap,
                 rasterized=True, **self._kwargs)
@@ -1030,7 +1030,7 @@ class MapPlot2D(Plot2D):
         # masked out when using the min_circle_ration
         if triangles_wrapped and not hasattr(self, '_wrapped_plot'):
             self.logger.debug("Creating new wrapped plot")
-            arr_wrap = arr[mask]
+            arr_wrap = arr_plot[mask]
             kwargs = self._kwargs.copy()
             kwargs['zorder'] = self._plot.zorder - 0.1
             self._wrapped_plot = self.ax.tripcolor(
