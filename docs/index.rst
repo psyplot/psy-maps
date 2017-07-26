@@ -22,7 +22,7 @@ See the :ref:`plot_methods` and :ref:`gallery_examples` for more information.
 
 .. start-badges
 
-.. only:: html
+.. only:: html and not epub
 
     .. list-table::
         :stub-columns: 1
