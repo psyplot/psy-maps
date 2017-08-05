@@ -12,18 +12,12 @@ Installation using conda
 ^^^^^^^^^^^^^^^^^^^^^^^^
 We highly recommend to use conda_ for installing psy-maps.
 
-After downloading the installer from anaconda_, you should install cartopy_ from
-the conda-forge_ channel via::
+After downloading the installer from anaconda_, you can install psy-maps simply
+via::
 
-    $ conda install -c conda-forge cartopy
-
- Then you can install psy-maps simply via::
-
-    $ conda install -c chilipp psy-maps
+    $ conda install -c conda-forge psy-maps
 
 .. _anaconda: https://www.continuum.io/downloads
-.. _cartopy: http://scitools.org.uk/cartopy
-.. _conda-forge: http://conda-forge.github.io/
 .. _conda: http://conda.io/
 
 Installation using pip
@@ -33,7 +27,9 @@ use the python package manager ``pip`` and install via::
 
     $ pip install psy-maps
 
-Note however, that you have to install cartopy_ beforehand..
+Note however, that you have to install cartopy_ beforehand.
+
+.. _cartopy: http://scitools.org.uk/cartopy
 
 Running the tests
 -----------------

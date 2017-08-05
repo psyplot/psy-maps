@@ -39,9 +39,9 @@ psy-maps: The psyplot plugin for visualizations on a map
     :alt: PyPI Package latest release
     :target: https://pypi.python.org/pypi/psy-maps
 
-.. |conda| image:: https://anaconda.org/chilipp/psy-maps/badges/installer/conda.svg
+.. |conda| image:: https://anaconda.org/conda-forge/psy-maps/badges/version.svg
     :alt: conda
-    :target: https://conda.anaconda.org/chilipp
+    :target: https://conda.anaconda.org/conda-forge/psy-maps
 
 .. |supported-versions| image:: https://img.shields.io/pypi/pyversions/psy-maps.svg?style=flat
     :alt: Supported versions
