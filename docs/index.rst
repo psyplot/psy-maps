@@ -33,7 +33,7 @@ See the :ref:`plot_methods` and :ref:`gallery_examples` for more information.
         * - tests
           - |travis| |appveyor| |requires| |coveralls|
         * - package
-          - |version| |conda| |supported-versions| |supported-implementations|
+          - |version| |conda| |supported-versions| |supported-implementations| |zenodo|
 
     .. |docs| image:: http://readthedocs.org/projects/psy-maps/badge/?version=latest
         :alt: Documentation Status
@@ -70,6 +70,10 @@ See the :ref:`plot_methods` and :ref:`gallery_examples` for more information.
     .. |supported-implementations| image:: https://img.shields.io/pypi/implementation/psy-maps.svg?style=flat
         :alt: Supported implementations
         :target: https://pypi.python.org/pypi/psy-maps
+
+    .. |zenodo| image:: https://zenodo.org/badge/83305582.svg
+        :alt: Zenodo
+        :target: https://zenodo.org/badge/latestdoi/83305582
 
 .. end-badges
 
