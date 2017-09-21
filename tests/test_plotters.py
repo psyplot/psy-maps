@@ -161,7 +161,7 @@ class MapReferences(object):
         sp.update(xgrid=True, ygrid=True, grid_color='w')
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('grid3')))
         sp.update(xgrid=True, ygrid=True, grid_color='k', grid_settings={
-            'linestyle': 'dashed'})
+            'linestyle': 'dotted'})
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('grid4')))
         if close:
             sp.close(True, True, True)
@@ -348,7 +348,7 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
         self.update(xgrid=True, ygrid=True, grid_color='w')
         self.compare_figures(next(iter(args), self.get_ref_file('grid3')))
         self.update(xgrid=True, ygrid=True, grid_color='k',
-                    grid_settings={'linestyle': 'dashed'})
+                    grid_settings={'linestyle': 'dotted'})
         self.compare_figures(next(iter(args), self.get_ref_file('grid4')))
 
     def test_clon(self):
@@ -893,7 +893,7 @@ class CircumpolarFieldPlotterTest(FieldPlotterTest):
         sp.update(xgrid=True, ygrid=True, grid_color='w')
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('grid3')))
         sp.update(xgrid=True, ygrid=True, grid_color='k', grid_settings={
-            'linestyle': 'dashed'})
+            'linestyle': 'dotted'})
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('grid4')))
         if close:
             sp.close(True, True, True)
@@ -922,7 +922,7 @@ class CircumpolarFieldPlotterTest(FieldPlotterTest):
         self.update(xgrid=True, ygrid=True, grid_color='w')
         self.compare_figures(next(iter(args), self.get_ref_file('grid3')))
         self.update(xgrid=True, ygrid=True, grid_color='k',
-                    grid_settings={'linestyle': 'dashed'})
+                    grid_settings={'linestyle': 'dotted'})
         self.compare_figures(next(iter(args), self.get_ref_file('grid4')))
 
     def test_lonlatbox(self, *args):
@@ -998,7 +998,7 @@ class CircumpolarVectorPlotterTest(VectorPlotterTest):
         sp.update(xgrid=True, ygrid=True, grid_color='w')
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('grid3')))
         sp.update(xgrid=True, ygrid=True, grid_color='k', grid_settings={
-            'linestyle': 'dashed'})
+            'linestyle': 'dotted'})
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('grid4')))
         if close:
             sp.close(True, True, True)
@@ -1028,7 +1028,7 @@ class CircumpolarVectorPlotterTest(VectorPlotterTest):
         self.update(xgrid=True, ygrid=True, grid_color='w')
         self.compare_figures(next(iter(args), self.get_ref_file('grid3')))
         self.update(xgrid=True, ygrid=True, grid_color='k',
-                    grid_settings={'linestyle': 'dashed'})
+                    grid_settings={'linestyle': 'dotted'})
         self.compare_figures(next(iter(args), self.get_ref_file('grid4')))
 
     def test_lonlatbox(self, *args):
@@ -1112,7 +1112,7 @@ class CircumpolarCombinedPlotterTest(CombinedPlotterTest):
         sp.update(xgrid=True, ygrid=True, grid_color='w')
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('grid3')))
         sp.update(xgrid=True, ygrid=True, grid_color='k', grid_settings={
-            'linestyle': 'dashed'})
+            'linestyle': 'dotted'})
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('grid4')))
         if close:
             sp.close(True, True, True)
@@ -1172,7 +1172,7 @@ class CircumpolarCombinedPlotterTest(CombinedPlotterTest):
         self.update(xgrid=True, ygrid=True, grid_color='w')
         self.compare_figures(next(iter(args), self.get_ref_file('grid3')))
         self.update(xgrid=True, ygrid=True, grid_color='k',
-                    grid_settings={'linestyle': 'dashed'})
+                    grid_settings={'linestyle': 'dotted'})
         self.compare_figures(next(iter(args), self.get_ref_file('grid4')))
 
     def test_lonlatbox(self, *args):
