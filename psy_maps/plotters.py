@@ -1,6 +1,6 @@
 import six
 import re
-from warnings import warn
+import warnings
 from abc import abstractproperty
 from difflib import get_close_matches
 from itertools import starmap, chain, repeat
@@ -18,7 +18,7 @@ from psyplot.plotter import Formatoption, START, DictFormatoption, END
 from psy_simple.plotters import (
     Base2D, Plot2D, BasePlotter, BaseVectorPlotter, VectorPlot, CombinedBase,
     DataTicksCalculator, round_to_05, Density, ContourLevels,
-    Simple2DBase, DataGrid, VectorColor, get_cmap)
+    Simple2DBase, DataGrid, VectorColor, get_cmap, InterpolateBounds)
 from psy_maps.boxes import lonlatboxes
 from psy_simple.colors import FixedBoundaryNorm
 
@@ -147,6 +147,8 @@ class ProjectionBase(Formatoption):
         northpole   :class:`cartopy.crs.NorthPolarStereo`
         southpole   :class:`cartopy.crs.SouthPolarStereo`
         ortho       :class:`cartopy.crs.Orthographic`
+        stereo      :class:`cartopy.crs.Stereographic`
+        near        :class:`cartopy.crs.NearsidePerspective`
         =========== ======================================="""
 
     projections = {
@@ -157,11 +159,15 @@ class ProjectionBase(Formatoption):
         'northpole': ccrs.NorthPolarStereo,
         'southpole': ccrs.SouthPolarStereo,
         'ortho': ccrs.Orthographic,
+        'stereo': ccrs.Stereographic,
+        'near': ccrs.NearsidePerspective,
         }
 
     projection_kwargs = dict(
         chain(zip(projections.keys(), repeat(['central_longitude']))))
     projection_kwargs['ortho'] = ['central_longitude', 'central_latitude']
+    projection_kwargs['stereo'] = ['central_longitude', 'central_latitude']
+    projection_kwargs['near'] = ['central_longitude', 'central_latitude']
 
     def set_projection(self, value, *args, **kwargs):
         if isinstance(value, ccrs.CRS):
@@ -280,7 +286,7 @@ class BoxBase(Formatoption):
             if similar_keys:
                 message += " Maybe you mean on of " + ', '.join(
                     similar_keys)
-            warn(message, RuntimeWarning)
+            warnings.warn(message, RuntimeWarning)
             return
         return [boxes[:, 0].min(), boxes[:, 1].max(),
                 boxes[:, 2].min(), boxes[:, 3].max()]
@@ -461,9 +467,10 @@ class LonLatBox(BoxBase):
             shift = isinstance(self.transform.projection, ccrs.PlateCarree)
             if is_rectilinear and shift:
                 data = data.copy(True)
-                lon_da, data.values = self.shiftdata(
+                lon, data.values = self.shiftdata(
                     lon, data.values, np.mean(value[:2]))
-                data.lon.values = lon_da
+                lon_name = decoder.get_x(data, data.coords).name
+                data[lon_name].values = lon
             elif is_unstructured and shift:
                 # make sure that we are inside the map extent
                 ret = self.transform.projection.transform_points(
@@ -472,12 +479,17 @@ class LonLatBox(BoxBase):
                 lat = ret[..., 1]
             self.lonlatbox = value
             # transform the lonlatbox to the correct projection
-            value = np.array(value)
+            value = np.asarray(value)
             transformed = self.transform.projection.transform_points(
                 ccrs.PlateCarree(), value[:2], value[2:])[..., :2]
             value[:2] = transformed[..., 0]
             value[2:] = transformed[..., 1]
+            if value[0] == value[1]:
+                value[1] += 360
             self.lonlatbox_transformed = value
+            c = warnings.catch_warnings()
+            warnings.filterwarnings('ignore', 'invalid value encountered',
+                                    RuntimeWarning)
             lat_values = value[3:1:-1] if (lat[1:] < lat[:-1]).all() else \
                 value[2:]
             if is_rectilinear:
@@ -529,9 +541,12 @@ class LonLatBox(BoxBase):
 
     def calc_lonlatbox(self, lon, lat):
         if isinstance(self.transform.projection, ccrs.PlateCarree):
-            lon = lon[np.all([lon >= -180, lon <= 360], axis=0)]
-            lat = lat[np.all([lat >= -90, lat <= 90], axis=0)]
-            return [lon.min(), lon.max(), lat.min(), lat.max()]
+            with warnings.catch_warnings():
+                warnings.filterwarnings('ignore', 'invalid value encountered',
+                                        RuntimeWarning)
+                lon = lon[np.all([lon >= -180, lon <= 360], axis=0)]
+                lat = lat[np.all([lat >= -90, lat <= 90], axis=0)]
+                return [lon.min(), lon.max(), lat.min(), lat.max()]
         else:
             if lon.ndim == 1:
                 lon, lat = np.meshgrid(lon, lat)
@@ -682,6 +697,43 @@ class LSM(Formatoption):
             del self.lsm
 
 
+class StockImage(Formatoption):
+    """
+    Display a stock image on the map
+
+    This formatoption uses the :meth:`cartopy.mpl.geoaxes.GeoAxes.stock_img`
+    method to display a downsampled version of the Natural Earth shaded relief
+    raster on the map
+
+    Possible types
+    --------------
+    bool
+        If True, the image is displayed
+    """
+
+    image = None
+
+    priority = END
+
+    name = 'Display Natural Earth shaded relief raster'
+
+    connections = ['plot']
+
+    def update(self, value):
+        if value and self.image is None:
+            self.image = self.ax.stock_img()
+            # display below the plot
+            self.image.zorder = self.plot.mappable.zorder - 0.1
+        elif not value and self.image is not None:
+            self.remove()
+
+    def remove(self):
+        if self.image is None:
+            return
+        self.image.remove()
+        del self.image
+
+
 class GridColor(Formatoption):
     """
     Set the color of the grid
@@ -742,7 +794,7 @@ class GridLabels(Formatoption):
                     self.ax, self.ax.projection, draw_labels=test_value)
             except TypeError as e:  # labels cannot be drawn
                 if value:
-                    warn(e.message, RuntimeWarning)
+                    warnings.warn(e.message, RuntimeWarning)
                 value = False
             else:
                 value = True
@@ -972,6 +1024,18 @@ class MapPlot2D(Plot2D):
 
     connections = Plot2D.connections + ['transform']
 
+    @property
+    def array(self):
+        ret = super(MapPlot2D, self).array
+        xcoord = self.xcoord
+        if xcoord.ndim == 2 and isinstance(self.transform.projection,
+                                           ccrs.PlateCarree):
+            lon = xcoord.values
+            lat = self.ycoord.values
+            ret[np.any([lon <= -200, lon >= 400, lat <= -120, lat >= 120],
+                       axis=0)] = np.nan
+        return ret
+
     def _contourf(self):
         t = self.ax.projection
         if isinstance(t, ccrs.CRS) and not isinstance(t, ccrs.Projection):
@@ -979,8 +1043,8 @@ class MapPlot2D(Plot2D):
                              ' Spherical contouring is not supported - '
                              ' consider using PlateCarree/RotatedPole.')
         elif self.decoder.is_triangular(self.raw_data):
-            warn('Filled contour plots of triangular data are not correctly '
-                 'warped around!')
+            warnings.warn('Filled contour plots of triangular data are not '
+                          'correctly warped around!')
         return super(MapPlot2D, self)._contourf()
 
     def _tripcolor(self):
@@ -1116,11 +1180,11 @@ class MapDensity(Density):
         if all(val == 1.0 for val in value):
             self.plot._kwargs.pop('regrid_shape', None)
         elif self.decoder.is_unstructured(self.raw_data):
-            warn("Quiver plot of unstructered data does not support the "
-                 "density keyword!", RuntimeWarning)
+            warnings.warn("Quiver plot of unstructered data does not support "
+                          "the density keyword!", RuntimeWarning)
         elif self.decoder.is_circumpolar(self.raw_data):
-            warn("Quiver plot of circumpolar data does not support the "
-                 "density keyword!", RuntimeWarning)
+            warnings.warn("Quiver plot of circumpolar data does not support "
+                          "the density keyword!", RuntimeWarning)
         else:
             shape = self.data.shape[-2:]
             value = map(int, [value[0]*shape[0], value[1]*shape[1]])
@@ -1150,7 +1214,7 @@ class MapVectorPlot(VectorPlot):
         # stream plots for circumpolar grids is not supported
         if (value == 'stream' and self.raw_data is not None and
                 self.decoder.is_circumpolar(self.raw_data[0])):
-            warn('Cannot make stream plots of circumpolar data!')
+            warnings.warn('Cannot make stream plots of circumpolar data!')
             value = 'quiver'
         super(MapVectorPlot, self).set_value(value, *args, **kwargs)
 
@@ -1182,7 +1246,7 @@ class MapVectorPlot(VectorPlot):
 
     def _stream_plot(self):
         if self.decoder.is_circumpolar(self.raw_data):
-            warn('Cannot make stream plots of circumpolar data!')
+            warnings.warn('Cannot make stream plots of circumpolar data!')
             return
         # update map extent such that it fits to the data limits (necessary
         # because streamplot scales the density based upon it). This however
@@ -1241,6 +1305,7 @@ class MapPlotter(Base2D):
     clat = CenterLat('clat')
     lonlatbox = LonLatBox('lonlatbox')
     lsm = LSM('lsm')
+    stock_img = StockImage('stock_img')
     grid_color = GridColor('grid_color')
     grid_labels = GridLabels('grid_labels')
     grid_labelsize = GridLabelSize('grid_labelsize')
@@ -1278,6 +1343,7 @@ class FieldPlotter(Simple2DBase, MapPlotter, BasePlotter):
     _rcparams_string = ['plotter.fieldplotter']
 
     levels = ContourLevels('levels', cbounds='bounds')
+    interp_bounds = InterpolateBounds('interp_bounds')
     plot = MapPlot2D('plot')
 
 

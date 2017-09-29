@@ -156,16 +156,18 @@ rcParams = RcParams(defaultParams={
     'plotter.maps.projection': [
         'cyl', ProjectionValidator(
             'projection', ['northpole', 'ortho', 'southpole', 'moll', 'geo',
-                           'robin', 'cyl'], True),
+                           'robin', 'cyl', 'stereo', 'near'], True),
         'fmt key to define the projection of the plot'],
     'plotter.maps.transform': [
         'cyl', ProjectionValidator(
             'projection', ['northpole', 'ortho', 'southpole', 'moll', 'geo',
-                           'robin', 'cyl'], True),
+                           'robin', 'cyl', 'stereo', 'near'], True),
         'fmt key to define the native projection of the data'],
     'plotter.maps.lsm': [
         True, try_and_error(validate_bool, validate_float),
         'fmt key to draw a land sea mask'],
+    'plotter.maps.stock_img': [
+        False, validate_bool, 'fmt key to draw a stock_img on the map'],
 
     # -------------------------------------------------------------------------
     # ---------------------------- Miscallaneous ------------------------------
