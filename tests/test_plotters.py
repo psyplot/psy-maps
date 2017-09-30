@@ -200,7 +200,7 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
     @property
     def _minmax_cticks(self):
         return np.round(
-            np.linspace(self.data.values.min(), self.data.values.max(), 11,
+            np.linspace(self.data.min().values, self.data.max().values, 11,
                         endpoint=True), decimals=2).tolist()
 
     def test_cticks(self):
