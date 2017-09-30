@@ -15,10 +15,7 @@ from psyplot.compat.pycompat import map
 from psyplot.docstring import docstrings
 from psyplot.data import InteractiveList, _infer_interval_breaks
 from psyplot.plotter import Formatoption, START, DictFormatoption, END
-from psy_simple.plotters import (
-    Base2D, Plot2D, BasePlotter, BaseVectorPlotter, VectorPlot, CombinedBase,
-    DataTicksCalculator, round_to_05, Density, ContourLevels,
-    Simple2DBase, DataGrid, VectorColor, get_cmap, InterpolateBounds)
+import psy_simple.plotters as psyps
 from psy_maps.boxes import lonlatboxes
 from psy_simple.colors import FixedBoundaryNorm
 
@@ -865,7 +862,7 @@ class GridLabelSize(Formatoption):
 
 
 @docstrings.get_sectionsf('GridBase', sections=['Possible types', 'See Also'])
-class GridBase(DataTicksCalculator):
+class GridBase(psyps.DataTicksCalculator):
     """
     Abstract base class for x- and y- grid lines
 
@@ -953,7 +950,7 @@ class GridBase(DataTicksCalculator):
 
     def _round_min_max(self, vmin, vmax):
         exp = np.floor(np.log10(abs(vmax - vmin)))
-        return round_to_05([vmin, vmax], exp, mode='s')
+        return psyps.round_to_05([vmin, vmax], exp, mode='s')
 
 
 class XGrid(GridBase):
@@ -1018,11 +1015,11 @@ class YGrid(GridBase):
     axis = 'y'
 
 
-class MapPlot2D(Plot2D):
-    __doc__ = Plot2D.__doc__
+class MapPlot2D(psyps.Plot2D):
+    __doc__ = psyps.Plot2D.__doc__
     # fixes the plot of unstructured triangular data on round projections
 
-    connections = Plot2D.connections + ['transform']
+    connections = psyps.Plot2D.connections + ['transform']
 
     @property
     def array(self):
@@ -1077,7 +1074,7 @@ class MapPlot2D(Plot2D):
         except AttributeError:
             arr = self.array
             N = len(np.unique(self.bounds.norm(arr.ravel())))
-        cmap = get_cmap(self.cmap.value, N)
+        cmap = psyps.get_cmap(self.cmap.value, N)
         if hasattr(self, '_plot'):
             self.logger.debug("Updating plot")
             self._plot.update(dict(cmap=cmap, norm=self.bounds.norm))
@@ -1125,9 +1122,9 @@ class MapPlot2D(Plot2D):
         return super(MapPlot2D, self).add2format_coord(x, y)
 
 
-class MapDataGrid(DataGrid):
+class MapDataGrid(psyps.DataGrid):
 
-    __doc__ = DataGrid.__doc__ + '\n' + docstrings.dedents("""
+    __doc__ = psyps.DataGrid.__doc__ + '\n' + docstrings.dedents("""
     See Also
     --------
     xgrid
@@ -1165,10 +1162,10 @@ class MapDataGrid(DataGrid):
             triangles.set_mask(mask)
         return triangles
 
-    triangles = property(triangles, doc=DataGrid.triangles.__doc__)
+    triangles = property(triangles, doc=psyps.DataGrid.triangles.__doc__)
 
 
-class MapDensity(Density):
+class MapDensity(psyps.ensity):
     """
     Change the density of the arrows
 
@@ -1194,21 +1191,21 @@ class MapDensity(Density):
         self.plot._kwargs.pop('regrid_shape', None)
 
 
-class MapVectorColor(VectorColor):
+class MapVectorColor(psyps.VectorColor):
 
-    __doc__ = VectorColor.__doc__
+    __doc__ = psyps.VectorColor.__doc__
 
     def _maybe_ravel(self, arr):
         # no need to ravel the data for quiver plots
         return np.asarray(arr)
 
 
-class MapVectorPlot(VectorPlot):
+class MapVectorPlot(psyps.VectorPlot):
 
-    __doc__ = VectorPlot.__doc__
+    __doc__ = psyps.VectorPlot.__doc__
 
-    dependencies = VectorPlot.dependencies + ['lonlatbox', 'transform', 'clon',
-                                              'clat']
+    dependencies = psyps.VectorPlot.dependencies + ['lonlatbox', 'transform',
+                                                    'clon', 'clat']
 
     def set_value(self, value, *args, **kwargs):
         # stream plots for circumpolar grids is not supported
@@ -1218,7 +1215,7 @@ class MapVectorPlot(VectorPlot):
             value = 'quiver'
         super(MapVectorPlot, self).set_value(value, *args, **kwargs)
 
-    set_value.__doc__ = VectorPlot.set_value.__doc__
+    set_value.__doc__ = psyps.VectorPlot.set_value.__doc__
 
     def _get_data(self):
         data = self.data
@@ -1289,7 +1286,7 @@ class CombinedMapVectorPlot(MapVectorPlot):
         super(CombinedMapVectorPlot, self).update(*args, **kwargs)
 
 
-class MapPlotter(Base2D):
+class MapPlotter(psyps.Base2D):
     """Base plotter for visualizing data on a map
     """
 
@@ -1336,18 +1333,21 @@ class MapPlotter(Base2D):
         self._ax = value
 
 
-class FieldPlotter(Simple2DBase, MapPlotter, BasePlotter):
+class FieldPlotter(psyps.Simple2DBase, MapPlotter, psyps.BasePlotter):
     """Plotter for 2D scalar fields on a map
     """
 
     _rcparams_string = ['plotter.fieldplotter']
 
-    levels = ContourLevels('levels', cbounds='bounds')
-    interp_bounds = InterpolateBounds('interp_bounds')
+    levels = psyps.ContourLevels('levels', cbounds='bounds')
+    try:
+        interp_bounds = psyps.InterpolateBounds('interp_bounds')
+    except AttributeError:
+        pass
     plot = MapPlot2D('plot')
 
 
-class VectorPlotter(MapPlotter, BaseVectorPlotter, BasePlotter):
+class VectorPlotter(MapPlotter, psyps.BaseVectorPlotter, psyps.BasePlotter):
     """Plotter for visualizing 2-dimensional vector data on a map
 
     See Also
@@ -1363,7 +1363,7 @@ class VectorPlotter(MapPlotter, BaseVectorPlotter, BasePlotter):
     color = MapVectorColor('color')
 
 
-class CombinedPlotter(CombinedBase, FieldPlotter, VectorPlotter):
+class CombinedPlotter(psyps.CombinedBase, FieldPlotter, VectorPlotter):
     """Combined 2D plotter and vector plotter on a map
 
     See Also
