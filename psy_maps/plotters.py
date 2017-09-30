@@ -1165,7 +1165,7 @@ class MapDataGrid(psyps.DataGrid):
     triangles = property(triangles, doc=psyps.DataGrid.triangles.__doc__)
 
 
-class MapDensity(psyps.ensity):
+class MapDensity(psyps.Density):
     """
     Change the density of the arrows
 
