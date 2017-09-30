@@ -9,5 +9,6 @@ dependencies:
     - netCDF4
     - cartopy
     - seaborn
+    - numpy>=1.10
     - pip:
         - pytest
