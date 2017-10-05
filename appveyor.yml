@@ -10,10 +10,14 @@ environment:
       MPL_VERSION: "1.5"
     - PYTHON_VERSION: "3.5"
       MPL_VERSION: "2.0"
+    - PYTHON_VERSION: "3.5"
+      MPL_VERSION: "2.1"
     - PYTHON_VERSION: "3.6"
       MPL_VERSION: "1.5"
     - PYTHON_VERSION: "3.6"
       MPL_VERSION: "2.0"
+    - PYTHON_VERSION: "3.6"
+      MPL_VERSION: "2.1"
 install:
   # save local state and delete the GH_REPO_TOKEN because it is not needed
   # during the installation and therefore increases security

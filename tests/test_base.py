@@ -10,7 +10,7 @@ from psy_simple.base import BasePlotter
 from psyplot import InteractiveList, open_dataset
 
 
-if mpl.__version__ >= '1.5':
+if mpl.__version__ >= '1.5' and mpl.__version__ < '2.1':
     from matplotlib.font_manager import weight_dict
     bold = weight_dict['bold']
 else:
