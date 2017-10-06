@@ -20,6 +20,12 @@ from psy_maps.boxes import lonlatboxes
 from psy_simple.colors import FixedBoundaryNorm
 
 
+wrap_proj_types = (ccrs._RectangularProjection,
+                   ccrs._WarpedRectangularProjection,
+                   ccrs.InterruptedGoodeHomolosine,
+                   ccrs.Mercator)
+
+
 @docstrings.get_sectionsf('shiftdata')
 def shiftdata(lonsin, datain, lon_0):
     """
@@ -401,6 +407,18 @@ class LonLatBox(BoxBase):
 
     dependencies = ['transform']
 
+    @property
+    def lonlatbox_transformed(self):
+        value = np.asarray(self.lonlatbox)
+        transformed = self.transform.projection.transform_points(
+            ccrs.PlateCarree(), value[:2], value[2:])[..., :2]
+        value[:2] = transformed[..., 0]
+        value[2:] = transformed[..., 1]
+        if value[0] == value[1] and isinstance(self.transform.projection,
+                                               ccrs.PlateCarree):
+            value[1] += 360
+        return value
+
     def data_dependent(self, data, set_data=True):
         if isinstance(data, InteractiveList):
             data = data[0]
@@ -475,20 +493,14 @@ class LonLatBox(BoxBase):
                 lon = ret[..., 0]
                 lat = ret[..., 1]
             self.lonlatbox = value
-            # transform the lonlatbox to the correct projection
-            value = np.asarray(value)
-            transformed = self.transform.projection.transform_points(
-                ccrs.PlateCarree(), value[:2], value[2:])[..., :2]
-            value[:2] = transformed[..., 0]
-            value[2:] = transformed[..., 1]
-            if value[0] == value[1]:
-                value[1] += 360
-            self.lonlatbox_transformed = value
+            value = self.lonlatbox_transformed
             c = warnings.catch_warnings()
             warnings.filterwarnings('ignore', 'invalid value encountered',
                                     RuntimeWarning)
-            lat_values = value[3:1:-1] if (lat[1:] < lat[:-1]).all() else \
-                value[2:]
+            if is_rectilinear and (lat[1:] < lat[:-1]).all():
+                lat_values = value[3:1:-1]
+            else:
+                lat_values = value[2:]
             if is_rectilinear:
                 kwargs = dict(zip(
                     data.dims[-2:], starmap(slice, [lat_values, value[:2]])))
@@ -615,6 +627,15 @@ class MapExtent(BoxBase):
     update_after_plot = True
 
     def update(self, value):
+
+        def draw_circle():
+            import matplotlib.path as mpath
+            theta = np.linspace(0, 2*np.pi, 100)
+            center, radius = [0.5, 0.5], 0.5
+            verts = np.vstack([np.sin(theta), np.cos(theta)]).T
+            circle = mpath.Path(verts * radius + center)
+            self.ax.set_boundary(circle, transform=self.ax.transAxes)
+
         set_global = False
         if isinstance(value, six.string_types):
             if value == 'global':
@@ -627,14 +648,26 @@ class MapExtent(BoxBase):
         # are not always correctly set, we test here whether the wished
         # extent (the value) is almost global. If so, we set it to a global
         # value
+        value = list(value)
         with self.ax.hold_limits():
             self.ax.set_global()
             x1, x2, y1, y2 = self.ax.get_extent(ccrs.PlateCarree())
         x_rng = 360. if x1 == x2 else x2 - x1
+        proj = self.ax.projection
         if set_global or ((value[1] - value[0]) / (x_rng) > 0.95 and
                           (value[3] - value[2]) / (y2 - y1) > 0.95):
             self.logger.debug("Setting to global extent...")
             self.ax.set_global()
+            return
+        elif (isinstance(proj,
+                         (ccrs.Orthographic, ccrs.Stereographic)) and
+              value[1] - value[0] == 360):
+            # HACK: to make sure, that we don't get troubles with the transformation,
+            # we don't go until 360
+            value[:2] = 0, 359.9999
+            self.ax.set_extent(value, crs=ccrs.PlateCarree())
+            # clip the outer part
+            draw_circle()
         else:
             try:
                 self.ax.set_extent(value, crs=ccrs.PlateCarree())
