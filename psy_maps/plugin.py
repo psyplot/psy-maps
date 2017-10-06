@@ -70,6 +70,20 @@ def validate_dict_yaml(s):
             return yaml.load(f)
 
 
+def validate_lonlatbox(value):
+    validate = try_and_error(validate_float, validate_str)
+    try:
+        return validate_none(value)
+    except (TypeError, ValueError):
+        try:
+            return validate_str(value)
+        except (TypeError, ValueError):
+            if len(value) != 4:
+                raise ValueError("Need 4 values for longitude-latitude box, "
+                                 "got %i" % len(value))
+            return list(map(validate, value))
+
+
 # -----------------------------------------------------------------------------
 # ------------------------------ rcParams -------------------------------------
 # -----------------------------------------------------------------------------
@@ -121,12 +135,10 @@ rcParams = RcParams(defaultParams={
     # -------------------------------------------------------------------------
     # MapBase
     'plotter.maps.lonlatbox': [
-        None, try_and_error(validate_none, validate_str,
-                            validate_nseq_float(4)),
+        None, validate_lonlatbox,
         'fmt key to define the longitude latitude box of the data'],
     'plotter.maps.map_extent': [
-        None, try_and_error(validate_none, validate_str,
-                            validate_nseq_float(4)),
+        None, validate_lonlatbox,
         'fmt key to define the extent of the map plot'],
     'plotter.maps.clon': [
         None, try_and_error(validate_none, validate_float, validate_str),

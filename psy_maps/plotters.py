@@ -250,7 +250,8 @@ class BoxBase(Formatoption):
         (contains longitude-latitude boxes of different countries and
         continents)
     [lonmin, lonmax, latmin, latmax]
-        The surrounding longitude-latitude that shall be used
+        The surrounding longitude-latitude that shall be used. Values can be
+        either a float or a string as above
 
     See Also
     --------
@@ -476,6 +477,10 @@ class LonLatBox(BoxBase):
                 if value is None:
                     self.lonlatbox = self.data_lonlatbox
                     return data
+            value = list(value)
+            for i, v in enumerate(value):
+                if isinstance(v, six.string_types):
+                    value[i] = self.lola_from_pattern(v)[i]
             is_unstructured = decoder.is_unstructured(
                 base_var if base_var is not None else data)
             is_rectilinear = lon.ndim == 1 and not is_unstructured
@@ -644,6 +649,11 @@ class MapExtent(BoxBase):
                 value = self.lola_from_pattern(value)
         elif value is None:
             value = self.lonlatbox.lonlatbox
+        else:
+            value = list(value)
+            for i, v in enumerate(value):
+                if isinstance(v, six.string_types):
+                    value[i] = self.lola_from_pattern(v)[i]
         # Since the set_extent method does not always work and the data limits
         # are not always correctly set, we test here whether the wished
         # extent (the value) is almost global. If so, we set it to a global
