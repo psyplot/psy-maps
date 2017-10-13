@@ -58,7 +58,7 @@ setup(name='psy-maps',
       packages=find_packages(exclude=['docs', 'tests*', 'examples']),
       install_requires=[
           'psyplot',
-          'psy-simple',
+          'psy-simple>1.0.1',
           'cartopy',
       ],
       tests_require=['pytest'],
