@@ -1062,7 +1062,7 @@ class MapPlot2D(psyps.Plot2D):
     __doc__ = psyps.Plot2D.__doc__
     # fixes the plot of unstructured triangular data on round projections
 
-    connections = psyps.Plot2D.connections + ['transform']
+    connections = psyps.Plot2D.connections + ['transform', 'lonlatbox']
 
     @property
     def array(self):
@@ -1075,6 +1075,17 @@ class MapPlot2D(psyps.Plot2D):
             ret[np.any([lon <= -200, lon >= 400, lat <= -120, lat >= 120],
                        axis=0)] = np.nan
         return ret
+
+    def _get_xy_pcolormesh(self):
+        """Use the bounds for non-global circumpolar plots"""
+        interp_bounds = self.interp_bounds.value
+        if interp_bounds is None and self.decoder.is_circumpolar(
+                self.raw_data):
+            lola = self.lonlatbox
+            if (isinstance(self.transform.projection, ccrs.PlateCarree) and
+                    np.abs(np.diff(lola.data_lonlatbox[:2])[0]) < 355):
+                return self.xbounds, self.ybounds
+        return super(MapPlot2D, self)._get_xy_pcolormesh()
 
     def _contourf(self):
         t = self.ax.projection
