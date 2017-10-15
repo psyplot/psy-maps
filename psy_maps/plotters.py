@@ -14,7 +14,8 @@ from psyplot import rcParams
 from psyplot.compat.pycompat import map
 from psyplot.docstring import docstrings
 from psyplot.data import InteractiveList, _infer_interval_breaks
-from psyplot.plotter import Formatoption, START, DictFormatoption, END
+from psyplot.plotter import (
+    Formatoption, START, DictFormatoption, END, BEFOREPLOTTING)
 import psy_simple.plotters as psyps
 from psy_maps.boxes import lonlatboxes
 from psy_simple.colors import FixedBoundaryNorm
@@ -671,13 +672,13 @@ class MapExtent(BoxBase):
             return
         elif (isinstance(proj,
                          (ccrs.Orthographic, ccrs.Stereographic)) and
-              value[1] - value[0] == 360):
-            # HACK: to make sure, that we don't get troubles with the transformation,
-            # we don't go until 360
+              np.abs(np.diff(value[:2])) > 350):
+            # HACK: to make sure, that we don't get troubles with the
+            # transformation, we don't go until 360
             value[:2] = 0, 359.9999
             self.ax.set_extent(value, crs=ccrs.PlateCarree())
             # clip the outer part
-            draw_circle()
+#            draw_circle()
         else:
             try:
                 self.ax.set_extent(value, crs=ccrs.PlateCarree())
@@ -685,6 +686,62 @@ class MapExtent(BoxBase):
                 self.logger.debug(
                     "Failed to set_extent with lonlatbox %s", value,
                     exc_info=True)
+
+
+class ClipAxes(Formatoption):
+    """
+    Clip the part outside the latitudes of the map extent
+
+    Possible types
+    --------------
+    None
+        Clip if all longitudes are shown (i.e. the extent goes from -180 to
+        180) and the projection is orthographic or stereographic
+    bool
+        True, clip, else, don't
+
+    Notes
+    -----
+    If the plot is clipped. You might need to update with `replot=True`!
+    """
+
+    _orig_path = None
+
+    priority = BEFOREPLOTTING
+
+    connections = ['lonlatbox', 'map_extent']
+
+    def draw_circle(self):
+        import matplotlib.path as mpath
+        self._orig_path = self._orig_path or self.ax.patch.get_path()
+        theta = np.linspace(0, 2*np.pi, 100)
+        center, radius = [0.5, 0.5], 0.5
+        verts = np.vstack([np.sin(theta), np.cos(theta)]).T
+        circle = mpath.Path(verts * radius + center)
+        self.ax.set_boundary(circle, transform=self.ax.transAxes)
+
+    def update(self, value):
+        if value:
+            self.draw_circle()
+        elif value is None:
+            proj = self.ax.projection
+            extent = self.map_extent.value or self.lonlatbox.lonlatbox
+            if (isinstance(proj, (ccrs.Orthographic, ccrs.Stereographic)) and
+                    np.abs(np.diff(extent[:2])) > 350):
+                self.draw_circle()
+            else:
+                self.remove()
+        else:
+            self.remove()
+
+    def remove(self):
+        if self._orig_path is not None:
+            try:
+                self.ax.set_boundary(self._orig_path,
+                                     transform=self.ax.transAxes)
+            except Exception:
+                pass
+            del self._orig_path
 
 
 class Transform(ProjectionBase):
@@ -1064,6 +1121,8 @@ class MapPlot2D(psyps.Plot2D):
 
     connections = psyps.Plot2D.connections + ['transform', 'lonlatbox']
 
+    dependencies = psyps.Plot2D.dependencies + ['clip']
+
     @property
     def array(self):
         ret = super(MapPlot2D, self).array
@@ -1259,7 +1318,7 @@ class MapVectorPlot(psyps.VectorPlot):
     __doc__ = psyps.VectorPlot.__doc__
 
     dependencies = psyps.VectorPlot.dependencies + ['lonlatbox', 'transform',
-                                                    'clon', 'clat']
+                                                    'clon', 'clat', 'clip']
 
     def set_value(self, value, *args, **kwargs):
         # stream plots for circumpolar grids is not supported
@@ -1365,6 +1424,7 @@ class MapPlotter(psyps.Base2D):
     ygrid = YGrid('ygrid')
     map_extent = MapExtent('map_extent')
     datagrid = MapDataGrid('datagrid', index_in_list=0)
+    clip = ClipAxes('clip')
 
     @classmethod
     def _get_sample_projection(cls):

@@ -140,6 +140,9 @@ rcParams = RcParams(defaultParams={
     'plotter.maps.map_extent': [
         None, validate_lonlatbox,
         'fmt key to define the extent of the map plot'],
+    'plotter.maps.clip': [
+        None, validate_bool_maybe_none,
+        'fmt key to define clip the axes outside the latitudes'],
     'plotter.maps.clon': [
         None, try_and_error(validate_none, validate_float, validate_str),
         'fmt key to specify the center longitude of the projection'],
