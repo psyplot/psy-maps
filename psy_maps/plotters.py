@@ -634,14 +634,6 @@ class MapExtent(BoxBase):
 
     def update(self, value):
 
-        def draw_circle():
-            import matplotlib.path as mpath
-            theta = np.linspace(0, 2*np.pi, 100)
-            center, radius = [0.5, 0.5], 0.5
-            verts = np.vstack([np.sin(theta), np.cos(theta)]).T
-            circle = mpath.Path(verts * radius + center)
-            self.ax.set_boundary(circle, transform=self.ax.transAxes)
-
         set_global = False
         if isinstance(value, six.string_types):
             if value == 'global':
@@ -677,8 +669,6 @@ class MapExtent(BoxBase):
             # transformation, we don't go until 360
             value[:2] = 0, 359.9999
             self.ax.set_extent(value, crs=ccrs.PlateCarree())
-            # clip the outer part
-#            draw_circle()
         else:
             try:
                 self.ax.set_extent(value, crs=ccrs.PlateCarree())
@@ -727,7 +717,7 @@ class ClipAxes(Formatoption):
             proj = self.ax.projection
             extent = self.map_extent.value or self.lonlatbox.lonlatbox
             if (isinstance(proj, (ccrs.Orthographic, ccrs.Stereographic)) and
-                    np.abs(np.diff(extent[:2])) > 350):
+                    extent != 'global' and np.abs(np.diff(extent[:2])) > 350):
                 self.draw_circle()
             else:
                 self.remove()
