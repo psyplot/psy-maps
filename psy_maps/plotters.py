@@ -774,8 +774,9 @@ class LSM(Formatoption):
         Specifies the linewidth of the continents
     str
         The resolution of the land-sea mask (see the
-        :meth:`cartopy.mpl.geoaxes.GeoAxesSubplot.coastlines` method
-    list [str, float]
+        :meth:`cartopy.mpl.geoaxes.GeoAxesSubplot.coastlines` method. Usually
+        one of ``('110m', '50m', '10m')``.
+    list [str or bool, float]
         The resolution and the linewidth"""
 
     name = 'Land-Sea mask'
