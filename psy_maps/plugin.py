@@ -68,7 +68,7 @@ def validate_lsm(val):
     else:
         return [True, val]
     res, lw = val
-    return [res_validation(res), validate_float(val)]
+    return [res_validation(res), validate_float(lw)]
 
 
 class ProjectionValidator(ValidateInStrings):
