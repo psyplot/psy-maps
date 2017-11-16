@@ -128,6 +128,8 @@ class MapReferences(object):
         sp = self.plot()
         sp.update(lsm=False)
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('lsm')))
+        sp.update(lsm=['110m', 2.0])
+        sp.export(os.path.join(bt.ref_dir, self.get_ref_file('lsm2')))
         if close:
             sp.close(True, True, True)
 
@@ -326,6 +328,8 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
         """Test land-sea-mask formatoption"""
         self.update(lsm=False)
         self.compare_figures(next(iter(args), self.get_ref_file('lsm')))
+        self.update(lsm=['110m', 2.0])
+        self.compare_figures(next(iter(args), self.get_ref_file('lsm2')))
 
     def test_projection(self, *args):
         """Test projection formatoption"""

@@ -771,17 +771,30 @@ class LSM(Formatoption):
         True: draw the continents with a line width of 1
         False: don't draw the continents
     float
-        Specifies the linewidth of the continents"""
+        Specifies the linewidth of the continents
+    str
+        The resolution of the land-sea mask (see the
+        :meth:`cartopy.mpl.geoaxes.GeoAxesSubplot.coastlines` method
+    list [str, float]
+        The resolution and the linewidth"""
 
     name = 'Land-Sea mask'
 
+    lsm = None
+
     def update(self, value):
-        if value:
-            value = 1.0 if value is True else value
-            self.lsm = self.ax.coastlines(linewidth=value)
-        elif hasattr(self, 'lsm'):
-            self.lsm.remove()
-            del self.lsm
+        self.remove()
+        res, lw = value
+        if res:
+            args = (res, ) if isinstance(res, six.string_types) else ()
+            self.lsm = self.ax.coastlines(*args, linewidth=lw)
+
+    def remove(self):
+        if self.lsm is not None:
+            try:
+                self.lsm.remove()
+            except ValueError:
+                pass
 
 
 class StockImage(Formatoption):

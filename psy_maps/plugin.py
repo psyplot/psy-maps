@@ -53,6 +53,24 @@ def validate_grid(val):
         return BoundsValidator('grid', bound_strings, True)(val)
 
 
+def validate_lsm(val):
+    res_validation = try_and_error(validate_bool, validate_str)
+    try:
+        val = res_validation(val)
+    except (ValueError, TypeError):
+        pass
+    else:
+        return [val, 1.0]
+    try:
+        val = validate_float(val)
+    except (ValueError, TypeError):
+        pass
+    else:
+        return [True, val]
+    res, lw = val
+    return [res_validation(res), validate_float(val)]
+
+
 class ProjectionValidator(ValidateInStrings):
 
     def __call__(self, val):
@@ -179,7 +197,7 @@ rcParams = RcParams(defaultParams={
                            'robin', 'cyl', 'stereo', 'near'], True),
         'fmt key to define the native projection of the data'],
     'plotter.maps.lsm': [
-        True, try_and_error(validate_bool, validate_float),
+        True, validate_lsm,
         'fmt key to draw a land sea mask'],
     'plotter.maps.stock_img': [
         False, validate_bool, 'fmt key to draw a stock_img on the map'],
