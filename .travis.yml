@@ -73,6 +73,8 @@ before_install:
     else
       sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules;
     fi
+  # Remove homebrew geos
+  - "brew uninstall geos || :"
 git:
     submodules: false
 install:
