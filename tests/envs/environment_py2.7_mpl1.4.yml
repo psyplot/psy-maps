@@ -5,7 +5,7 @@ dependencies:
     - python=2.7
     - matplotlib=1.4
     - dask
-    - xarray
+    - xarray<0.10
     - netCDF4
     - cartopy
     - seaborn
