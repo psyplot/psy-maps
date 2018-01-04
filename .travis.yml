@@ -68,6 +68,9 @@ matrix:
             - MPL_VERSION=1.5
           os: osx
 before_install:
+  # try a workaround to avoid BlockingIOError on Travis-CI. See
+  # https://github.com/travis-ci/travis-ci/issues/8920#issuecomment-352767521
+  - python -c "import fcntl; fcntl.fcntl(1, fcntl.F_SETFL, 0)"
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       sed -i '' 's/git@github.com:/https:\/\/github.com\//' .gitmodules;
     else
