@@ -16,6 +16,7 @@ import _base_testing as bt
 from psyplot import ArrayList, open_dataset
 import psyplot.project as psy
 from psyplot.compat.pycompat import filter
+import pytest
 
 from test_base import bold
 
@@ -1441,6 +1442,7 @@ class IconCombinedPlotterTest(CombinedPlotterTest):
             decimals=2).tolist()
 
 
+@pytest.mark.TWOD
 class FieldPlotterTest2D(tb.TestBase2D, FieldPlotterTest):
     """Test :class:`psyplot.plotter.maps.FieldPlotter` class without time and
     vertical dimension"""
@@ -1448,6 +1450,7 @@ class FieldPlotterTest2D(tb.TestBase2D, FieldPlotterTest):
     var = 't2m_2d'
 
 
+@pytest.mark.TWOD
 class VectorPlotterTest2D(tb.TestBase2D, VectorPlotterTest):
     """Test :class:`psyplot.plotter.maps.VectorPlotter` class without time and
     vertical dimension"""
@@ -1455,6 +1458,7 @@ class VectorPlotterTest2D(tb.TestBase2D, VectorPlotterTest):
     var = ['u_2d', 'v_2d']
 
 
+@pytest.mark.TWOD
 class StreamVectorPlotterTest2D(tb.TestBase2D, StreamVectorPlotterTest):
     """Test case for stream plot of :class:`psyplot.plotter.maps.VectorPlotter`
     without time and vertical dimension"""
@@ -1462,6 +1466,7 @@ class StreamVectorPlotterTest2D(tb.TestBase2D, StreamVectorPlotterTest):
     var = ['u_2d', 'v_2d']
 
 
+@pytest.mark.TWOD
 class CombinedPlotterTest2D(tb.TestBase2D, CombinedPlotterTest):
     """Test :class:`psyplot.plotter.maps.CombinedPlotter` class without time and
     vertical dimension"""
@@ -1475,6 +1480,7 @@ class CombinedPlotterTest2D(tb.TestBase2D, CombinedPlotterTest):
             self, key, label_func, has_time=has_time)
 
 
+@pytest.mark.TWOD
 class CircumpolarFieldPlotterTest2D(
         tb.TestBase2D, CircumpolarFieldPlotterTest):
     """Test :class:`psyplot.plotter.maps.FieldPlotter` class without time and
@@ -1483,6 +1489,7 @@ class CircumpolarFieldPlotterTest2D(
     var = 't2m_2d'
 
 
+@pytest.mark.TWOD
 class CircumpolarVectorPlotterTest2D(
         tb.TestBase2D, CircumpolarVectorPlotterTest):
     """Test :class:`psyplot.plotter.maps.VectorPlotter` class without time and
@@ -1491,6 +1498,7 @@ class CircumpolarVectorPlotterTest2D(
     var = ['u_2d', 'v_2d']
 
 
+@pytest.mark.TWOD
 class CircumpolarCombinedPlotterTest2D(
         tb.TestBase2D, CircumpolarCombinedPlotterTest):
     """Test :class:`psyplot.plotter.maps.CombinedPlotter` class without time and
@@ -1505,6 +1513,7 @@ class CircumpolarCombinedPlotterTest2D(
             self, key, label_func, has_time=has_time)
 
 
+@pytest.mark.TWOD
 class IconFieldPlotterTest2D(tb.TestBase2D, IconFieldPlotterTest):
     """Test :class:`psyplot.plotter.maps.FieldPlotter` class for icon grid
     without time and vertical dimension"""
@@ -1512,6 +1521,7 @@ class IconFieldPlotterTest2D(tb.TestBase2D, IconFieldPlotterTest):
     var = 't2m_2d'
 
 
+@pytest.mark.TWOD
 class IconVectorPlotterTest2D(tb.TestBase2D, IconVectorPlotterTest):
     """Test :class:`psyplot.plotter.maps.VectorPlotter` class for icon grid
     without time and vertical dimension"""
@@ -1519,6 +1529,7 @@ class IconVectorPlotterTest2D(tb.TestBase2D, IconVectorPlotterTest):
     var = ['u_2d', 'v_2d']
 
 
+@pytest.mark.TWOD
 class IconCombinedPlotterTest2D(tb.TestBase2D, IconCombinedPlotterTest):
     """Test :class:`psyplot.plotter.maps.CombinedPlotter` class for icon grid
     without time and vertical dimension"""

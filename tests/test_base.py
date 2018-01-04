@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import psyplot
 from psy_simple.base import BasePlotter
 from psyplot import InteractiveList, open_dataset
+import pytest
 
 
 if mpl.__version__ >= '1.5' and mpl.__version__ < '2.1':
@@ -149,6 +150,7 @@ class TestBase2D(object):
             key, label_func, has_time=has_time)
 
 
+@pytest.mark.TWOD
 class BasePlotterTest2D(TestBase2D, BasePlotterTest):
     """Test :class:`psyplot.plotter.baseplotter.BasePlotter` class without time
     and vertical dimension"""

@@ -144,7 +144,11 @@ script:
   # create the necessary references
   - py.test -v --ref --cov=psy_maps && python ci/check_ref_deploy.py
   # run the tests
-  - py.test -v -n $NCORES --cov-append --cov=psy_maps
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      py.test -v -n $NCORES --cov-append --cov=psy_maps -m 'not TWOD';
+    else
+      py.test -v -n $NCORES --cov-append --cov=psy_maps;
+    fi
 
 after_success:
   - coveralls
