@@ -824,7 +824,16 @@ class StockImage(Formatoption):
         if value and self.image is None:
             self.image = self.ax.stock_img()
             # display below the plot
-            self.image.zorder = self.plot.mappable.zorder - 0.1
+            try:
+                mappable = self.plot.mappable
+            except AttributeError:
+                pass
+            else:
+                try:
+                    self.image.zorder = mappable.zorder - 0.1
+                except AttributeError:
+                    self.image.zorder = (
+                        mappable.collections[0].zorder - 0.1)
         elif not value and self.image is not None:
             self.remove()
 
@@ -1015,9 +1024,14 @@ class GridBase(psyps.DataTicksCalculator):
         else:
             loc = ticker.FixedLocator(value)
         try:
-            zorder = self.plot.mappable.get_zorder()
+            mappable = self.plot.mappable
         except AttributeError:
-            zorder = self.plot.mappable.collections[0].get_zorder()
+            zorder = 0.9
+        else:
+            try:
+                zorder = mappable.zorder
+            except AttributeError:
+                    zorder = mappable.collections[0].zorder
         self._gridliner = self.ax.gridlines(
             crs=ccrs.PlateCarree(), zorder=zorder + 0.1,
             **self.get_kwargs(loc))
