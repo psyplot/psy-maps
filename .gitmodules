@@ -106,3 +106,15 @@
 	path = tests/reference_figures/darwin/py3.6/mpl2.1
 	url = https://github.com/Chilipp/psy-maps-references.git
 	branch = darwin_py3.6_mpl2.1
+[submodule "tests/reference_figures/darwin/py3.6/mpl2.2"]
+	path = tests/reference_figures/darwin/py3.6/mpl2.2
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = darwin_py3.6_mpl2.2
+[submodule "tests/reference_figures/linux/py3.6/mpl2.2"]
+	path = tests/reference_figures/linux/py3.6/mpl2.2
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = linux_py3.6_mpl2.2
+[submodule "tests/reference_figures/win32/py3.6/mpl2.2"]
+	path = tests/reference_figures/win32/py3.6/mpl2.2
+	url = https://github.com/Chilipp/psy-maps-references.git
+	branch = win32_py3.6_mpl2.2

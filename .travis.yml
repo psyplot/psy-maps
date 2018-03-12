@@ -8,6 +8,10 @@ matrix:
         # linux environments
         - env:
             - PYTHON_VERSION=3.6
+            - MPL_VERSION=2.2
+          os: linux
+        - env:
+            - PYTHON_VERSION=3.6
             - MPL_VERSION=2.1
           os: linux
         - env:
@@ -43,6 +47,10 @@ matrix:
             - MPL_VERSION=1.4
           os: linux
         # osx environments
+        - env:
+            - PYTHON_VERSION=3.6
+            - MPL_VERSION=2.2
+          os: osx
         - env:
             - PYTHON_VERSION=3.6
             - MPL_VERSION=2.1
