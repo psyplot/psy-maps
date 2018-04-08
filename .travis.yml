@@ -150,7 +150,8 @@ install:
 
 script:
   # create the necessary references
-  - py.test -v --ref --cov=psy_maps && python ci/check_ref_deploy.py
+  - coverage run --source=psy_maps setup.py test -a "-v --ref" &&
+    python ci/check_ref_deploy.py && coverage report
   # run the tests
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       py.test -v -n $NCORES --cov-append --cov=psy_maps -m 'not TWOD';
