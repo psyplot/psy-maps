@@ -87,6 +87,7 @@ Documentation
     installing
     plot_methods
     examples/index
+    contribute
     api/psy_maps
 
 
