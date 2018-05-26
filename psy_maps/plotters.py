@@ -216,6 +216,8 @@ class Projection(ProjectionBase):
 
     dependencies = ['clon', 'clat']
 
+    connections = ['transform']
+
     def __init__(self, *args, **kwargs):
         super(Projection, self).__init__(*args, **kwargs)
         self.projection = None
@@ -227,6 +229,8 @@ class Projection(ProjectionBase):
         if self.plotter.cleared:
             self.ax.projection = self.projection
             self.ax.clear()
+        if self.transform.value == value:
+            self.transform.projection = self.projection
 
     def update(self, value):
         """Update the formatoption
@@ -510,10 +514,13 @@ class LonLatBox(BoxBase):
             if is_rectilinear:
                 kwargs = dict(zip(
                     data.dims[-2:], starmap(slice, [lat_values, value[:2]])))
-                return data.sel(**kwargs)
+                ret = data.sel(**kwargs)
             else:
-                return self.mask_outside(data.copy(True), lon, lat, *value,
-                                         is_unstructured=is_unstructured)
+                ret = self.mask_outside(data.copy(True), lon, lat, *value,
+                                        is_unstructured=is_unstructured)
+            lon, lat = self._get_lola(ret, decoder)
+            self.data_lonlatbox = self.calc_lonlatbox(lon, lat)
+            return ret
 
     def to_degree(self, units=None, *args):
         """Converts arrays with radian units to degree
@@ -753,7 +760,10 @@ class Transform(ProjectionBase):
     connections = ['plot', 'vplot']
 
     def update(self, value):
-        self.projection = self.set_projection(value, 0, 0)
+        if value == 'cyl':
+            self.projection = ccrs.PlateCarree()
+        else:
+            self.projection = self.set_projection(value, 0, 0)
         for key in self.connections:
             try:
                 getattr(self, key)._kwargs['transform'] = self.projection
@@ -1234,6 +1244,14 @@ class MapPlot2D(psyps.Plot2D):
         self.logger.debug("Plot made. Done.")
         return
 
+    @property
+    def unstructured_xbounds(self):
+        xbounds = super(MapPlot2D, self).unstructured_xbounds
+        if isinstance(self.transform.projection, ccrs.PlateCarree):
+            xbounds = xbounds.copy()
+            xbounds[xbounds - xbounds.min(axis=1, keepdims=True) > 180] -= 360
+        return xbounds
+
     def remove(self, *args, **kwargs):
         super(MapPlot2D, self).remove(*args, **kwargs)
         if hasattr(self, '_wrapped_plot'):
@@ -1261,39 +1279,28 @@ class MapDataGrid(psyps.DataGrid):
     xgrid
     ygrid""")
 
-    def triangles(self):
-        from matplotlib.tri import TriAnalyzer
-        decoder = self.decoder
-        triangles = decoder.get_triangles(
-            self.data, self.data.coords, copy=True,
-            src_crs=self.transform.projection, target_crs=self.ax.projection)
-        mratio = rcParams['plotter.plot2d.plot.min_circle_ratio']
-        if mratio:
-            triangles.set_mask(
-                TriAnalyzer(triangles).get_flat_tri_mask(mratio))
-        triangles.set_mask(np.isnan(
-            self.data.values if self.data.ndim == 1 else self.data[0].values))
-        # in order to avoid lines spanning from right to left over the whole
-        # plot due to the warping in cylindric (or quasi rectangular)
-        # projections, we mask those triangles on the left and right side of
-        # the globe
+    def _polyplot(self, value):
+        xb = self.unstructured_xbounds
+        yb = self.unstructured_ybounds
+        orig_shape = xb.shape
+        transformed = self.ax.projection.transform_points(
+            self.transform.projection, xb.ravel(), yb.ravel())
+        xb = transformed[..., 0].reshape(orig_shape)
+        yb = transformed[..., 1].reshape(orig_shape)
         wrap_proj_types = (ccrs._RectangularProjection,
                            ccrs._WarpedRectangularProjection,
                            ccrs.InterruptedGoodeHomolosine,
                            ccrs.Mercator)
-        if isinstance(self.ax.projection, wrap_proj_types):
-            lon_0 = self.ax.projection.proj4_params['lon_0']
-            xmin = lon_0 - 100.
-            xmax = lon_0 + 100.
-            x = ccrs.PlateCarree(lon_0).transform_points(
-                self.ax.projection, triangles.x, triangles.y)[:, 0]
-            x = x[triangles.triangles]
-            mask = np.array([
-                np.any(arr > xmax) and np.any(arr < xmin) for arr in x])
-            triangles.set_mask(mask)
-        return triangles
-
-    triangles = property(triangles, doc=psyps.DataGrid.triangles.__doc__)
+        if (isinstance(self.transform.projection, wrap_proj_types) and
+                isinstance(self.ax.projection, wrap_proj_types)):
+            xb[xb - xb.min(axis=1, keepdims=True) > 180] -= 360
+        n = len(xb)
+        xb = np.c_[xb, xb[:, :1], [[np.nan]] * n].ravel()
+        yb = np.c_[yb, yb[:, :1], [[np.nan]] * n].ravel()
+        if isinstance(value, dict):
+            self._artists = self.ax.plot(xb, yb, **value.items())
+        else:
+            self._artists = self.ax.plot(xb.ravel(), yb, value)
 
 
 class MapDensity(psyps.Density):
