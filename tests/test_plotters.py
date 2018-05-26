@@ -181,6 +181,7 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
 
     @classmethod
     def setUpClass(cls):
+        rcParams[FieldPlotter().cticklabels.default_key] = '%0.9g'
         cls.ds = open_dataset(cls.ncfile)
         cls.data = ArrayList.from_dataset(
             cls.ds, t=0, z=0, name=cls.var, auto_update=True)[0]
@@ -211,8 +212,10 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
         cticks = self._minmax_cticks
         self.update(cticks='minmax')
         cbar = self.plotter.cbar.cbars['b']
-        self.assertEqual(list(map(
-            lambda t: float(t.get_text()), cbar.ax.get_xticklabels())), cticks)
+        self.assertAlmostArrayEqual(
+            list(map(lambda t: float(t.get_text()),
+                     cbar.ax.get_xticklabels())),
+            cticks, atol=0.1)
         self.update(cticklabels='%3.1f')
         test_ticks = np.round(
             list(map(lambda t: float(t.get_text()),
@@ -466,6 +469,7 @@ class VectorPlotterTest(FieldPlotterTest, MapReferences):
         cls.ds = open_dataset(cls.ncfile)
         rcParams[VectorPlotter().lonlatbox.default_key] = 'Europe'
         rcParams[VectorPlotter().color.default_key] = 'absolute'
+        rcParams[VectorPlotter().cticklabels.default_key] = '%0.6g'
         cls.data = ArrayList.from_dataset(
             cls.ds, t=0, z=0, name=[cls.var], auto_update=True)[0]
         cls.data.attrs['long_name'] = 'absolute wind speed'
@@ -672,6 +676,7 @@ class CombinedPlotterTest(VectorPlotterTest):
     def setUpClass(cls):
         cls.ds = open_dataset(cls.ncfile)
         rcParams[CombinedPlotter().lonlatbox.default_key] = 'Europe'
+        rcParams[CombinedPlotter().cticklabels.default_key] = '%0.6g'
         rcParams[CombinedPlotter().vcmap.default_key] = 'winter'
         cls._data = ArrayList.from_dataset(
             cls.ds, t=0, z=0, name=[cls.var], auto_update=True,
