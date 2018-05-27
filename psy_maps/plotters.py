@@ -1147,8 +1147,7 @@ class MapPlot2D(psyps.Plot2D):
     __doc__ = psyps.Plot2D.__doc__
     # fixes the plot of unstructured triangular data on round projections
 
-    connections = psyps.Plot2D.connections + ['transform', 'lonlatbox',
-                                              'projection']
+    connections = psyps.Plot2D.connections + ['transform', 'lonlatbox']
 
     dependencies = psyps.Plot2D.dependencies + ['clip']
 
@@ -1270,34 +1269,6 @@ class MapPlot2D(psyps.Plot2D):
             elif coord.max() <= 180 and x > 180:
                 x -= 360
         return super(MapPlot2D, self).add2format_coord(x, y)
-
-    def _polycolor(self):
-        from matplotlib.collections import PolyCollection
-        self.logger.debug('Retrieving data')
-        arr = self.notnull_array
-        cmap = self.cmap.get_cmap(arr)
-        if hasattr(self, '_plot'):
-            self.logger.debug('Updating plot')
-            self._plot.update(dict(cmap=cmap, norm=self.bounds.norm))
-        else:
-            self.logger.debug('Retrieving bounds')
-            xbounds = self.unstructured_xbounds
-            ybounds = self.unstructured_ybounds
-            orig_shape = xbounds.shape
-            self.logger.debug('Transforming coords')
-            if self.projection.projection is not self.transform.projection:
-                transformed = self.ax.projection.transform_points(
-                    self.transform.projection, xbounds.ravel(),
-                    ybounds.ravel())
-                xbounds = transformed[..., 0].reshape(orig_shape)
-                ybounds = transformed[..., 1].reshape(orig_shape)
-            self.logger.debug('Making plot with %i cells', arr.size)
-            self._plot = PolyCollection(
-                np.dstack([xbounds, ybounds]), array=arr,
-                norm=self.bounds.norm, rasterized=True, cmap=cmap)
-            self.logger.debug('Adding collection to axes')
-            self.ax.add_collection(self._plot)
-        self.logger.debug('Done.')
 
 
 class MapDataGrid(psyps.DataGrid):
