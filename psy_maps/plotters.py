@@ -1298,7 +1298,7 @@ class MapDataGrid(psyps.DataGrid):
         xb = np.c_[xb, xb[:, :1], [[np.nan]] * n].ravel()
         yb = np.c_[yb, yb[:, :1], [[np.nan]] * n].ravel()
         if isinstance(value, dict):
-            self._artists = self.ax.plot(xb, yb, **value.items())
+            self._artists = self.ax.plot(xb, yb, **value)
         else:
             self._artists = self.ax.plot(xb.ravel(), yb, value)
 
