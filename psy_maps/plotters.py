@@ -1357,25 +1357,38 @@ class MapDataGrid(psyps.DataGrid):
     def _polyplot(self, value):
         xb = self.unstructured_xbounds
         yb = self.unstructured_ybounds
+        if isinstance(self.transform.projection, ccrs.PlateCarree):
+            xb[xb - xb.min(axis=1, keepdims=True) > 180] -= 360
+        t = self.transform.projection
+        proj = self.ax.projection
+        # HACK: We remove the cells at the boundary of the map projection
+        if isinstance(t, wrap_proj_types) and \
+                isinstance(proj, wrap_proj_types):
+            # See the :meth:`MapPlot2D._polycolor` method for a documentation
+            # of the steps
+            lon_0 = proj.proj4_params['lon_0']
+            xb_trans = ccrs.PlateCarree(lon_0).transform_points(
+                t.as_geodetic(), xb, yb)[..., 0].reshape(xb.shape)
+            mask = np.any(
+                xb_trans - xb_trans.min(axis=1, keepdims=True) > 180,
+                axis=1)
+            xb = xb[~mask]
+            yb = yb[~mask]
         orig_shape = xb.shape
-        transformed = self.ax.projection.transform_points(
-            self.transform.projection, xb.ravel(), yb.ravel())
+        transformed = proj.transform_points(t.as_geodetic(), xb.ravel(),
+                                            yb.ravel())
         xb = transformed[..., 0].reshape(orig_shape)
         yb = transformed[..., 1].reshape(orig_shape)
-        wrap_proj_types = (ccrs._RectangularProjection,
-                           ccrs._WarpedRectangularProjection,
-                           ccrs.InterruptedGoodeHomolosine,
-                           ccrs.Mercator)
-        if (isinstance(self.transform.projection, wrap_proj_types) and
-                isinstance(self.ax.projection, wrap_proj_types)):
-            xb[xb - xb.min(axis=1, keepdims=True) > 180] -= 360
+        # We insert nan values in the flattened edges arrays rather than
+        # plotting the grid cells separately as it considerably speeds-up code
+        # execution.
         n = len(xb)
         xb = np.c_[xb, xb[:, :1], [[np.nan]] * n].ravel()
         yb = np.c_[yb, yb[:, :1], [[np.nan]] * n].ravel()
         if isinstance(value, dict):
             self._artists = self.ax.plot(xb, yb, **value)
         else:
-            self._artists = self.ax.plot(xb.ravel(), yb, value)
+            self._artists = self.ax.plot(xb, yb, value)
 
 
 class MapDensity(psyps.Density):
