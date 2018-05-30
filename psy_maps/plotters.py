@@ -1252,6 +1252,81 @@ class MapPlot2D(psyps.Plot2D):
             xbounds[xbounds - xbounds.min(axis=1, keepdims=True) > 180] -= 360
         return xbounds
 
+    def _polycolor(self):
+        from matplotlib.collections import PolyCollection
+        self.logger.debug('Retrieving data')
+        arr = self.notnull_array
+        cmap = self.cmap.get_cmap(arr)
+        if hasattr(self, '_plot'):
+            self.logger.debug('Updating plot')
+            self._plot.update(dict(cmap=cmap, norm=self.bounds.norm))
+            if hasattr(self, '_wrapped_plot'):
+                self._wrapped_plot.update(dict(cmap=cmap,
+                                               norm=self.bounds.norm))
+        else:
+            self.logger.debug('Retrieving bounds')
+            xb = self.unstructured_xbounds
+            yb = self.unstructured_ybounds
+            wrap_proj_types = (ccrs._RectangularProjection,
+                               ccrs._WarpedRectangularProjection,
+                               ccrs.InterruptedGoodeHomolosine,
+                               ccrs.Mercator)
+            t = self.transform.projection
+            proj = self.ax.projection
+            wrapped_arr = None
+            ### HACK: since the matplotlib transformation is very slow because
+            # it transforms every single polygon, we transform the coordinates
+            # already here and do not specify the `transform` property for the
+            # `PolyCollection` down below.
+            # However, in order to wrap the boundaries correctly, we have to
+            # identify the corresponding grid cells and then use the standard
+            # matplotlib transform.
+            if isinstance(t, wrap_proj_types) and \
+                    isinstance(proj, wrap_proj_types):
+                # First we transform the coordinates to a PlateCarree
+                # projection with the same center longitude as the projection
+                # of the plot.
+                # By using the geodetic version of `t`, we place the center
+                # longitude to `lon_0` and cells at the boundary do have a
+                # distance of 180 degrees to lon_0
+                lon_0 = proj.proj4_params['lon_0']
+                xb_trans = ccrs.PlateCarree(lon_0).transform_points(
+                    t.as_geodetic(), xb, yb)[..., 0].reshape(xb.shape)
+                # now we identify the cells at the x-boundary by
+                # checking whether they have coordinates close to 180 and
+                # close to -180
+                mask = np.any(
+                    xb_trans - xb_trans.min(axis=1, keepdims=True) > 180,
+                    axis=1)
+                # if so, we create a wrapped collection that is transformed in
+                # the standard matplotlib way.
+                if mask.any():
+                    wrapped_arr = arr[mask]
+                    arr = arr[~mask]
+                    xb_wrap = xb[mask]
+                    yb_wrap = yb[mask]
+                    xb = xb[~mask]
+                    yb = yb[~mask]
+            self.logger.debug('Making plot with %i cells', arr.size)
+            transformed = proj.transform_points(
+                t.as_geodetic(), xb.ravel(), yb.ravel())[..., :2].reshape(
+                    xb.shape + (2, ))
+            self._plot = PolyCollection(
+                transformed, array=arr,
+                norm=self.bounds.norm, rasterized=True, cmap=cmap)
+            self.logger.debug('Adding collection to axes')
+            self.ax.add_collection(self._plot, autolim=False)
+            if wrapped_arr is not None:
+                self.logger.debug('Making wrapped plot with %i cells',
+                                  wrapped_arr.size)
+                self._wrapped_plot = PolyCollection(
+                    np.dstack([xb_wrap, yb_wrap]), array=wrapped_arr,
+                    norm=self.bounds.norm, rasterized=True, cmap=cmap,
+                    transform=t, zorder=self._plot.zorder - 0.1)
+                self.logger.debug('Adding wrapped collection to axes')
+                self.ax.add_collection(self._wrapped_plot, autolim=False)
+        self.logger.debug('Done.')
+
     def remove(self, *args, **kwargs):
         super(MapPlot2D, self).remove(*args, **kwargs)
         if hasattr(self, '_wrapped_plot'):
