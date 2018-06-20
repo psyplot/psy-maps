@@ -528,15 +528,11 @@ class VectorPlotterTest(FieldPlotterTest, MapReferences):
         self.compare_figures(next(iter(args),
                                   self.get_ref_file('cbarspacing')))
 
-    @unittest.skipIf(
-        six.PY34, "The axes size changes using the arrowsize formatoption")
     def test_arrowsize(self, *args):
         """Test arrowsize formatoption"""
         self.update(arrowsize=100.0)
         self.compare_figures(next(iter(args), self.get_ref_file('arrowsize')))
 
-    @unittest.skipIf(
-        six.PY34, "The axes size changes when using the density formatoption")
     def test_density(self, *args):
         """Test density formatoption"""
         self.update(density=0.5)
@@ -696,8 +692,11 @@ class CombinedPlotterTest(VectorPlotterTest):
             if color_fmts.intersection(kwargs):
                 kwargs.setdefault('color', 'absolute')
             kwargs = self._rename_fmts(kwargs)
-        sp = psy.plot.mapcombined(self.ncfile, name=[self.var],
-                                  **kwargs)
+        if 'density' in kwargs:
+            sp = psy.plot.mapcombined(self.ncfile, name=[self.var], draw=True)
+            sp.update(**kwargs)
+        else:
+            sp = psy.plot.mapcombined(self.ncfile, name=[self.var], **kwargs)
         return sp
 
     def _rename_fmts(self, kwargs):
@@ -738,7 +737,7 @@ class CombinedPlotterTest(VectorPlotterTest):
             np.linspace(speed.min(), speed.max(), 11, endpoint=True),
             decimals=2).tolist()
 
-    def ref_density(self, close=True):
+    def ref_density(self, close=True, *args, **kwargs):
         """Create reference file for density formatoption.
 
         Create reference file for
@@ -746,7 +745,7 @@ class CombinedPlotterTest(VectorPlotterTest):
         formatoption"""
         # we have to make sure, that the color keyword is not set to 'absolute'
         # because it does not work for quiver plots
-        sp = self.plot(density=0.5, color='k')
+        sp = self.plot(density=0.5, color='k', *args, **kwargs)
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('density')))
         if close:
             sp.close(True, True, True)
@@ -824,8 +823,6 @@ class CombinedPlotterTest(VectorPlotterTest):
     def test_cmap(self, *args, **kwargs):
         pass
 
-    @unittest.skipIf(
-        six.PY34, "The axes size changes using the arrowsize formatoption")
     @_in_vector_mode
     def test_arrowsize(self):
         pass
@@ -1250,8 +1247,8 @@ class IconFieldPlotterTest(FieldPlotterTest):
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
             np.linspace(240, 310, 11, endpoint=True).tolist())
         self.update(bounds='minmax')
-        bounds = [240.95, 247.79, 254.62, 261.46, 268.29, 275.13, 281.96,
-                  288.8, 295.63, 302.46, 309.3]
+        bounds = [243.76, 250.04, 256.31, 262.58, 268.85, 275.12, 281.39,
+                  287.66, 293.94, 300.21, 306.48]
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds)
         self.update(bounds=['rounded', 5, 5, 95])
@@ -1285,6 +1282,58 @@ class IconFieldPlotterTest(FieldPlotterTest):
             self.assertGreaterEqual(get_unmasked(data.clat).min(), -8.0,
                                     msg=msg % ('latitude', 'minimum'))
             self.assertLessEqual(get_unmasked(data.clat).max(), 81.0,
+                                 msg=msg % ('latitude', 'maximum'))
+        self.compare_figures(next(iter(args), self.get_ref_file('lonlatbox')))
+
+
+class IconEdgeFieldPlotterTest(FieldPlotterTest):
+    """Test :class:`psyplot.plotter.maps.FieldPlotter` class for icon grid"""
+
+    grid_type = 'icon_edge'
+
+    ncfile = os.path.join(bt.test_dir, 'icon_edge_test.nc')
+
+    def test_bounds(self):
+        """Test bounds formatoption"""
+        self.assertEqual(
+            np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
+            np.linspace(240, 310, 11, endpoint=True).tolist())
+        self.update(bounds='minmax')
+        bounds = [242.48, 249.06, 255.64, 262.21, 268.79, 275.37, 281.94,
+                  288.52, 295.1, 301.67, 308.25]
+        self.assertEqual(
+            np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds)
+        self.update(bounds=['rounded', 5, 5, 95])
+        self.assertEqual(
+            np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
+            np.linspace(255, 305, 5, endpoint=True).tolist())
+
+    def test_lonlatbox(self, *args):
+        """Test lonlatbox formatoption"""
+        def get_unmasked(coord):
+            """return the values of the coordinate that is not masked in the
+            data"""
+            return coord.values[~np.isnan(data.values)]
+        self.update(lonlatbox='Europe|India')
+        ax = self.plotter.ax
+        list(starmap(self.assertAlmostEqual, zip(
+            ax.get_extent(ccrs.PlateCarree()), (-32.0, 97.0, -8.0, 81.0),
+            repeat(5), repeat("Failed to set the extent to Europe and India!"))
+            ))
+        # test whether latitudes and longitudes succeded
+        msg = "Failed to fit into lonlatbox limits for %s of %s."
+        if isinstance(self.plotter.plot_data, InteractiveList):
+            all_data = self.plotter.plot_data
+        else:
+            all_data = [self.plotter.plot_data]
+        for data in all_data:
+            self.assertGreaterEqual(get_unmasked(data.elon).min(), -32.0,
+                                    msg=msg % ('longitude', 'minimum'))
+            self.assertLessEqual(get_unmasked(data.elon).max(), 97.0,
+                                 msg=msg % ('longitude', 'maximum'))
+            self.assertGreaterEqual(get_unmasked(data.elat).min(), -8.0,
+                                    msg=msg % ('latitude', 'minimum'))
+            self.assertLessEqual(get_unmasked(data.elat).max(), 81.0,
                                  msg=msg % ('latitude', 'maximum'))
         self.compare_figures(next(iter(args), self.get_ref_file('lonlatbox')))
 
@@ -1340,16 +1389,16 @@ class IconVectorPlotterTest(VectorPlotterTest):
         self.update(color='absolute')
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
-            np.linspace(0, 15, 11, endpoint=True).tolist())
+            np.linspace(0.5, 9.5, 11, endpoint=True).tolist())
         self.update(bounds='minmax')
-        bounds = [0.24,  1.31,  2.38,  3.45,  4.51,  5.58,  6.65,  7.72,
-                  8.79,  9.85, 10.92]
+        bounds = [0.66, 1.51, 2.36, 3.21, 4.05, 4.9, 5.75, 6.59, 7.44, 8.29,
+                  9.14]
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds)
         self.update(bounds=['rounded', 5, 5, 95])
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
-            np.round(np.linspace(1.0, 9.5, 5, endpoint=True), 2).tolist())
+            np.round(np.linspace(1.0, 8.0, 5, endpoint=True), 2).tolist())
 
 
 class IconCombinedPlotterTest(CombinedPlotterTest):
@@ -1377,29 +1426,29 @@ class IconCombinedPlotterTest(CombinedPlotterTest):
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
             np.linspace(250, 290, 11, endpoint=True).tolist())
         self.update(bounds='minmax')
-        bounds = [252.61, 256.22, 259.83, 263.43, 267.04, 270.65, 274.26,
-                  277.87, 281.48, 285.09, 288.7]
+        bounds = [253.62, 257.12, 260.62, 264.12, 267.63, 271.13, 274.63,
+                  278.13, 281.64, 285.14, 288.64]
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds)
         self.update(bounds=['rounded', 5, 5, 95])
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
-            np.linspace(255, 290, 5, endpoint=True).tolist())
+            np.linspace(260, 290, 5, endpoint=True).tolist())
 
         # test vector bounds
         self.update(color='absolute')
         self.assertEqual(
             np.round(self.plotter.vbounds.norm.boundaries, 2).tolist(),
-            np.linspace(0, 15, 11, endpoint=True).tolist())
+            np.linspace(0.5, 9.5, 11, endpoint=True).tolist())
         self.update(vbounds='minmax')
-        bounds = [0.24,  1.31,  2.38,  3.45,  4.51,  5.58,  6.65,  7.72,
-                  8.79,  9.85, 10.92]
+        bounds = [0.66, 1.51, 2.36, 3.21, 4.05, 4.9, 5.75, 6.59, 7.44, 8.29,
+                  9.14]
         self.assertEqual(
             np.round(self.plotter.vbounds.norm.boundaries, 2).tolist(), bounds)
         self.update(vbounds=['rounded', 5, 5, 95])
         self.assertEqual(
             np.round(self.plotter.vbounds.norm.boundaries, 2).tolist(),
-            np.round(np.linspace(1.0, 9.5, 5, endpoint=True), 2).tolist())
+            np.round(np.linspace(1.0, 8.0, 5, endpoint=True), 2).tolist())
 
     def test_lonlatbox(self, *args):
         """Test lonlatbox formatoption"""
