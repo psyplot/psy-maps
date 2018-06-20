@@ -1185,65 +1185,6 @@ class MapPlot2D(psyps.Plot2D):
                           'correctly warped around!')
         return super(MapPlot2D, self)._contourf()
 
-    def _tripcolor(self):
-        from matplotlib.tri import Triangulation
-        self.logger.debug("Getting triangles")
-        triangles = self.triangles
-        triangles_wrapped = None
-        if isinstance(self.transform.projection, ccrs.PlateCarree):
-            xbounds = triangles.x[triangles.triangles]
-            diffs = np.c_[np.diff(xbounds), np.diff(xbounds[:, ::-2])]
-            mask = (np.abs(diffs) > 180).any(axis=1)
-            x_wrap = xbounds[mask]
-            if x_wrap.size:
-                y_wrap = triangles.y[triangles.triangles[mask]]
-                diffs = diffs[mask]
-                x_wrap[diffs < -180] -= 360
-                diffs = np.c_[np.diff(x_wrap), np.diff(x_wrap[:, ::-2])]
-                x_wrap[diffs < -180] -= 360
-                triangles_wrapped = Triangulation(
-                    x_wrap.ravel(), y_wrap.ravel(),
-                    triangles=np.arange(x_wrap.size).reshape(x_wrap.shape))
-                # we have to apply a little workaround here in order to draw
-                # the  boundaries right. That implies that we mask out flat
-                # triangles (epecially those at the end) and transform them
-                # manually
-                triangles.set_mask(mask)
-        arr = None
-        try:
-            N = self.bounds.norm.Ncmap
-        except AttributeError:
-            arr = self.array
-            N = len(np.unique(self.bounds.norm(arr.ravel())))
-        cmap = psyps.get_cmap(self.cmap.value, N)
-        if hasattr(self, '_plot'):
-            self.logger.debug("Updating plot")
-            self._plot.update(dict(cmap=cmap, norm=self.bounds.norm))
-        else:
-            self.logger.debug("Creating new plot")
-            if arr is None:
-                arr = self.array
-            arr_plot = arr[~np.isnan(arr)]
-            self.logger.debug("Creating %i triangles", len(arr_plot))
-            self._plot = self.ax.tripcolor(
-                triangles, arr_plot, norm=self.bounds.norm, cmap=cmap,
-                rasterized=True, **self._kwargs)
-        # draw wrapped collection to fix the issue that the boundaries are
-        # masked out when using the min_circle_ration
-        if triangles_wrapped and not hasattr(self, '_wrapped_plot'):
-            self.logger.debug("Creating new wrapped plot")
-            arr_wrap = arr_plot[mask]
-            kwargs = self._kwargs.copy()
-            kwargs['zorder'] = self._plot.zorder - 0.1
-            self._wrapped_plot = self.ax.tripcolor(
-                triangles_wrapped, arr_wrap, norm=self.bounds.norm,
-                cmap=cmap, rasterized=True, **kwargs)
-        elif hasattr(self, '_wrapped_plot'):
-            self.logger.debug("Updating wrapped plot")
-            self._wrapped_plot.update(dict(cmap=cmap, norm=self.bounds.norm))
-        self.logger.debug("Plot made. Done.")
-        return
-
     @property
     def unstructured_xbounds(self):
         xbounds = super(MapPlot2D, self).unstructured_xbounds
@@ -1281,8 +1222,7 @@ class MapPlot2D(psyps.Plot2D):
             # However, in order to wrap the boundaries correctly, we have to
             # identify the corresponding grid cells and then use the standard
             # matplotlib transform.
-            if isinstance(t, wrap_proj_types) and \
-                    isinstance(proj, wrap_proj_types):
+            if isinstance(t, wrap_proj_types):
                 # First we transform the coordinates to a PlateCarree
                 # projection with the same center longitude as the projection
                 # of the plot.
@@ -1313,18 +1253,22 @@ class MapPlot2D(psyps.Plot2D):
                     xb.shape + (2, ))
             self._plot = PolyCollection(
                 transformed, array=arr,
-                norm=self.bounds.norm, rasterized=True, cmap=cmap)
+                norm=self.bounds.norm, rasterized=True, cmap=cmap,
+                edgecolors='none', antialiaseds=False)
+            self._plot.set_clip_path(self.ax.outline_patch)
             self.logger.debug('Adding collection to axes')
-            self.ax.add_collection(self._plot, autolim=False)
+            self.ax.add_collection(self._plot)
             if wrapped_arr is not None:
                 self.logger.debug('Making wrapped plot with %i cells',
                                   wrapped_arr.size)
                 self._wrapped_plot = PolyCollection(
                     np.dstack([xb_wrap, yb_wrap]), array=wrapped_arr,
                     norm=self.bounds.norm, rasterized=True, cmap=cmap,
-                    transform=t, zorder=self._plot.zorder - 0.1)
+                    transform=t, zorder=self._plot.zorder - 0.1,
+                    edgecolors='none', antialiaseds=False)
+                self._wrapped_plot.set_clip_path(self.ax.outline_patch)
                 self.logger.debug('Adding wrapped collection to axes')
-                self.ax.add_collection(self._wrapped_plot, autolim=False)
+                self.ax.add_collection(self._wrapped_plot)
         self.logger.debug('Done.')
 
     def remove(self, *args, **kwargs):
