@@ -975,13 +975,10 @@ class GridLabelSize(Formatoption):
                 gl = fmto._gridliner
             except AttributeError:
                 continue
-            if self.plotter._initializing or self.plotter.has_changed(
-                    fmto.key):
-                gl.xlabel_style['size'] = value
-                gl.ylabel_style['size'] = value
-            else:
-                for text in chain(gl.xlabel_artists, gl.ylabel_artists):
-                    text.set_size(value)
+            gl.xlabel_style['size'] = value
+            gl.ylabel_style['size'] = value
+            for text in chain(gl.xlabel_artists, gl.ylabel_artists):
+                text.set_size(value)
 
 
 @docstrings.get_sectionsf('GridBase', sections=['Possible types', 'See Also'])
@@ -1255,9 +1252,9 @@ class MapPlot2D(psyps.Plot2D):
                 transformed, array=arr,
                 norm=self.bounds.norm, rasterized=True, cmap=cmap,
                 edgecolors='none', antialiaseds=False)
-            self._plot.set_clip_path(self.ax.outline_patch)
             self.logger.debug('Adding collection to axes')
             self.ax.add_collection(self._plot)
+            self._plot.set_clip_path(self.ax.outline_patch)
             if wrapped_arr is not None:
                 self.logger.debug('Making wrapped plot with %i cells',
                                   wrapped_arr.size)
@@ -1266,9 +1263,9 @@ class MapPlot2D(psyps.Plot2D):
                     norm=self.bounds.norm, rasterized=True, cmap=cmap,
                     transform=t, zorder=self._plot.zorder - 0.1,
                     edgecolors='none', antialiaseds=False)
-                self._wrapped_plot.set_clip_path(self.ax.outline_patch)
                 self.logger.debug('Adding wrapped collection to axes')
                 self.ax.add_collection(self._wrapped_plot)
+                self._wrapped_plot.set_clip_path(self.ax.outline_patch)
         self.logger.debug('Done.')
 
     def remove(self, *args, **kwargs):
