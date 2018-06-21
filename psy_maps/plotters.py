@@ -1193,7 +1193,7 @@ class MapPlot2D(psyps.Plot2D):
     def _polycolor(self):
         from matplotlib.collections import PolyCollection
         self.logger.debug('Retrieving data')
-        arr = self.notnull_array
+        arr = self.array
         cmap = self.cmap.get_cmap(arr)
         if hasattr(self, '_plot'):
             self.logger.debug('Updating plot')
