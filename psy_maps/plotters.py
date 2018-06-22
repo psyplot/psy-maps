@@ -1183,8 +1183,8 @@ class MapPlot2D(psyps.Plot2D):
         return super(MapPlot2D, self)._contourf()
 
     @property
-    def unstructured_xbounds(self):
-        xbounds = super(MapPlot2D, self).unstructured_xbounds
+    def cell_nodes_x(self):
+        xbounds = super(MapPlot2D, self).cell_nodes_x
         if isinstance(self.transform.projection, ccrs.PlateCarree):
             xbounds = xbounds.copy()
             xbounds[xbounds - xbounds.min(axis=1, keepdims=True) > 180] -= 360
@@ -1203,8 +1203,8 @@ class MapPlot2D(psyps.Plot2D):
                                                norm=self.bounds.norm))
         else:
             self.logger.debug('Retrieving bounds')
-            xb = self.unstructured_xbounds
-            yb = self.unstructured_ybounds
+            xb = self.cell_nodes_x
+            yb = self.cell_nodes_y
             wrap_proj_types = (ccrs._RectangularProjection,
                                ccrs._WarpedRectangularProjection,
                                ccrs.InterruptedGoodeHomolosine,
@@ -1219,7 +1219,7 @@ class MapPlot2D(psyps.Plot2D):
             # However, in order to wrap the boundaries correctly, we have to
             # identify the corresponding grid cells and then use the standard
             # matplotlib transform.
-            if isinstance(t, wrap_proj_types):
+            if isinstance(t, wrap_proj_types) and 'lon_0' in proj.proj4_params:
                 # First we transform the coordinates to a PlateCarree
                 # projection with the same center longitude as the projection
                 # of the plot.
@@ -1295,16 +1295,19 @@ class MapDataGrid(psyps.DataGrid):
     xgrid
     ygrid""")
 
-    def _polyplot(self, value):
-        xb = self.unstructured_xbounds
-        yb = self.unstructured_ybounds
+    def update(self, value):
+        self.remove()
+        if value is None:
+            return
+        xb = self.cell_nodes_x
+        yb = self.cell_nodes_y
         if isinstance(self.transform.projection, ccrs.PlateCarree):
             xb[xb - xb.min(axis=1, keepdims=True) > 180] -= 360
         t = self.transform.projection
         proj = self.ax.projection
         # HACK: We remove the cells at the boundary of the map projection
-        if isinstance(t, wrap_proj_types) and \
-                isinstance(proj, wrap_proj_types):
+        xb_wrap = None
+        if isinstance(t, wrap_proj_types) and 'lon_0' in proj.proj4_params:
             # See the :meth:`MapPlot2D._polycolor` method for a documentation
             # of the steps
             lon_0 = proj.proj4_params['lon_0']
@@ -1313,8 +1316,11 @@ class MapDataGrid(psyps.DataGrid):
             mask = np.any(
                 xb_trans - xb_trans.min(axis=1, keepdims=True) > 180,
                 axis=1)
-            xb = xb[~mask]
-            yb = yb[~mask]
+            if mask.any():
+                xb_wrap = xb[mask]
+                yb_wrap = yb[mask]
+                xb = xb[~mask]
+                yb = yb[~mask]
         orig_shape = xb.shape
         transformed = proj.transform_points(t.as_geodetic(), xb.ravel(),
                                             yb.ravel())
@@ -1330,6 +1336,16 @@ class MapDataGrid(psyps.DataGrid):
             self._artists = self.ax.plot(xb, yb, **value)
         else:
             self._artists = self.ax.plot(xb, yb, value)
+        if xb_wrap is not None:
+            n = len(xb_wrap)
+            xb_wrap = np.c_[xb_wrap, xb_wrap[:, :1], [[np.nan]] * n].ravel()
+            yb_wrap = np.c_[yb_wrap, yb_wrap[:, :1], [[np.nan]] * n].ravel()
+            if isinstance(value, dict):
+                self._artists.extend(self.ax.plot(xb_wrap, yb_wrap,
+                                                  transform=t, **value))
+            else:
+                self._artists.extend(self.ax.plot(xb_wrap, yb_wrap, value,
+                                                  transform=t))
 
 
 class MapDensity(psyps.Density):
