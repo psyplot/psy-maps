@@ -1249,7 +1249,7 @@ class MapPlot2D(psyps.Plot2D):
                 t.as_geodetic(), xb.ravel(), yb.ravel())[..., :2].reshape(
                     xb.shape + (2, ))
             self._plot = PolyCollection(
-                transformed, array=arr,
+                transformed, array=arr.ravel(),
                 norm=self.bounds.norm, rasterized=True, cmap=cmap,
                 edgecolors='none', antialiaseds=False)
             self.logger.debug('Adding collection to axes')
@@ -1259,7 +1259,7 @@ class MapPlot2D(psyps.Plot2D):
                 self.logger.debug('Making wrapped plot with %i cells',
                                   wrapped_arr.size)
                 self._wrapped_plot = PolyCollection(
-                    np.dstack([xb_wrap, yb_wrap]), array=wrapped_arr,
+                    np.dstack([xb_wrap, yb_wrap]), array=wrapped_arr.ravel(),
                     norm=self.bounds.norm, rasterized=True, cmap=cmap,
                     transform=t, zorder=self._plot.zorder - 0.1,
                     edgecolors='none', antialiaseds=False)
