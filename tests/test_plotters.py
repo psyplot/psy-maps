@@ -181,7 +181,8 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
 
     @classmethod
     def setUpClass(cls):
-        rcParams[FieldPlotter().cticklabels.default_key] = '%0.9g'
+        plotter = FieldPlotter()
+        rcParams[plotter.cticklabels.default_key] = '%0.9g'
         cls.ds = open_dataset(cls.ncfile)
         cls.data = ArrayList.from_dataset(
             cls.ds, t=0, z=0, name=cls.var, auto_update=True)[0]
@@ -391,8 +392,9 @@ class FieldPlotterContourTest(FieldPlotterTest):
 
     @classmethod
     def setUpClass(cls):
-        rcParams[FieldPlotter().plot.default_key] = 'contourf'
-        rcParams[FieldPlotter().lonlatbox.default_key] = [-180, 180, -90, 90]
+        plotter = FieldPlotter()
+        rcParams[plotter.plot.default_key] = 'contourf'
+        rcParams[plotter.lonlatbox.default_key] = [-180, 180, -90, 90]
         super(FieldPlotterContourTest, cls).setUpClass()
 
     @unittest.skip('Extend keyword not implemented')
@@ -467,9 +469,10 @@ class VectorPlotterTest(FieldPlotterTest, MapReferences):
     @classmethod
     def setUpClass(cls):
         cls.ds = open_dataset(cls.ncfile)
-        rcParams[VectorPlotter().lonlatbox.default_key] = 'Europe'
-        rcParams[VectorPlotter().color.default_key] = 'absolute'
-        rcParams[VectorPlotter().cticklabels.default_key] = '%0.6g'
+        plotter = VectorPlotter()
+        rcParams[plotter.lonlatbox.default_key] = 'Europe'
+        rcParams[plotter.color.default_key] = 'absolute'
+        rcParams[plotter.cticklabels.default_key] = '%0.6g'
         cls.data = ArrayList.from_dataset(
             cls.ds, t=0, z=0, name=[cls.var], auto_update=True)[0]
         cls.data.attrs['long_name'] = 'absolute wind speed'
@@ -554,7 +557,8 @@ class StreamVectorPlotterTest(VectorPlotterTest):
 
     @classmethod
     def setUpClass(cls):
-        rcParams[VectorPlotter().plot.default_key] = 'stream'
+        plotter = VectorPlotter()
+        rcParams[plotter.plot.default_key] = 'stream'
         return super(StreamVectorPlotterTest, cls).setUpClass()
 
     def get_ref_file(self, identifier):
@@ -671,9 +675,10 @@ class CombinedPlotterTest(VectorPlotterTest):
     @classmethod
     def setUpClass(cls):
         cls.ds = open_dataset(cls.ncfile)
-        rcParams[CombinedPlotter().lonlatbox.default_key] = 'Europe'
-        rcParams[CombinedPlotter().cticklabels.default_key] = '%0.6g'
-        rcParams[CombinedPlotter().vcmap.default_key] = 'winter'
+        plotter = CombinedPlotter()
+        rcParams[plotter.lonlatbox.default_key] = 'Europe'
+        rcParams[plotter.cticklabels.default_key] = '%0.6g'
+        rcParams[plotter.vcmap.default_key] = 'winter'
         cls._data = ArrayList.from_dataset(
             cls.ds, t=0, z=0, name=[cls.var], auto_update=True,
             prefer_list=True)[0]
