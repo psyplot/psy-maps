@@ -551,14 +551,20 @@ class LonLatBox(BoxBase):
                      is_unstructured=False):
         data.values = data.values.copy()
         ndim = 2 if not is_unstructured else 1
+        mask = np.any([lon < lonmin, lon > lonmax, lat < latmin,
+                       lat > latmax], axis=0)
         if data.ndim > ndim:
-            for i, arr in enumerate(data.values):
-                arr[np.any([lon < lonmin, lon > lonmax, lat < latmin,
-                            lat > latmax], axis=0)] = np.nan
-                data.values[i, :] = arr
+            if is_unstructured:
+                data = data[:, np.where(~mask)[0]]
+            else:
+                for i, arr in enumerate(data.values):
+                    arr[mask] = np.nan
+                    data.values[i, :] = arr
         else:
-            data.values[np.any([lon < lonmin, lon > lonmax, lat < latmin,
-                                lat > latmax], axis=0)] = np.nan
+            if is_unstructured:
+                data = data[np.where(~mask)[0]]
+            else:
+                data.values[mask] = np.nan
         return data
 
     def calc_lonlatbox(self, lon, lat):
