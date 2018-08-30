@@ -1,3 +1,16 @@
+v1.2.0
+======
+Added
+-----
+* The ``mapplot`` plotmethod now also supports unstructured data of any shape
+  (see `issue#6 <https://github.com/Chilipp/psyplot/issues/6>`__)
+
+Changed
+-------
+* The ``lonlatbox`` formatoption now selects a subset of the unstructured data
+  to lower the size of the data array. Previously, data points outside the
+  specified `lonlatbox` where simply set to NaN
+
 v1.1.0
 ======
 Added
