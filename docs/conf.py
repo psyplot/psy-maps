@@ -83,6 +83,10 @@ example_gallery_config = dict(
     urls='https://github.com/Chilipp/psy-maps/blob/master/examples',
     )
 
+if on_rtd:
+    example_gallery_config['dont_preprocess'] = [
+        '../examples/example_ugrid.ipynb']
+
 napoleon_use_admonition_for_examples = True
 
 # The suffix(es) of source filenames.
