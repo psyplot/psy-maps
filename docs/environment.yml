@@ -15,6 +15,7 @@ dependencies:
     - ipykernel
     - sphinx
     - cartopy
+    - proj4<5
     - psyplot
     - psy-simple>1.0.1
     - pip:
