@@ -7,6 +7,10 @@ matrix:
     include:
         # linux environments
         - env:
+            - PYTHON_VERSION=3.7
+            - MPL_VERSION=3.0
+          os: linux
+        - env:
             - PYTHON_VERSION=3.6
             - MPL_VERSION=2.2
           os: linux
@@ -47,6 +51,10 @@ matrix:
             - MPL_VERSION=1.4
           os: linux
         # osx environments
+        - env:
+            - PYTHON_VERSION=3.7
+            - MPL_VERSION=3.0
+          os: osx
         - env:
             - PYTHON_VERSION=3.6
             - MPL_VERSION=2.2
@@ -115,6 +123,8 @@ install:
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
+  # install conda build and anaconda-client for deploy
+  - conda install conda-build anaconda-client
   # Useful for debugging any issues with conda
   - conda info -a
   - 'ENVKEY=py"${PYTHON_VERSION}"_mpl"${MPL_VERSION}"'
@@ -147,6 +157,9 @@ install:
   - psyplot -aV
   # export the token to make it available for the deploy
   - export GH_REPO_TOKEN=$GH_REPO_TOKEN_SAVE
+  # add conda-forge channel for build
+  - conda config --add channels chilipp/label/$TRAVIS_BRANCH
+  - conda config --add channels conda-forge
 
 script:
   # create the necessary references
@@ -158,9 +171,13 @@ script:
     else
       py.test -v -n $NCORES --cov-append --cov=psy_maps;
     fi
+  - conda build ci/conda-recipe --python $PYTHON_VERSION --no-test
 
 after_success:
   - coveralls
+
+before_deploy:  # deactivate to use anaconda client
+  - conda deactivate
 
 deploy:
   - provider: script
@@ -174,4 +191,10 @@ deploy:
     skip_cleanup: true
     on:
       condition: "-e deploy_references"
+      all_branches: true
+  - provider: script
+    script: ci/deploy_anaconda.sh
+    skip_cleanup: true
+    on:
+      condition: '$MPL_VERSION == 3.0'
       all_branches: true
