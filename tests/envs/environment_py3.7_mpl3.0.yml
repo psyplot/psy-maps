@@ -6,6 +6,7 @@ dependencies:
     - matplotlib=3.0
     - dask
     - xarray
+    - pyqt
     - netCDF4
     - seaborn
     - cartopy
