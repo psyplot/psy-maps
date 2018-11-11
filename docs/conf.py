@@ -218,11 +218,11 @@ epub_exclude_files = ['search.html']
 intersphinx_mapping = {
     'pandas': ('http://pandas.pydata.org/pandas-docs/stable/', None),
     'numpy': ('https://docs.scipy.org/doc/numpy/', None),
-    'matplotlib': ('http://matplotlib.org/', None),
+    'matplotlib': ('https://matplotlib.org/', None),
     'sphinx': ('http://www.sphinx-doc.org/en/stable/', None),
     'xarray': ('http://xarray.pydata.org/en/stable/', None),
-    'cartopy': ('http://scitools.org.uk/cartopy/docs/latest/', None),
-    'mpl_toolkits': ('http://matplotlib.org/basemap/', None),
+    'cartopy': ('https://scitools.org.uk/cartopy/docs/latest/', None),
+    'mpl_toolkits': ('https://matplotlib.org/basemap/', None),
     'psyplot': ('https://psyplot.readthedocs.io/en/latest/', None),
     'psy_simple': (
         'https://psyplot.readthedocs.io/projects/psy-simple/en/latest/', None),
