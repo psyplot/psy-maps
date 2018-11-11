@@ -17,14 +17,6 @@ matrix:
           os: linux
         - env:
             - PYTHON_VERSION=3.6
-            - MPL_VERSION=2.1
-          os: linux
-        - env:
-            - PYTHON_VERSION=3.6
-            - MPL_VERSION=2.0
-          os: linux
-        - env:
-            - PYTHON_VERSION=3.6
             - MPL_VERSION=1.5
           os: linux
         - env:
@@ -38,10 +30,6 @@ matrix:
         - env:
             - PYTHON_VERSION=2.7
             - MPL_VERSION=2.1
-          os: linux
-        - env:
-            - PYTHON_VERSION=2.7
-            - MPL_VERSION=2.0
           os: linux
         - env:
             - PYTHON_VERSION=2.7
@@ -62,23 +50,11 @@ matrix:
           os: osx
         - env:
             - PYTHON_VERSION=3.6
-            - MPL_VERSION=2.1
-          os: osx
-        - env:
-            - PYTHON_VERSION=3.6
-            - MPL_VERSION=2.0
-          os: osx
-        - env:
-            - PYTHON_VERSION=3.6
             - MPL_VERSION=1.5
           os: osx
         - env:
             - PYTHON_VERSION=2.7
             - MPL_VERSION=2.1
-          os: osx
-        - env:
-            - PYTHON_VERSION=2.7
-            - MPL_VERSION=2.0
           os: osx
         - env:
             - PYTHON_VERSION=2.7
