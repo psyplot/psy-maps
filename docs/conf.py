@@ -38,6 +38,8 @@ warnings.filterwarnings('ignore', message="axes.color_cycle is deprecated")
 warnings.filterwarnings(
     'ignore', message=("This has been deprecated in mpl 1.5,"))
 warnings.filterwarnings('ignore', message="invalid value encountered in ")
+warnings.filterwarnings('ignore', message="\s*examples.directory")
+warnings.filterwarnings('ignore', message='numpy.dtype size changed')
 
 # -- General configuration ------------------------------------------------
 
@@ -67,15 +69,21 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 # process the examples if they don't exist already
 process_examples = (
-    not osp.exists(osp.join(osp.dirname(__file__), 'examples')) or on_rtd)
+    not osp.exists(osp.join(osp.dirname(__file__), 'examples')))
 
 if on_rtd:
     spr.call([sys.executable] +
              ('-m ipykernel install --user --name python3 '
               '--display-name python3').split())
 
-if on_rtd or not osp.exists(osp.join(osp.dirname(__file__), 'api')):
+if not osp.exists(osp.join(osp.dirname(__file__), 'api')):
     spr.check_call(['bash', 'apigen.bash'])
+
+# HACK: Create an empty file called '<string>' to prevent
+# https://github.com/sphinx-doc/sphinx/issues/5614
+if not osp.exists('<string>'):
+    with open('<string>', 'w') as f:
+        pass
 
 # The cdo example would require the installation of climate data operators
 # which is a bit of an overkill
@@ -222,7 +230,7 @@ intersphinx_mapping = {
         'https://psyplot.readthedocs.io/projects/psy-reg/en/latest/', None),
 }
 if six.PY3:
-    intersphinx_mapping['python'] = ('https://docs.python.org/3.6/', None)
+    intersphinx_mapping['python'] = ('https://docs.python.org/3.7/', None)
 else:
     intersphinx_mapping['python'] = ('https://docs.python.org/2.7/', None)
 
