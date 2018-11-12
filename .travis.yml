@@ -10,6 +10,7 @@ matrix:
         - env:
             - PYTHON_VERSION=3.7
             - MPL_VERSION=3.0
+            - DEPLOY_CONDA=true
           os: linux
         - env:
             - PYTHON_VERSION=3.6
@@ -43,6 +44,7 @@ matrix:
         - env:
             - PYTHON_VERSION=3.7
             - MPL_VERSION=3.0
+            - DEPLOY_CONDA=true
           os: osx
         - env:
             - PYTHON_VERSION=3.6
@@ -170,5 +172,11 @@ deploy:
     script: ci/deploy_anaconda.sh
     skip_cleanup: true
     on:
-      condition: '$MPL_VERSION == 3.0'
+      condition: '$DEPLOY_CONDA == true'
       all_branches: true
+  - provider: script
+    script: ci/deploy_anaconda.sh
+    skip_cleanup: true
+    on:
+      condition: '$DEPLOY_CONDA == true'
+      tags: true
