@@ -1,0 +1,44 @@
+{% set name = "psy-maps" %}
+{% set version = "1.2.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  path: ../../
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record record.txt
+
+requirements:
+  build:
+  - python
+  - setuptools
+  run:
+  - python
+  - psyplot
+  - psy-simple
+  - cartopy
+
+test:
+  imports:
+  - psy_maps
+
+about:
+  home: https://github.com/Chilipp/psy-maps
+  license: GPL-2.0
+  license_family: GPL
+  license_file: LICENSE
+  summary: Psyplot plugin for visualization on a map
+
+  description: |
+    This psyplot plugin uses the cartopy package to visualize geo-referenced
+    data on a map
+  doc_url: http://psyplot.readthedocs.io/projects/psy-maps
+  dev_url: https://github.com/Chilipp/psy-maps
+
+extra:
+  recipe-maintainers:
+    - Chilipp

@@ -3,20 +3,17 @@ env:
   global:
     - COMMIT_AUTHOR_EMAIL="philipp.sommer@unil.ch"
     - secure: "BCB8Pm2uloMjoQ42Y8iGur19Tq0O1KzepehSDrgc8HjebbUbRSJimHt6uSOUbjIE7GZe4UB9Me0mGn2g3/EpSH8LKB2WCrAK5ZSgZx+B0kejDBP/a6k+RvC6TJ6YJOuxKcHpagL9jgvJfHyZlFo8RC3lxjkWqcm06tL4ImVFIBDBzxvRMAZyxXlpaIyYEJAf9mkh7rplUsR0DMFTrLI+3Kz0KVUyUTlYKLzzG8pJ6Qq5dmNHVHXa3UVK+JWTOGhizAjX9oPJhrBbSxDlk54pTMRH/LtJEMDCXBN7PtbyKnI3Wu4ayoL3eBjy0zRfRB5msFjfge7Ray5ECR8Sw5U/TARFllNnsloTbRDxoRwEEHtqTRLGR3Zk8P2WHu+Vl3YYPmAKpHWKBxuIO0cStjMDTM0rz1ySNttqM8qidky7PXs3uZ5J6t4XmsdOmI1hYYZEE3Xa5FDw0TB5y3h3+vPl3Na0E5P730/TZ9Ib6DOix3wMr7BgfMPzNA0Hcv5oORwPmqsHhhtwx4op8FF8RUj8nh/KIzSVXJauEz0+Tc1BklhY3hhqdORsdkb8FAetCP1XKMWAi2PPNNQTzbDQbNd/M+6miNE/YCSTX6S0Cv+6jhmyTNU4cQj1Tm24xsjG+i/YJTbnraKnhmQAAPtw24GQkc4e3uAFiMjUndXCxi7k4WI="
+    - secure: "LLvrEhLftLyg62WfCWzOUF9sA5Xw28dlxLqksiwXDOg2GLe7s8+2lX+/e3qhYaIDtP1EUTRgFvfZ3SpZvlLGgPazKSI8FzTxoMt4KIzxTVyOWdAcWA49zm/Ij5pVx46YV8wqPQoH87Ep9A+CllcBgwHxFQrf7egHZP7O2FpYz3RHzfTXP4XRiBcXclgX2b5/rFXpZoe3wn1ETWXjV4IsW+uVRDels7ZlhkrEac2ddCqiEQNY8ovTzGvoIkYfBY2vjjqIs1STkdF2yYTutD4c1vztw7zRRvMvIAphSP9FssGjhvkqcqlGkoqUKwBfaEyv2P9IGrJWQnodHRMM/6nel/R5XVGClRKr/RfL017Sap2B4Y6d0Q8qmLCnjHtGThAMCteT6caND5wju/0rbtZeGxPZLhI+r6MITxdJiW65xlBUeTohcWmtlMyR+cNtdXS+mtyRxltUc/mElk/UXvDlCu76UlC0FygaLZWaHeFSFAreB9dqMM8eTGG95ea1HyFOiJC5RgxLMu2aTDQZgFzNVorGNr7DaHDrjQy/3cVUgRUpmyPdoSf3nIUT1RRwp1jss8Gi9VgezGXwxrZY8YN7vTAXNv4xF6sDgWjVE6tOqFz1CShYPvYLjzp3SVsnAg8efsL+az0YcElyZreH5OlMaI7CvvYgJ9ftkWO4ORCQdv8="
 matrix:
     include:
         # linux environments
         - env:
+            - PYTHON_VERSION=3.7
+            - MPL_VERSION=3.0
+          os: linux
+        - env:
             - PYTHON_VERSION=3.6
             - MPL_VERSION=2.2
-          os: linux
-        - env:
-            - PYTHON_VERSION=3.6
-            - MPL_VERSION=2.1
-          os: linux
-        - env:
-            - PYTHON_VERSION=3.6
-            - MPL_VERSION=2.0
           os: linux
         - env:
             - PYTHON_VERSION=3.6
@@ -36,10 +33,6 @@ matrix:
           os: linux
         - env:
             - PYTHON_VERSION=2.7
-            - MPL_VERSION=2.0
-          os: linux
-        - env:
-            - PYTHON_VERSION=2.7
             - MPL_VERSION=1.5
           os: linux
         - env:
@@ -48,16 +41,12 @@ matrix:
           os: linux
         # osx environments
         - env:
+            - PYTHON_VERSION=3.7
+            - MPL_VERSION=3.0
+          os: osx
+        - env:
             - PYTHON_VERSION=3.6
             - MPL_VERSION=2.2
-          os: osx
-        - env:
-            - PYTHON_VERSION=3.6
-            - MPL_VERSION=2.1
-          os: osx
-        - env:
-            - PYTHON_VERSION=3.6
-            - MPL_VERSION=2.0
           os: osx
         - env:
             - PYTHON_VERSION=3.6
@@ -66,10 +55,6 @@ matrix:
         - env:
             - PYTHON_VERSION=2.7
             - MPL_VERSION=2.1
-          os: osx
-        - env:
-            - PYTHON_VERSION=2.7
-            - MPL_VERSION=2.0
           os: osx
         - env:
             - PYTHON_VERSION=2.7
@@ -115,6 +100,8 @@ install:
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
+  # install conda build and anaconda-client for deploy
+  - conda install conda-build anaconda-client
   # Useful for debugging any issues with conda
   - conda info -a
   - 'ENVKEY=py"${PYTHON_VERSION}"_mpl"${MPL_VERSION}"'
@@ -147,6 +134,9 @@ install:
   - psyplot -aV
   # export the token to make it available for the deploy
   - export GH_REPO_TOKEN=$GH_REPO_TOKEN_SAVE
+  # add conda-forge channel for build
+  - conda config --add channels chilipp/label/$TRAVIS_BRANCH
+  - conda config --add channels conda-forge
 
 script:
   # create the necessary references
@@ -158,6 +148,7 @@ script:
     else
       py.test -v -n $NCORES --cov-append --cov=psy_maps;
     fi
+  - conda build ci/conda-recipe --python $PYTHON_VERSION --no-test
 
 after_success:
   - coveralls
@@ -174,4 +165,10 @@ deploy:
     skip_cleanup: true
     on:
       condition: "-e deploy_references"
+      all_branches: true
+  - provider: script
+    script: ci/deploy_anaconda.sh
+    skip_cleanup: true
+    on:
+      condition: '$MPL_VERSION == 3.0'
       all_branches: true
