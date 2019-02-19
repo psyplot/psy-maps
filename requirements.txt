@@ -4,12 +4,12 @@ matplotlib==3.0.2  # rq.filter: >=1.4
 
 # xarray
 #   https://github.com/pydata/xarray/blob/stable/doc/whats-new.rst
-xarray==0.11.0  # rq.filter: >=0.7.0
+xarray==0.11.3  # rq.filter: >=0.7.0
 
 # pandas
 #   http://pandas.pydata.org/pandas-docs/stable/whatsnew.html
-pandas==0.23.4 # rq.filter: >= 0.18.0
+pandas==0.24.1 # rq.filter: >= 0.18.0
 
 # cartopy
 #   http://scitools.org.uk/cartopy/docs/latest/whats_new.html
-cartopy==0.16.0 # rq.filter: >= 0.13
+cartopy==0.17.0 # rq.filter: >= 0.13
