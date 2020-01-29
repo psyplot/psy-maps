@@ -1,31 +1,47 @@
 {% set name = "psy-maps" %}
-{% set version = "1.2.0" %}
+{% set data = load_setup_py_data() %}
 
 package:
   name: {{ name|lower }}
-  version: {{ version }}
+  version: {{ data.get('version') }}
 
 source:
   path: ../../
 
 build:
-  number: 0
-  script: python setup.py install --single-version-externally-managed --record record.txt
-  skip: true  # [py == 27]
+  number: {{ environ.get('GIT_DESCRIBE_NUMBER', 0) }}
+  string: py{{ environ.get('CONDA_PY') }}_{{ environ.get('GIT_BUILD_STR', '') }}{% if environ.get('GIT_BRANCH') %}_{{ environ.get('GIT_BRANCH') }}{% endif %}
+  script: python -m pip install . --no-deps --ignore-installed -vvv
 
 requirements:
   build:
-  - python
-  - setuptools
+    - python
+    - pip
   run:
-  - python
-  - psyplot
-  - psy-simple
-  - cartopy
+    - python
+    - psy-simple
+    - cartopy
 
 test:
   imports:
-  - psy_maps
+    - psy_maps
+    - psy_maps.plotters
+
+  requires:
+    - pytest
+    - pytest-cov
+    - pytest-xdist
+    - codecov
+    - dask
+    - pyqt
+    - xarray
+    - netCDF4
+    - seaborn
+  source_files:
+    - tests
+  commands:
+    - pytest -sv --cov=psy_maps --ref
+    - py.test -sv --cov-append --cov=psy_maps -n 4
 
 about:
   home: https://github.com/Chilipp/psy-maps
@@ -39,7 +55,3 @@ about:
     data on a map
   doc_url: http://psyplot.readthedocs.io/projects/psy-maps
   dev_url: https://github.com/Chilipp/psy-maps
-
-extra:
-  recipe-maintainers:
-    - Chilipp
