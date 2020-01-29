@@ -30,7 +30,6 @@ test:
   requires:
     - pytest
     - pytest-cov
-    - pytest-xdist
     - codecov
     - dask
     - pyqt
@@ -41,7 +40,7 @@ test:
     - tests
   commands:
     - pytest -sv --cov=psy_maps --ref
-    - py.test -sv --cov-append --cov=psy_maps -n 4
+    - py.test -sv --cov-append --cov=psy_maps
 
 about:
   home: https://github.com/Chilipp/psy-maps
