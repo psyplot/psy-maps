@@ -21,10 +21,6 @@ matrix:
             - PYTHON_VERSION=3.7
             - MPL_VERSION=3.0
           os: linux
-        - env:
-            - PYTHON_VERSION=3.6
-            - MPL_VERSION=2.2
-          os: linux
         # osx environments
         - env:
             - PYTHON_VERSION=3.8
@@ -39,10 +35,6 @@ matrix:
         - env:
             - PYTHON_VERSION=3.7
             - MPL_VERSION=3.0
-          os: osx
-        - env:
-            - PYTHON_VERSION=3.6
-            - MPL_VERSION=2.2
           os: osx
 
 services:
