@@ -1151,7 +1151,7 @@ class YGrid(GridBase):
 
 class MapPlot2D(psyps.Plot2D):
     __doc__ = psyps.Plot2D.__doc__
-    # fixes the plot of unstructured triangular data on round projections
+    # fixes the plot of unstructured unstructured data on round projections
 
     connections = psyps.Plot2D.connections + ['transform', 'lonlatbox']
 
@@ -1186,8 +1186,8 @@ class MapPlot2D(psyps.Plot2D):
             raise ValueError('invalid transform:'
                              ' Spherical contouring is not supported - '
                              ' consider using PlateCarree/RotatedPole.')
-        elif self.decoder.is_triangular(self.raw_data):
-            warnings.warn('Filled contour plots of triangular data are not '
+        elif self.decoder.is_unstructured(self.raw_data):
+            warnings.warn('Filled contour plots of unstructured data are not '
                           'correctly warped around!')
         return super(MapPlot2D, self)._contourf()
 
@@ -1482,7 +1482,7 @@ class MapPlotter(psyps.Base2D):
     """Base plotter for visualizing data on a map
     """
 
-    #: Boolean that is True if triangles with units in radian should be
+    #: Boolean that is True if coordinates with units in radian should be
     #: converted to degrees
     convert_radian = True
 
