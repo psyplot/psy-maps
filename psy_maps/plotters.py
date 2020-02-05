@@ -495,7 +495,8 @@ class LonLatBox(BoxBase):
                 lon, data.values = self.shiftdata(
                     lon, data.values, np.mean(value[:2]))
                 lon_name = decoder.get_x(data, data.coords).name
-                data[lon_name].values = lon
+                data[lon_name] = (data[lon_name].dims, lon,
+                                  data[lon_name].attrs)
             elif is_unstructured and shift:
                 # make sure that we are inside the map extent
                 ret = self.transform.projection.transform_points(
@@ -504,20 +505,21 @@ class LonLatBox(BoxBase):
                 lat = ret[..., 1]
             self.lonlatbox = value
             value = self.lonlatbox_transformed
-            c = warnings.catch_warnings()
-            warnings.filterwarnings('ignore', 'invalid value encountered',
-                                    RuntimeWarning)
-            if is_rectilinear and (lat[1:] < lat[:-1]).all():
-                lat_values = value[3:1:-1]
-            else:
-                lat_values = value[2:]
-            if is_rectilinear:
-                kwargs = dict(zip(
-                    data.dims[-2:], starmap(slice, [lat_values, value[:2]])))
-                ret = data.sel(**kwargs)
-            else:
-                ret = self.mask_outside(data.copy(True), lon, lat, *value,
-                                        is_unstructured=is_unstructured)
+            with warnings.catch_warnings():
+                warnings.filterwarnings('ignore', 'invalid value encountered',
+                                        RuntimeWarning)
+                if is_rectilinear and (lat[1:] < lat[:-1]).all():
+                    lat_values = value[3:1:-1]
+                else:
+                    lat_values = value[2:]
+                if is_rectilinear:
+                    kwargs = dict(zip(
+                        data.dims[-2:], starmap(
+                            slice, [lat_values, value[:2]])))
+                    ret = data.sel(**kwargs)
+                else:
+                    ret = self.mask_outside(data.copy(True), lon, lat, *value,
+                                            is_unstructured=is_unstructured)
             lon, lat = self._get_lola(ret, decoder)
             self.data_lonlatbox = self.calc_lonlatbox(lon, lat)
             return ret
@@ -602,6 +604,7 @@ class LonLatBox(BoxBase):
         """
         # shiftdata does not work properly if we do not give the bounds of
         # the array
+        lonsin = lonsin.copy()
         if lonsin.ndim == 1:
             get_centers = True
             lonsin = _infer_interval_breaks(lonsin)
