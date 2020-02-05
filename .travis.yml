@@ -120,7 +120,7 @@ install:
       fi
     - conda info -a
     - conda list
-    - export PSYPLOT_REFERENCES=`python tests/get_ref_dir.py -mpl ${MPL_VERSION} -py ${PYTHON_VERSION}`
+    - export PSYPLOT_REFERENCES=`pwd`/`python tests/get_ref_dir.py -mpl ${MPL_VERSION} -py ${PYTHON_VERSION}`
     - export REFBRANCH=`python tests/get_ref_dir.py -b -mpl ${MPL_VERSION} -py ${PYTHON_VERSION}`
     - git submodule update --init ${PSYPLOT_REFERENCES}
     - reset_secure
