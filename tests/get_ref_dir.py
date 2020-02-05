@@ -29,7 +29,7 @@ def get_ref_dir():
 
 
 def get_ref_branch():
-    os, py_version, mpl_version = get_versions()
+    platform, py_version, mpl_version = get_versions()
     return '_'.join([platform, 'py' + py_version, 'mpl' + mpl_version])
 
 
