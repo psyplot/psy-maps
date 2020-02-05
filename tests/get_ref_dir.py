@@ -34,7 +34,7 @@ def get_ref_branch():
 
 
 if __name__ == '__main__':
-    parser = ArgumentParser()
+    parser = argparse.ArgumentParser()
 
     parser.add_argument('-b', '--branch', action='store_true',
                         help="Display the reference branch")
