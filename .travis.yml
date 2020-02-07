@@ -2,12 +2,17 @@ language: generic
 env:
   global:
     - COMMIT_AUTHOR_EMAIL="philipp.sommer@unil.ch"
-    - secure: "BCB8Pm2uloMjoQ42Y8iGur19Tq0O1KzepehSDrgc8HjebbUbRSJimHt6uSOUbjIE7GZe4UB9Me0mGn2g3/EpSH8LKB2WCrAK5ZSgZx+B0kejDBP/a6k+RvC6TJ6YJOuxKcHpagL9jgvJfHyZlFo8RC3lxjkWqcm06tL4ImVFIBDBzxvRMAZyxXlpaIyYEJAf9mkh7rplUsR0DMFTrLI+3Kz0KVUyUTlYKLzzG8pJ6Qq5dmNHVHXa3UVK+JWTOGhizAjX9oPJhrBbSxDlk54pTMRH/LtJEMDCXBN7PtbyKnI3Wu4ayoL3eBjy0zRfRB5msFjfge7Ray5ECR8Sw5U/TARFllNnsloTbRDxoRwEEHtqTRLGR3Zk8P2WHu+Vl3YYPmAKpHWKBxuIO0cStjMDTM0rz1ySNttqM8qidky7PXs3uZ5J6t4XmsdOmI1hYYZEE3Xa5FDw0TB5y3h3+vPl3Na0E5P730/TZ9Ib6DOix3wMr7BgfMPzNA0Hcv5oORwPmqsHhhtwx4op8FF8RUj8nh/KIzSVXJauEz0+Tc1BklhY3hhqdORsdkb8FAetCP1XKMWAi2PPNNQTzbDQbNd/M+6miNE/YCSTX6S0Cv+6jhmyTNU4cQj1Tm24xsjG+i/YJTbnraKnhmQAAPtw24GQkc4e3uAFiMjUndXCxi7k4WI="
-    - secure: "LLvrEhLftLyg62WfCWzOUF9sA5Xw28dlxLqksiwXDOg2GLe7s8+2lX+/e3qhYaIDtP1EUTRgFvfZ3SpZvlLGgPazKSI8FzTxoMt4KIzxTVyOWdAcWA49zm/Ij5pVx46YV8wqPQoH87Ep9A+CllcBgwHxFQrf7egHZP7O2FpYz3RHzfTXP4XRiBcXclgX2b5/rFXpZoe3wn1ETWXjV4IsW+uVRDels7ZlhkrEac2ddCqiEQNY8ovTzGvoIkYfBY2vjjqIs1STkdF2yYTutD4c1vztw7zRRvMvIAphSP9FssGjhvkqcqlGkoqUKwBfaEyv2P9IGrJWQnodHRMM/6nel/R5XVGClRKr/RfL017Sap2B4Y6d0Q8qmLCnjHtGThAMCteT6caND5wju/0rbtZeGxPZLhI+r6MITxdJiW65xlBUeTohcWmtlMyR+cNtdXS+mtyRxltUc/mElk/UXvDlCu76UlC0FygaLZWaHeFSFAreB9dqMM8eTGG95ea1HyFOiJC5RgxLMu2aTDQZgFzNVorGNr7DaHDrjQy/3cVUgRUpmyPdoSf3nIUT1RRwp1jss8Gi9VgezGXwxrZY8YN7vTAXNv4xF6sDgWjVE6tOqFz1CShYPvYLjzp3SVsnAg8efsL+az0YcElyZreH5OlMaI7CvvYgJ9ftkWO4ORCQdv8="
+    - secure: "P7/kfuDPydkXfxBw5i923LHcr9LPW6treQJHNWVEyEiC+OTqr1tsBqlbNvBp+CRHmFTS5UbXL4bKQ2gCkTQHaXKHBaW3UDOpOGb+VIEdVomuxwoIwu1NwQxO5zYFwd+I1F6iLuDQHGIK47/a5gDDZ8jyrilKGnF0A3LA+9Nh81zfOnPl8SLjQp/tI1kMxnhHfriw9+aSSBb7vARksRrrI8Gsr2Yt9yFGVmtyKRkz03/CowQ+HATKBfqiYCtHnorrujBBl4ajNeUeiY5DbBux3WBqZhFw6ERPuXEMBPPWmLy8TjVt17XxxiJHTrclpVtOG4ZqxbeZCPqDhk0So6nEfZOjcXsCrZFwOici3kN8nxYXRE1qHyfk84mnYz5r9YtlcI/dY5e0gRjEvARE2JQC6e9Txm6WYG9BOMttVl5q3uN1hwykEXOAeDQJEUn78KoeBCmcQLxtH1LmF7u6g0mipzh3bT0drexOJsChvfWMk8AQ0/2h6o2CNOJb10sxRvHGkbjEKr0PNuAeSbY9eIOvKoxjGvTeb1rdJqUbqpPfiS5dUguEPjqfWZA7FCI9yfdJ7UQc2vB/u76frerjNNZHKYA+H+KcG0BHHqCGpBz432/Svp4ZEjCBsdNjkzhruB355zBqUXqI1tHCif54e14qQiyXC54DqxfIkiIBL5c8ZcA="
+    - secure: "XB4uJIcPKvJ5lEuNUACNZK3k0CTMyxBJB9ChdR+22imUz/KA6E6UCpaZL0Baw3nN3WKjPbymCZ3pRE0GrsjBlgHap/QF3f+wOA83F5CGb13HO4d5tBA2rOvuHRbEZxYRT+5VJLXZHWqfT6YRekYxsAl0OsZo/9I8+KsdzHPaOCPaJPmgDKQMO2K0LUOuOJEs1lZ3DspeE/Pm/mKm8mZGP9Bq7pUjQv9AisacuHHRXhKYprtMubxFUijZ+4sO3qlussc64RWWdDhGwTa7oE4ZNu5H+U/Nfq9sgBR0dzt0rPRAmWaFRyr9AjCTXEIm0IlN6n4gyHGvjUguuEP+AU2ze3zm5s0zBbQLxAeEK8OPwXkGNtclYxMODJJw/IGHq8EXIZirtop45utfCtnya/6WZeYGz92jRBfvVc1kCrMxoDDgRHReKfpRI8htlaxQm+qWzITNom8radaKTHvoVqG0Ods7uzx1OOtxckG7+q/z1jA8NWHbcmPbXal0Y5LcKbNAWr21eRiYe2vgALU+adoHZxzGRNlD+h5wQtjxbqI3WAyOLCWxuy0mfcILl/bpRjz17kovaQatHmLxJpzpJwh4ORJpVwDhTYq5u7CRVavaQeZL5yFP/rkE4p17t/K/lPK46iN+JAp0yjGSVNuIdWn5yTlGTLQgjmBmcR87Nghqhss="
 matrix:
     include:
         # linux environments
         - env:
+            - PYTHON_VERSION=3.8
+            - MPL_VERSION=3.1
+            - DEPLOY_CONDA=true
+          os: linux
+        - env:
             - PYTHON_VERSION=3.7
             - MPL_VERSION=3.1
             - DEPLOY_CONDA=true
@@ -15,13 +20,14 @@ matrix:
         - env:
             - PYTHON_VERSION=3.7
             - MPL_VERSION=3.0
-          os: linux
-        - env:
-            - PYTHON_VERSION=3.6
-            - MPL_VERSION=2.2
           os: linux
         # osx environments
         - env:
+            - PYTHON_VERSION=3.8
+            - MPL_VERSION=3.1
+            - DEPLOY_CONDA=true
+          os: osx
+        - env:
             - PYTHON_VERSION=3.7
             - MPL_VERSION=3.1
             - DEPLOY_CONDA=true
@@ -30,98 +36,100 @@ matrix:
             - PYTHON_VERSION=3.7
             - MPL_VERSION=3.0
           os: osx
-        - env:
-            - PYTHON_VERSION=3.6
-            - MPL_VERSION=2.2
-          os: osx
-before_install:
-  # try a workaround to avoid BlockingIOError on Travis-CI. See
-  # https://github.com/travis-ci/travis-ci/issues/8920#issuecomment-352767521
-  - python -c "import fcntl; fcntl.fcntl(1, fcntl.F_SETFL, 0)"
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      sed -i '' 's/git@github.com:/https:\/\/github.com\//' .gitmodules;
-    else
-      sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules;
-    fi
-  # Remove homebrew geos
-  - "brew uninstall geos || :"
+
+services:
+    - xvfb
+
 git:
     submodules: false
+
+before_install:
+    - if [[ "$TRAVIS_EVENT_TYPE" == "cron" ]]; then export DEPLOY_CONDA=false; fi
+    # define functions to unset and reset encrypted variables
+    - function unset_secure {
+          CONDA_TOKEN_SAVE=$CONDA_REPO_TOKEN;
+          unset CONDA_REPO_TOKEN;
+          GH_REPO_TOKEN_SAVE=$GH_REPO_TOKEN;
+          unset GH_REPO_TOKEN;
+          }
+    - function reset_secure {
+          export CONDA_REPO_TOKEN=$CONDA_TOKEN_SAVE;
+          export GH_REPO_TOKEN=$GH_REPO_TOKEN_SAVE;
+          }
+    - unset_secure
+    # increase open files limit
+    - ulimit -a
+    - ulimit -Sn 10000
+    - ulimit -a
+      # select the os name for the conda installer
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+          OS_NAME=MacOSX;
+      else
+          OS_NAME=Linux;
+      fi
+    # Install Miniconda.
+    - |
+      echo ""
+      echo "Installing a fresh version of Miniconda."
+      MINICONDA_URL="https://repo.continuum.io/miniconda"
+      MINICONDA_FILE="Miniconda3-latest-${OS_NAME}-x86_64.sh"
+      curl -L -O "${MINICONDA_URL}/${MINICONDA_FILE}"
+      bash $MINICONDA_FILE -bp $HOME/miniconda3
+    - source $HOME/miniconda3/bin/activate root
+    - hash -r
+    - reset_secure
+
+before_script:
+    - if [[ $TRAVIS_OS_NAME == "linux" ]]; then
+          export "DISPLAY=:99.0";
+          sh -e /etc/init.d/xvfb start;
+          sleep 3;
+      fi
+
 install:
-  # unset the global GH_REPO_TOKEN variable because it is not needed during
-  # the installation process. This decreases the vulnerability
-  - GH_REPO_TOKEN_SAVE=$GH_REPO_TOKEN
-  - unset GH_REPO_TOKEN
-  # select the os name for the conda installer
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        OS_NAME=MacOSX;
-    else
-        OS_NAME=Linux;
-    fi
-  # We do this conditionally because it saves us some downloading if the
-  # version is the same.
-  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-"${OS_NAME}"-x86_64.sh -O miniconda.sh
-  # make sure we use an 'innocent' default matplotlib environment
-  - touch matplotlibrc
-  # setup conda environment
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - pip install pyyaml  # is somehow not included in the current conda installation
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
-  # install conda build and anaconda-client for deploy
-  - conda install conda-build anaconda-client
-  # Useful for debugging any issues with conda
-  - conda info -a
-  - 'ENVKEY=py"${PYTHON_VERSION}"_mpl"${MPL_VERSION}"'
-  - conda env create -f tests/envs/environment_$ENVKEY.yml
-  - source activate psyplot_$ENVKEY
-  # checkout references
-  - 'export WORK=`pwd`'
-  - 'export REFDIR=`python tests/get_ref_dir.py`'
-  - 'export REFBRANCH=`python tests/get_ref_dir.py -b`'
-  - git submodule update --init $REFDIR
-  # use latest development version
-  # NOTE: Remove this when psyplot is stable enough
-  - git clone "https://github.com/Chilipp/psyplot.git" -b $TRAVIS_BRANCH || git clone "https://github.com/Chilipp/psyplot.git"
-  - cd psyplot && python setup.py install && cd .. && rm -rf psyplot
-  # use the branch from psy-simple
-  - git clone "https://github.com/Chilipp/psy-simple.git" -b $TRAVIS_BRANCH || git clone "https://github.com/Chilipp/psy-simple.git"
-  - cd psy-simple && python setup.py install && cd .. && rm -rf psy-simple
-  # install coveralls
-  - pip install coveralls pytest-xdist pytest-cov
-  # install psyplot
-  - python setup.py install
-  # export the environment for debugging
-  - conda env export -n psyplot_$ENVKEY
-  # get the number of available cores
-  - 'NCORES=`python -c "import multiprocessing; print(multiprocessing.cpu_count())"`'
-  # use 8 cores at maximum
-  - 'export NCORES=`python -c "print(min(8, ${NCORES}))"`'
-  - echo using $NCORES
-  # print versions of all the important requirements
-  - psyplot -aV
-  # export the token to make it available for the deploy
-  - export GH_REPO_TOKEN=$GH_REPO_TOKEN_SAVE
-  # add conda-forge channel for build
-  - conda config --add channels chilipp/label/$TRAVIS_BRANCH
-  - conda config --add channels conda-forge
+    # unset the global CONDA_REPO_TOKEN variable because it is not needed
+    # during the tests. This decreases the vulnerability
+    - unset_secure
+    - 'echo "backend : qt5agg" > matplotlibrc'
+    - 'export MATPLOTLIBRC=`pwd`/matplotlibrc'
+    - |
+        echo ""
+        echo "Configuring conda."
+        conda config --set always_yes yes --set changeps1 no
+        conda config --add channels conda-forge
+        conda config --add channels chilipp
+        conda update -q conda
+        conda install conda-build anaconda-client conda-verify
+    - if [[ $TRAVIS_TAG == "" ]]; then
+        export GIT_BRANCH=$TRAVIS_BRANCH;
+        conda config --add channels chilipp/label/${TRAVIS_BRANCH};
+      fi
+    - python ci/setup_append.py ci/conda-recipe matplotlib=${MPL_VERSION} pyqt=${QT_VERSION}
+    - if [[ $USE_PIP == true ]]; then
+        python -m pip install . -r ci/requirements.txt;
+      fi
+    - conda info -a
+    - conda list
+    - export PSYPLOT_REFERENCES=`pwd`/`python tests/get_ref_dir.py -mpl ${MPL_VERSION} -py ${PYTHON_VERSION}`
+    - export REFBRANCH=`python tests/get_ref_dir.py -b -mpl ${MPL_VERSION} -py ${PYTHON_VERSION}`
+    - git submodule update --init ${PSYPLOT_REFERENCES}
+    - reset_secure
 
 script:
-  # create the necessary references
-  - coverage run --source=psy_maps setup.py test -a "-v --ref" &&
-    python ci/check_ref_deploy.py && coverage report
-  # run the tests
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      py.test -v -n $NCORES --cov-append --cov=psy_maps -m 'not TWOD';
-    else
-      py.test -v -n $NCORES --cov-append --cov=psy_maps;
-    fi
-  - conda build ci/conda-recipe --python $PYTHON_VERSION --no-test
-
-after_success:
-  - coveralls
+    - unset_secure
+    # install conda
+    - if [[ $USE_PIP == true ]]; then
+          pytest -v --cov=psy_maps && codecov;
+      else
+          conda build ci/conda-recipe --python $PYTHON_VERSION;
+      fi
+    - python ci/check_ref_deploy.py
+    # export the pw to make it available for the deploy
+    - reset_secure
+    # deploy here (don't use travis deploy because it requires homebrew)
+    - if [[ $DEPLOY_CONDA == "true" && $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_REPO_SLUG == "Chilipp/psy-maps" ]]; then
+          ci/deploy_anaconda.py;
+      fi
 
 deploy:
   - provider: script
@@ -136,15 +144,3 @@ deploy:
     on:
       condition: "-e deploy_references"
       all_branches: true
-  - provider: script
-    script: ci/deploy_anaconda.sh
-    skip_cleanup: true
-    on:
-      condition: '$DEPLOY_CONDA == true'
-      all_branches: true
-  - provider: script
-    script: ci/deploy_anaconda.sh
-    skip_cleanup: true
-    on:
-      condition: '$DEPLOY_CONDA == true'
-      tags: true

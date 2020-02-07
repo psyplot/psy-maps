@@ -74,4 +74,4 @@ target/
 *.ipynb_checkpoints/
 
 # conda build files
-recipe/meta.yaml
+ci/conda-recipe/recipe_append.yaml

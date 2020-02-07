@@ -1,71 +1,51 @@
 environment:
 
   PYTHON_ARCH: "64"
-  PYTHON: "C:\\Python36-conda64"
+  PYTHON: "C:\\Miniconda36-x64"
   GH_REPO_TOKEN:
     secure: AbhjnJXZWHhEiEN6cjQmZ4hCn05Ff/V2CCBv4mZux9NljqdYgHfnVT4nBgsKiaQJ
+  CONDA_REPO_TOKEN:
+    secure: vZLY/2JoH+snELbmwc1/Ui1qge943D32tPr1CJV/v4x+e6PRD7YoqMFxwfB0vHxb
 
   matrix:
+    - PYTHON_VERSION: "3.8"
+      MPL_VERSION: "3.1"
     - PYTHON_VERSION: "3.7"
       MPL_VERSION: "3.1"
     - PYTHON_VERSION: "3.7"
       MPL_VERSION: "3.0"
-    - PYTHON_VERSION: "3.6"
-      MPL_VERSION: "2.2"
 install:
-  # save local state and delete the GH_REPO_TOKEN because it is not needed
-  # during the installation and therefore increases security
-  - setlocal
-  - set GH_REPO_TOKEN=
-  # Install miniconda Python
-  - "powershell ./ci/install_python.ps1"
-   # Prepend newly installed Python to the PATH of this build (this cannot be
-  # done from inside the powershell script as it would require to restart
-  # the parent CMD process).
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+    # windows config (for installation)
+    - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+    - setlocal
+    - set CONDA_REPO_TOKEN=
+    # conda config
+    - conda config --set always_yes yes --set changeps1 no
+    - conda config --add channels conda-forge
+    - conda config --add channels chilipp
+    - conda update -q conda
+    - conda install conda-build anaconda-client
+    - conda info -a
+    - conda list
+    # windows config
+    - endlocal
+    - 'SET PYTHONWARNINGS=ignore:mode:DeprecationWarning:docutils.io:245'
+    - "IF NOT DEFINED APPVEYOR_REPO_TAG_NAME (SET GIT_BRANCH=%APPVEYOR_REPO_BRANCH%)"
+    - "IF NOT DEFINED APPVEYOR_REPO_TAG_NAME (conda config --add channels chilipp/label/%APPVEYOR_REPO_BRANCH%)"
+    - python ci\\setup_append.py ci\\conda-recipe matplotlib=%MPL_VERSION%
+    - set PSYPLOT_REFERENCES=%APPVEYOR_BUILD_FOLDER%/tests/reference_figures/win32/py%PYTHON_VERSION%/mpl%MPL_VERSION%
+    - set REFBRANCH=win32_py%PYTHON_VERSION%_mpl%MPL_VERSION%
+    - git submodule update --init %PSYPLOT_REFERENCES%
 
-  # Check that we have the expected version and architecture for Python
-  - "python --version"
-  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
-  # make sure we use an 'innocent' default matplotlib environment
-  - copy /y nul matplotlibrc
-  - conda config --set always_yes yes --set changeps1 no
-  # Useful for debugging any issues with conda
-  - conda info -a
-  - set ENVKEY=py%PYTHON_VERSION%_mpl%MPL_VERSION%
-  - conda env create -f tests/envs/environment_%ENVKEY%.yml
-  - activate psyplot_%ENVKEY%
-  # checkout references
-  - set REFDIR=tests/reference_figures/win32/py%PYTHON_VERSION%/mpl%MPL_VERSION%
-  - set REFBRANCH=win32_%ENVKEY%
-  - git submodule update --init %REFDIR%
-  # use latest development version
-  # NOTE: Remove this when psyplot is stable enough
-  - git clone "https://github.com/Chilipp/psyplot.git" -b %APPVEYOR_REPO_BRANCH% || git clone "https://github.com/Chilipp/psyplot.git"
-  - cd psyplot
-  - python setup.py install
-  - cd ..
-  - ps: Remove-Item -Recurse -Force psyplot
-  # use the branch from psy-simple
-  - git clone "https://github.com/Chilipp/psy-simple.git" -b %APPVEYOR_REPO_BRANCH% || git clone "https://github.com/Chilipp/psy-simple.git"
-  - cd psy-simple && python setup.py install && cd ..
-  - ps: Remove-Item -Recurse -Force psy-simple
-  - pip install coveralls
-  - python setup.py install
-  # export the environment for debugging
-  - conda env export -n psyplot_%ENVKEY%
-  # print versions of all the important requirements
-  - psyplot -aV
-  - endlocal
-
-build: false
+build: off
 
 test_script:
-  - coverage run --source=psy_maps setup.py test -a "-v --ref" && python ci/check_ref_deploy.py
-  - coverage run -a --source=psy_maps setup.py test -a "-v"
+    - setlocal
+    - set CONDA_REPO_TOKEN=
+    - conda build ci/conda-recipe --python %PYTHON_VERSION%
+    - endlocal
 
-after_test:
-  - coverage report
-  # deploy references
-  - if exist deploy_references python ci\update_reference_submodule.py
-  - if exist deploy_references ci\update_submodules.py
+deploy_script:
+    - "python ci\\deploy_anaconda.py"
+    - if exist deploy_references python ci\update_reference_submodule.py
+    - if exist deploy_references ci\update_submodules.py

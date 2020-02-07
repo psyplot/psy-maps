@@ -19,6 +19,9 @@ deploy_dir = 'deploy'
 
 work = osp.abspath(os.getcwd())
 
+if osp.isabs(ref_dir):
+    ref_dir = osp.relpath(ref_dir, work)
+
 # clone directory
 spr.check_call(['git', 'clone', '-b', this_branch, repo, deploy_dir])
 
