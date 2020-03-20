@@ -19,7 +19,7 @@ install:
     # conda config
     - conda config --set always_yes yes --set changeps1 no
     - conda config --add channels conda-forge
-    - conda config --add channels chilipp
+    - conda config --add channels psyplot
     - conda update -q conda
     - conda install conda-build anaconda-client
     - conda info -a
@@ -28,7 +28,7 @@ install:
     - endlocal
     - 'SET PYTHONWARNINGS=ignore:mode:DeprecationWarning:docutils.io:245'
     - "IF NOT DEFINED APPVEYOR_REPO_TAG_NAME (SET GIT_BRANCH=%APPVEYOR_REPO_BRANCH%)"
-    - "IF NOT DEFINED APPVEYOR_REPO_TAG_NAME (conda config --add channels chilipp/label/%APPVEYOR_REPO_BRANCH%)"
+    - "IF NOT DEFINED APPVEYOR_REPO_TAG_NAME (conda config --add channels psyplot/label/%APPVEYOR_REPO_BRANCH%)"
     - python ci\\setup_append.py ci\\conda-recipe matplotlib=%MPL_VERSION%
     - set PSYPLOT_REFERENCES=%APPVEYOR_BUILD_FOLDER%/tests/reference_figures/win32/py%PYTHON_VERSION%/mpl%MPL_VERSION%
     - set REFBRANCH=win32_py%PYTHON_VERSION%_mpl%MPL_VERSION%
