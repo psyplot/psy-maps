@@ -2,10 +2,7 @@ environment:
 
   PYTHON_ARCH: "64"
   PYTHON: "C:\\Miniconda36-x64"
-  GH_REPO_TOKEN:
-    secure: AbhjnJXZWHhEiEN6cjQmZ4hCn05Ff/V2CCBv4mZux9NljqdYgHfnVT4nBgsKiaQJ
-  CONDA_REPO_TOKEN:
-    secure: vZLY/2JoH+snELbmwc1/Ui1qge943D32tPr1CJV/v4x+e6PRD7YoqMFxwfB0vHxb
+  COMMIT_AUTHOR_EMAIL: "psyplot@hzg.de"
 
   matrix:
     - PYTHON_VERSION: "3.8"
