@@ -7,10 +7,14 @@ environment:
   matrix:
     - PYTHON_VERSION: "3.8"
       MPL_VERSION: "3.1"
+      BUILD_STR_END: cf
+    - PYTHON_VERSION: "3.7"
     - PYTHON_VERSION: "3.7"
       MPL_VERSION: "3.1"
+      BUILD_STR_END: cf
     - PYTHON_VERSION: "3.7"
       MPL_VERSION: "3.0"
+      BUILD_STR_END: cf
 install:
     # windows config (for installation)
     - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
@@ -18,7 +22,7 @@ install:
     - set CONDA_REPO_TOKEN=
     # conda config
     - conda config --set always_yes yes --set changeps1 no
-    - conda config --add channels conda-forge
+    - IF NOT DEFINED BUILD_STR_END (conda config --add channels chilipp) ELSE (conda config --add channels conda-forge)
     - conda config --add channels psyplot
     - conda update -q conda
     - conda install conda-build anaconda-client

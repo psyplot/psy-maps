@@ -2,6 +2,7 @@ language: generic
 env:
   global:
     - COMMIT_AUTHOR_EMAIL="psyplot@hzg.de"
+    - BUILD_STR_END=cf
     # github token
     - secure: "avtfM/IM75N6kADzVximO5F4vxpIt2YKw0v/ESyQme7b0h2SMOR5Ql6HvXXWqFRQj1Kr7pGrvnPRlCBvQViTOFTsRHSyGsTrBAvdThYiJiWe2VFC7HWvtkmyn7GWO0XNMVS06B/FZgJyj811txvP2wOTeMxe0i9KCI9ao4w07sc5ZXrG+KX8oyOvxqEeGrNStvoH/HAHnLWBjccQ7skwYIavP2WmtzdY1JrKLnSOJEcBuW1LTcGY4f5FPjxAh+jhOYrFVJNajwX37l3BfPvdVEkDdh+MP41z1MNHyhiwVsBGiPoyonnlsoC9zCwTXYlqrTgQc4Ud67kvFYBulLTbU69Uv2+Q8AOMlV+JOrs1aPtAgHpqXkkT208uTCUUTN8vWlRenLvvE06txgzu0v+hb4PjBQcRGZ5XEPOOzArtvDR8deJwqbXya0bwBbny40v706gBQ8VFBF0znKZBN69f/QsRgf7AARMizajHhWoFwiYTf6/vB7iZhXwQaPxl9eePoFdTd/oQ07oouqn/evdNj1312SgE52+RpqiouoGv8IGKQcuOOt/v2jEyeUZM6vpCcfOD32E3VaoqKfqlfyF8VtSTxF5RG+ZpqvRYYAiIpk66ZTwhJwnra+hHH0D7OXD4h4qaM941O58tMVtyFlG0LmgWnm8lG8Sd9HYi3G+zYZ8="
     # anaconda token
@@ -21,12 +22,22 @@ matrix:
           os: linux
         - env:
             - PYTHON_VERSION=3.7
+            - BUILD_STR_END=
+            - DEPLOY_CONDA=true
+          os: linux
+        - env:
+            - PYTHON_VERSION=3.7
             - MPL_VERSION=3.0
           os: linux
         # osx environments
         - env:
             - PYTHON_VERSION=3.8
             - MPL_VERSION=3.1
+            - DEPLOY_CONDA=true
+          os: osx
+        - env:
+            - PYTHON_VERSION=3.7
+            - BUILD_STR_END=
             - DEPLOY_CONDA=true
           os: osx
         - env:
@@ -98,7 +109,11 @@ install:
         echo ""
         echo "Configuring conda."
         conda config --set always_yes yes --set changeps1 no
-        conda config --add channels conda-forge
+        if [[ ${BUILD_STR_END} == "cf" ]]; then
+            conda config --add channels conda-forge
+        else
+            conda config --add channels chilipp
+        fi
         conda config --add channels psyplot
         conda update -q conda
         conda install conda-build anaconda-client conda-verify
