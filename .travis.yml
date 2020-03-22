@@ -55,6 +55,7 @@ services:
 
 git:
     submodules: false
+    depth: false
 
 before_install:
     - if [[ "$TRAVIS_EVENT_TYPE" == "cron" ]]; then export DEPLOY_CONDA=false; fi
@@ -140,7 +141,7 @@ script:
       else
           conda build ci/conda-recipe --python $PYTHON_VERSION;
       fi
-    - python ci/check_ref_deploy.py
+    - if [[ ${BUILD_STR_END} == "cf" ]]; then python ci/check_ref_deploy.py; fi
     # export the pw to make it available for the deploy
     - reset_secure
     # deploy here (don't use travis deploy because it requires homebrew)
