@@ -43,7 +43,7 @@ test:
     - py.test -sv --cov-append --cov=psy_maps
 
 about:
-  home: https://github.com/Chilipp/psy-maps
+  home: https://github.com/psyplot/psy-maps
   license: GPL-2.0
   license_family: GPL
   license_file: LICENSE
@@ -53,4 +53,4 @@ about:
     This psyplot plugin uses the cartopy package to visualize geo-referenced
     data on a map
   doc_url: http://psyplot.readthedocs.io/projects/psy-maps
-  dev_url: https://github.com/Chilipp/psy-maps
+  dev_url: https://github.com/psyplot/psy-maps

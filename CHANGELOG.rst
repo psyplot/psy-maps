@@ -3,7 +3,7 @@ v1.2.0
 Added
 -----
 * The ``mapplot`` plotmethod now also supports unstructured data of any shape
-  (see `issue#6 <https://github.com/Chilipp/psyplot/issues/6>`__)
+  (see `issue#6 <https://github.com/psyplot/psyplot/issues/6>`__)
 
 Changed
 -------

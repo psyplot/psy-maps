@@ -88,7 +88,7 @@ if not osp.exists('<string>'):
 # The cdo example would require the installation of climate data operators
 # which is a bit of an overkill
 example_gallery_config = dict(
-    urls='https://github.com/Chilipp/psy-maps/blob/master/examples',
+    urls='https://github.com/psyplot/psy-maps/blob/master/examples',
     )
 
 if on_rtd:
