@@ -1,9 +1,12 @@
 language: generic
 env:
   global:
-    - COMMIT_AUTHOR_EMAIL="philipp.sommer@unil.ch"
-    - secure: "P7/kfuDPydkXfxBw5i923LHcr9LPW6treQJHNWVEyEiC+OTqr1tsBqlbNvBp+CRHmFTS5UbXL4bKQ2gCkTQHaXKHBaW3UDOpOGb+VIEdVomuxwoIwu1NwQxO5zYFwd+I1F6iLuDQHGIK47/a5gDDZ8jyrilKGnF0A3LA+9Nh81zfOnPl8SLjQp/tI1kMxnhHfriw9+aSSBb7vARksRrrI8Gsr2Yt9yFGVmtyKRkz03/CowQ+HATKBfqiYCtHnorrujBBl4ajNeUeiY5DbBux3WBqZhFw6ERPuXEMBPPWmLy8TjVt17XxxiJHTrclpVtOG4ZqxbeZCPqDhk0So6nEfZOjcXsCrZFwOici3kN8nxYXRE1qHyfk84mnYz5r9YtlcI/dY5e0gRjEvARE2JQC6e9Txm6WYG9BOMttVl5q3uN1hwykEXOAeDQJEUn78KoeBCmcQLxtH1LmF7u6g0mipzh3bT0drexOJsChvfWMk8AQ0/2h6o2CNOJb10sxRvHGkbjEKr0PNuAeSbY9eIOvKoxjGvTeb1rdJqUbqpPfiS5dUguEPjqfWZA7FCI9yfdJ7UQc2vB/u76frerjNNZHKYA+H+KcG0BHHqCGpBz432/Svp4ZEjCBsdNjkzhruB355zBqUXqI1tHCif54e14qQiyXC54DqxfIkiIBL5c8ZcA="
-    - secure: "XB4uJIcPKvJ5lEuNUACNZK3k0CTMyxBJB9ChdR+22imUz/KA6E6UCpaZL0Baw3nN3WKjPbymCZ3pRE0GrsjBlgHap/QF3f+wOA83F5CGb13HO4d5tBA2rOvuHRbEZxYRT+5VJLXZHWqfT6YRekYxsAl0OsZo/9I8+KsdzHPaOCPaJPmgDKQMO2K0LUOuOJEs1lZ3DspeE/Pm/mKm8mZGP9Bq7pUjQv9AisacuHHRXhKYprtMubxFUijZ+4sO3qlussc64RWWdDhGwTa7oE4ZNu5H+U/Nfq9sgBR0dzt0rPRAmWaFRyr9AjCTXEIm0IlN6n4gyHGvjUguuEP+AU2ze3zm5s0zBbQLxAeEK8OPwXkGNtclYxMODJJw/IGHq8EXIZirtop45utfCtnya/6WZeYGz92jRBfvVc1kCrMxoDDgRHReKfpRI8htlaxQm+qWzITNom8radaKTHvoVqG0Ods7uzx1OOtxckG7+q/z1jA8NWHbcmPbXal0Y5LcKbNAWr21eRiYe2vgALU+adoHZxzGRNlD+h5wQtjxbqI3WAyOLCWxuy0mfcILl/bpRjz17kovaQatHmLxJpzpJwh4ORJpVwDhTYq5u7CRVavaQeZL5yFP/rkE4p17t/K/lPK46iN+JAp0yjGSVNuIdWn5yTlGTLQgjmBmcR87Nghqhss="
+    - COMMIT_AUTHOR_EMAIL="psyplot@hzg.de"
+    - BUILD_STR_END=cf
+    # github token
+    - secure: "avtfM/IM75N6kADzVximO5F4vxpIt2YKw0v/ESyQme7b0h2SMOR5Ql6HvXXWqFRQj1Kr7pGrvnPRlCBvQViTOFTsRHSyGsTrBAvdThYiJiWe2VFC7HWvtkmyn7GWO0XNMVS06B/FZgJyj811txvP2wOTeMxe0i9KCI9ao4w07sc5ZXrG+KX8oyOvxqEeGrNStvoH/HAHnLWBjccQ7skwYIavP2WmtzdY1JrKLnSOJEcBuW1LTcGY4f5FPjxAh+jhOYrFVJNajwX37l3BfPvdVEkDdh+MP41z1MNHyhiwVsBGiPoyonnlsoC9zCwTXYlqrTgQc4Ud67kvFYBulLTbU69Uv2+Q8AOMlV+JOrs1aPtAgHpqXkkT208uTCUUTN8vWlRenLvvE06txgzu0v+hb4PjBQcRGZ5XEPOOzArtvDR8deJwqbXya0bwBbny40v706gBQ8VFBF0znKZBN69f/QsRgf7AARMizajHhWoFwiYTf6/vB7iZhXwQaPxl9eePoFdTd/oQ07oouqn/evdNj1312SgE52+RpqiouoGv8IGKQcuOOt/v2jEyeUZM6vpCcfOD32E3VaoqKfqlfyF8VtSTxF5RG+ZpqvRYYAiIpk66ZTwhJwnra+hHH0D7OXD4h4qaM941O58tMVtyFlG0LmgWnm8lG8Sd9HYi3G+zYZ8="
+    # anaconda token
+    - secure: "U2+Wwxoogw+Tf/aNx2VUBC+BqUM+03sI6gInXAFeAKCN2THEUmYJhX9zY9S8I0GGiIc5jB2k6fVEu+Wt7RkxJi4MZ9UdA8NaiKo5N6ucArr5/SPz2ZkChSzGKZUv2lCKT/qtGXtI4FHwSc0Nn3Yc8nWSqal24p5W0Ql1cZxSjF2JHetHEIfqY7USMwdokLn+KgMHc+yiUHIryqWb6ERVIWuNnyUjv+W4tYVfOCtIo+IFvRN1Qy9nVueBfglkuDSACWIjeDv8kta3kcGvYjCjl2UrEEkeru5W3IFBu5abFZrK+hXLFTiay89ccydOxn3zXFPWP5QS9QX3C4OBvrIt8SIo+Dze1M5N3J9yAlqUXYAHLBsMJYtTiRfc7aGWEqPHmQVrYQMXb8sYT1k710Spg+kbo40pzziBGT5tQeVlcHzFJrlTj7syBcli3xBMo5ZN1ibS79Lmns9ebKEBf8D52xDYYH3G1OJ09ZtFipJ7zKc/Quno2rleLLSYV+X15rFRqWjQTjQNDOeg6hnv7PYuCoam3qRdI/1gMGD5unJKWt2y9GK1xuUy+kQgjyWmo6AiD/p/Mh/Q1O60rE+iXl+BDCHMvLioeuJBC8oGN3e5zXM0I5dRpgUu7Bb94VKQN0fshMzXO5UDc3vjoEH+v/SClxIdOtTL/v6IFmbBA3krgE0="
 matrix:
     include:
         # linux environments
@@ -19,12 +22,22 @@ matrix:
           os: linux
         - env:
             - PYTHON_VERSION=3.7
+            - BUILD_STR_END=
+            - DEPLOY_CONDA=true
+          os: linux
+        - env:
+            - PYTHON_VERSION=3.7
             - MPL_VERSION=3.0
           os: linux
         # osx environments
         - env:
             - PYTHON_VERSION=3.8
             - MPL_VERSION=3.1
+            - DEPLOY_CONDA=true
+          os: osx
+        - env:
+            - PYTHON_VERSION=3.7
+            - BUILD_STR_END=
             - DEPLOY_CONDA=true
           os: osx
         - env:
@@ -42,6 +55,7 @@ services:
 
 git:
     submodules: false
+    depth: false
 
 before_install:
     - if [[ "$TRAVIS_EVENT_TYPE" == "cron" ]]; then export DEPLOY_CONDA=false; fi
@@ -96,13 +110,17 @@ install:
         echo ""
         echo "Configuring conda."
         conda config --set always_yes yes --set changeps1 no
-        conda config --add channels conda-forge
-        conda config --add channels chilipp
+        if [[ ${BUILD_STR_END} == "cf" ]]; then
+            conda config --add channels conda-forge
+        else
+            conda config --add channels chilipp
+        fi
+        conda config --add channels psyplot
         conda update -q conda
         conda install conda-build anaconda-client conda-verify
     - if [[ $TRAVIS_TAG == "" ]]; then
         export GIT_BRANCH=$TRAVIS_BRANCH;
-        conda config --add channels chilipp/label/${TRAVIS_BRANCH};
+        conda config --add channels psyplot/label/${TRAVIS_BRANCH};
       fi
     - python ci/setup_append.py ci/conda-recipe matplotlib=${MPL_VERSION} pyqt=${QT_VERSION}
     - if [[ $USE_PIP == true ]]; then
@@ -123,11 +141,11 @@ script:
       else
           conda build ci/conda-recipe --python $PYTHON_VERSION;
       fi
-    - python ci/check_ref_deploy.py
+    - if [[ ${BUILD_STR_END} == "cf" ]]; then python ci/check_ref_deploy.py; fi
     # export the pw to make it available for the deploy
     - reset_secure
     # deploy here (don't use travis deploy because it requires homebrew)
-    - if [[ $DEPLOY_CONDA == "true" && $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_REPO_SLUG == "Chilipp/psy-maps" ]]; then
+    - if [[ $DEPLOY_CONDA == "true" && $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_REPO_SLUG == "psyplot/psy-maps" ]]; then
           ci/deploy_anaconda.py;
       fi
 

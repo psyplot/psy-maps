@@ -25,6 +25,6 @@ very long error message
 #### NOTE
 This is a bug report.
 
-For requesting new features, use [this template](https://github.com/Chilipp/psy-maps/issues/new?template=new_feature.md&title=NEW+FEATURE:).
+For requesting new features, use [this template](https://github.com/psyplot/psy-maps/issues/new?template=new_feature.md&title=NEW+FEATURE:).
 
-For changing existing features, use [this template](https://github.com/Chilipp/psy-maps/issues/new?template=change_feature.md&title=CHANGE+FEATURE:).
+For changing existing features, use [this template](https://github.com/psyplot/psy-maps/issues/new?template=change_feature.md&title=CHANGE+FEATURE:).
