@@ -1,3 +1,8 @@
+v1.2.1
+======
+* psy-maps has been moved from https://github.com/Chilipp/psy-maps to https://github.com/psyplot/psy-maps,
+  see `#4 <https://github.com/psyplot/psy-maps/pull/4>`__
+
 v1.2.0
 ======
 Added
