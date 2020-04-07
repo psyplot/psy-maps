@@ -155,6 +155,7 @@ class ProjectionBase(Formatoption):
         ortho       :class:`cartopy.crs.Orthographic`
         stereo      :class:`cartopy.crs.Stereographic`
         near        :class:`cartopy.crs.NearsidePerspective`
+        rotated     :class:`cartopy.crs.RotatedPole`
         =========== =======================================
 
         The special case ``'cf'`` tries to decode the CF-conventions in the
@@ -176,6 +177,7 @@ class ProjectionBase(Formatoption):
         'ortho': ccrs.Orthographic,
         'stereo': ccrs.Stereographic,
         'near': ccrs.NearsidePerspective,
+        'rotated': ccrs.RotatedPole,
         }
 
     projection_kwargs = dict(
@@ -183,6 +185,7 @@ class ProjectionBase(Formatoption):
     projection_kwargs['ortho'] = ['central_longitude', 'central_latitude']
     projection_kwargs['stereo'] = ['central_longitude', 'central_latitude']
     projection_kwargs['near'] = ['central_longitude', 'central_latitude']
+    projection_kwargs['rotated'] = ['pole_longitude', 'pole_latitude']
 
     # CRS that are supported to be interpreted by CF-conventions
     supported_crs = [
@@ -399,6 +402,11 @@ class ProjectionBase(Formatoption):
             ret['central_longitude'] = self.clon.clon if clon is None else clon
         if 'central_latitude' in keys:
             ret['central_latitude'] = self.clat.clat if clat is None else clat
+        if 'pole_longitude' in keys:  # rotated pole
+            ret['pole_longitude'] = self.clon.clon if clon is None else clon
+            ret['pole_longitude'] -= 180
+        if 'pole_latitude' in keys:  # rotated pole
+            ret['pole_latitude'] = self.clat.clat if clat is None else clat
         self.logger.debug("Setting projection with %s", ret)
         return ret
 

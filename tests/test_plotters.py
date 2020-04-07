@@ -147,6 +147,8 @@ class MapReferences(object):
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('projection2')))
         sp.update(projection=ccrs.LambertConformal())
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('projection3')))
+        sp.update(projection='rotated', lonlatbox='Europe')
+        sp.export(os.path.join(bt.ref_dir, self.get_ref_file('projection4')))
         if close:
             sp.close(True, True, True)
 
@@ -347,6 +349,9 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
         self.update(projection=ccrs.LambertConformal())
         self.compare_figures(next(iter(args),
                                   self.get_ref_file('projection3')))
+        self.update(projection='rotated', lonlatbox='Europe')
+        self.compare_figures(next(iter(args),
+                                  self.get_ref_file('projection4')))
 
     def test_grid(self, *args):
         """Test xgrid, ygrid, grid_color, grid_labels, grid_settings fmts"""

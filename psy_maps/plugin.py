@@ -189,12 +189,14 @@ rcParams = RcParams(defaultParams={
     'plotter.maps.projection': [
         'cf', ProjectionValidator(
             'projection', ['cf', 'northpole', 'ortho', 'southpole', 'moll', 'geo',
-                           'robin', 'cyl', 'stereo', 'near'], True),
+                           'robin', 'cyl', 'stereo', 'near', 'rotated'],
+            True),
         'fmt key to define the projection of the plot'],
     'plotter.maps.transform': [
         'cf', ProjectionValidator(
             'projection', ['cf', 'northpole', 'ortho', 'southpole', 'moll', 'geo',
-                           'robin', 'cyl', 'stereo', 'near'], True),
+                           'robin', 'cyl', 'stereo', 'near', 'rotated'],
+            True),
         'fmt key to define the native projection of the data'],
     'plotter.maps.lsm': [
         True, validate_lsm,
