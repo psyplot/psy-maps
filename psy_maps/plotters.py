@@ -128,7 +128,8 @@ lon_formatter = ticker.FuncFormatter(format_lons)
 lat_formatter = ticker.FuncFormatter(format_lats)
 
 
-@docstrings.get_sectionsf('ProjectionBase')
+@docstrings.get_sectionsf(
+    'ProjectionBase', sections=['Possible types', 'See Also'])
 class ProjectionBase(Formatoption):
     """
     Base class for formatoptions that uses cartopy.crs.CRS instances
@@ -144,6 +145,7 @@ class ProjectionBase(Formatoption):
         Possible strings are (each standing for the specified projection)
 
         =========== =======================================
+        cf          try to decode the CF-conventions
         cyl         :class:`cartopy.crs.PlateCarree`
         robin       :class:`cartopy.crs.Robinson`
         moll        :class:`cartopy.crs.Mollweide`
@@ -153,7 +155,16 @@ class ProjectionBase(Formatoption):
         ortho       :class:`cartopy.crs.Orthographic`
         stereo      :class:`cartopy.crs.Stereographic`
         near        :class:`cartopy.crs.NearsidePerspective`
-        =========== ======================================="""
+        =========== =======================================
+
+        The special case ``'cf'`` tries to decode the CF-conventions in the
+        data. If this is not possible, we assume a standard lat-lon projection
+        (``'cyl'``)
+
+    See Also
+    --------
+    `Grid-mappings of cf-conventions <http://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html#appendix-grid-mappings>`__
+    """
 
     projections = {
         'cyl': ccrs.PlateCarree,
@@ -401,6 +412,10 @@ class Projection(ProjectionBase):
     Possible types
     --------------
     %(ProjectionBase.possible_types)s
+
+    See Also
+    --------
+    %(ProjectionBase.see_also)s
 
     Warnings
     --------
@@ -976,6 +991,10 @@ class Transform(ProjectionBase):
     Possible types
     --------------
     %(ProjectionBase.possible_types)s
+
+    See Also
+    --------
+    %(ProjectionBase.see_also)s
     """
 
     priority = START
