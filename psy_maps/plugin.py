@@ -187,14 +187,16 @@ rcParams = RcParams(defaultParams={
     'plotter.maps.ygrid': [
         True, validate_grid, 'fmt key for drawing parallels on the map'],
     'plotter.maps.projection': [
-        'cyl', ProjectionValidator(
-            'projection', ['northpole', 'ortho', 'southpole', 'moll', 'geo',
-                           'robin', 'cyl', 'stereo', 'near'], True),
+        'cf', ProjectionValidator(
+            'projection', ['cf', 'northpole', 'ortho', 'southpole', 'moll', 'geo',
+                           'robin', 'cyl', 'stereo', 'near', 'rotated'],
+            True),
         'fmt key to define the projection of the plot'],
     'plotter.maps.transform': [
-        'cyl', ProjectionValidator(
-            'projection', ['northpole', 'ortho', 'southpole', 'moll', 'geo',
-                           'robin', 'cyl', 'stereo', 'near'], True),
+        'cf', ProjectionValidator(
+            'projection', ['cf', 'northpole', 'ortho', 'southpole', 'moll', 'geo',
+                           'robin', 'cyl', 'stereo', 'near', 'rotated'],
+            True),
         'fmt key to define the native projection of the data'],
     'plotter.maps.lsm': [
         True, validate_lsm,
