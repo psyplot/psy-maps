@@ -32,6 +32,7 @@ install:
     - endlocal
     - 'SET PYTHONWARNINGS=ignore:mode:DeprecationWarning:docutils.io:245'
     - "IF NOT DEFINED APPVEYOR_REPO_TAG_NAME (SET GIT_BRANCH=%APPVEYOR_REPO_BRANCH%)"
+    - "IF NOT DEFINED APPVEYOR_REPO_TAG_NAME (conda config --add channels psyplot/label/master)"
     - "IF NOT DEFINED APPVEYOR_REPO_TAG_NAME (conda config --add channels psyplot/label/%APPVEYOR_REPO_BRANCH%)"
     - python ci\\setup_append.py ci\\conda-recipe matplotlib=%MPL_VERSION%
     - IF DEFINED MPL_VERSION (set PSYPLOT_REFERENCES=%APPVEYOR_BUILD_FOLDER%/tests/reference_figures/win32/py%PYTHON_VERSION%/mpl%MPL_VERSION%)
