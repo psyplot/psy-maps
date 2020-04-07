@@ -928,7 +928,7 @@ class CircumpolarFieldPlotterTest(FieldPlotterTest):
         self.update(bounds=['rounded', 5, 5, 95])
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
-            np.linspace(245, 305, 5, endpoint=True).tolist())
+            np.linspace(250, 300, 5, endpoint=True).tolist())
 
     def test_grid(self, *args):
         """Test xgrid, ygrid, grid_color, grid_labels, grid_settings fmts"""
