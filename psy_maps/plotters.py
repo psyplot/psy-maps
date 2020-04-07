@@ -889,8 +889,6 @@ class MapExtent(BoxBase):
         # are not always correctly set, we test here whether the wished
         # extent (the value) is almost global. If so, we set it to a global
         # value
-        value = psyps.convert_radian(
-            np.array(list(value)), *self.coords).tolist()
         if not set_global:
             with self.ax.hold_limits():
                 self.ax.set_global()
