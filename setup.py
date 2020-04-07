@@ -51,7 +51,7 @@ setup(name='psy-maps',
       license="GPLv2",
       packages=find_packages(exclude=['docs', 'tests*', 'examples']),
       install_requires=[
-          'psyplot',
+          'psyplot>1.2.1',
           'psy-simple>1.0.1',
           'cartopy',
       ],
