@@ -50,5 +50,5 @@ test_script:
 
 deploy_script:
     - "python ci\\deploy_anaconda.py"
-    - if exist deploy_references python ci\update_reference_submodule.py
-    - if exist deploy_references ci\update_submodules.py
+    - IF EXIST deploy_references (IF %APPVEYOR_REPO_BRANCH%==master (python ci\update_reference_submodule.py))
+    - IF EXIST deploy_references (IF %APPVEYOR_REPO_BRANCH%==master (ci\update_submodules.py))
