@@ -1,7 +1,17 @@
 v1.2.1
 ======
+Added
+-----
+* the `transform` and `projection` formatoptions now automatically decode the
+  ``'grid_mappings'`` attribute following the `CF-conventions <http://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html#appendix-grid-mappings>`__,
+  see `#5 <https://github.com/psyplot/psy-maps/pull/5>`__)
+
+Changed
+-------
 * psy-maps has been moved from https://github.com/Chilipp/psy-maps to https://github.com/psyplot/psy-maps,
   see `#4 <https://github.com/psyplot/psy-maps/pull/4>`__
+* the default values for the `transform` and `projection` formatoptions are now
+  ``'cf'`` (see `#5 <https://github.com/psyplot/psy-maps/pull/5>`__)
 
 v1.2.0
 ======
