@@ -173,10 +173,211 @@ class ProjectionBase(Formatoption):
     projection_kwargs['stereo'] = ['central_longitude', 'central_latitude']
     projection_kwargs['near'] = ['central_longitude', 'central_latitude']
 
+    # CRS that are supported to be interpreted by CF-conventions
+    supported_crs = [
+        'albers_conical_equal_area',
+        'azimuthal_equidistant',
+        'geostationary',
+        'lambert_azimuthal_equal_area',
+        'lambert_conformal_conic',
+        'lambert_cylindrical_equal_area',
+        'latitude_longitude',
+        'mercator',
+        #'oblique_mercator',  # not available for cartopy
+        'orthographic',
+        'polar_stereographic',
+        'rotated_latitude_longitude',
+        'sinusoidal',
+        'stereographic',
+        'transverse_mercator',
+        #'vertical_perspective',  # not available for cartopy
+        ]
+
+    @property
+    def cf_projection(self):
+        data = next(self.iter_data)
+        if 'grid_mapping' in data.attrs:
+            try:
+                crs = data[data.attrs['grid_mapping']]
+            except KeyError:
+                try:
+                    crs = data.psy.base[data.attrs['grid_mapping']]
+                except KeyError:
+                    warnings.warn(
+                        "Grid mapping variable %(grid_mapping)s specified but "
+                        "impossible to find!" % data.attrs)
+                    return
+            if 'grid_mapping_name' not in crs.attrs:
+                warnings.warn(
+                    "Grid mapping variable %(grid_mapping)s specified but "
+                    "without 'grid_mapping_name' attribute!" % data.attrs)
+                return
+            elif crs.attrs['grid_mapping_name'] not in self.supported_crs:
+                warnings.warn(
+                    "Grid mapping %(grid_mapping_name)s not supported!" %
+                    crs.attrs)
+                return
+            else:
+                func = getattr(
+                    self, crs.attrs['grid_mapping_name'] + '_from_cf')
+                try:
+                    return func(crs)
+                except Exception:
+                    self.logger.debug(
+                        "Failed to get CRS from crs variable %s",
+                        crs.name, exc_info=True)
+                    warnings.warn(
+                        f"Failed to get CRS from crs variable {crs.name}")
+
+    def albers_conical_equal_area_from_cf(self, crs):
+        kwargs = dict(
+            central_longitude=crs.longitude_of_central_meridian,
+            central_latitude=crs.latitude_of_projection_origin,
+            standard_parallels=crs.standard_parallel
+            )
+        if getattr(crs, 'false_easting'):
+            kwargs['false_easting'] = crs.false_easting
+        if getattr(crs, 'false_northing'):
+            kwargs['false_northing'] = crs.false_northing
+        return ccrs.AlbersEqualArea(**kwargs)
+
+    def azimuthal_equidistant_from_cf(self, crs):
+        kwargs = dict(
+            central_longitude=crs.longitude_of_projection_origin,
+            central_latitude=crs.latitude_of_projection_origin,
+            )
+        if getattr(crs, 'false_easting'):
+            kwargs['false_easting'] = crs.false_easting
+        if getattr(crs, 'false_northing'):
+            kwargs['false_northing'] = crs.false_northing
+        return ccrs.AzimuthalEquidistant(**kwargs)
+
+    def geostationary_from_cf(self, crs):
+        kwargs = dict(
+            central_longitude=crs.longitude_of_projection_origin,
+            satellite_height=crs.perspective_point_height,
+            sweep_axis=crs.sweep_angle_axis,
+            )
+        if getattr(crs, 'false_easting'):
+            kwargs['false_easting'] = crs.false_easting
+        if getattr(crs, 'false_northing'):
+            kwargs['false_northing'] = crs.false_northing
+        return ccrs.Geostationary(**kwargs)
+
+    def lambert_azimuthal_equal_area_from_cf(self, crs):
+        kwargs = dict(
+            central_longitude=crs.longitude_of_projection_origin,
+            central_latitude=crs.latitude_of_projection_origin,
+            )
+        if getattr(crs, 'false_easting'):
+            kwargs['false_easting'] = crs.false_easting
+        if getattr(crs, 'false_northing'):
+            kwargs['false_northing'] = crs.false_northing
+        return ccrs.LambertAzimuthalEqualArea(**kwargs)
+
+    def lambert_conformal_conic_from_cf(self, crs):
+        kwargs = dict(
+            central_longitude=crs.longitude_of_central_meridian,
+            central_latitude=crs.latitude_of_projection_origin,
+            standard_parallels=crs.standard_parallel,
+            )
+        if getattr(crs, 'false_easting'):
+            kwargs['false_easting'] = crs.false_easting
+        if getattr(crs, 'false_northing'):
+            kwargs['false_northing'] = crs.false_northing
+        return ccrs.LambertConformal(**kwargs)
+
+    def lambert_cylindrical_equal_area_from_cf(self, crs):
+        kwargs = dict(
+            central_longitude=crs.longitude_of_central_meridian
+            )
+        return ccrs.LambertCylindrical(**kwargs)
+
+    def latitude_longitude_from_cf(self, crs):
+        return ccrs.PlateCarree()
+
+    def mercator_from_cf(self, crs):
+        kwargs = dict(
+            central_longitude=crs.longitude_of_projection_origin,
+            )
+        if hasattr(crs, 'scale_factor_at_projection_origin'):
+            kwargs['scale_factor'] = crs.scale_factor_at_projection_origin
+        if getattr(crs, 'false_easting'):
+            kwargs['false_easting'] = crs.false_easting
+        if getattr(crs, 'false_northing'):
+            kwargs['false_northing'] = crs.false_northing
+        return ccrs.Mercator(**kwargs)
+
+    def orthographic_from_cf(self, crs):
+        kwargs = dict(
+            central_longitude=crs.longitude_of_projection_origin,
+            central_latitude=crs.latitude_of_projection_origin,
+            )
+        return ccrs.Orthographic(**kwargs)
+
+    def polar_stereographic_from_cf(self, crs):
+        kwargs = dict(
+            central_longitude=crs.straight_vertical_longitude_from_pole)
+        if crs.latitude_of_projection_origin == -90:
+            return ccrs.SouthPolarStereo(**kwargs)
+        else:
+            return ccrs.NorthPolarStereo(**kwargs)
+
+    def rotated_latitude_longitude_from_cf(self, crs):
+        args = [crs.grid_north_pole_longitude,
+                crs.grid_north_pole_latitude]
+        if hasattr(crs, 'north_pole_grid_longitude'):
+            args.append(crs.north_pole_grid_longitude)
+        return ccrs.RotatedPole(*args)
+
+    def sinusoidal_from_cf(self, crs):
+        try:
+            kwargs = dict(
+                central_longitude=crs.longitude_of_projection_origin,
+                )
+        except AttributeError:
+            kwargs = dict(
+                central_longitude=crs.longitude_of_central_meridian,
+                )
+        if getattr(crs, 'false_easting'):
+            kwargs['false_easting'] = crs.false_easting
+        if getattr(crs, 'false_northing'):
+            kwargs['false_northing'] = crs.false_northing
+        return ccrs.Sinusoidal(**kwargs)
+
+    def stereographic_from_cf(self, crs):
+        kwargs = dict(
+            central_latitude=crs.latitude_of_projection_origin,
+            central_longitude=crs.longitude_of_projection_origin,
+            scale_factor=crs.scale_factor_at_projection_origin
+            )
+        if getattr(crs, 'false_easting'):
+            kwargs['false_easting'] = crs.false_easting
+        if getattr(crs, 'false_northing'):
+            kwargs['false_northing'] = crs.false_northing
+        return ccrs.Stereographic(**kwargs)
+
+    def transverse_mercator_from_cf(self, crs):
+        kwargs = dict(
+            central_longitude=crs.longitude_of_central_meridian,
+            central_latitude=crs.latitude_of_projection_origin,
+            scale_factor=crs.scale_factor_at_central_meridian,
+            )
+        if getattr(crs, 'false_easting'):
+            kwargs['false_easting'] = crs.false_easting
+        if getattr(crs, 'false_northing'):
+            kwargs['false_northing'] = crs.false_northing
+        return ccrs.TransverseMercator(**kwargs)
+
     def set_projection(self, value, *args, **kwargs):
+        if value == 'cf':
+            ret = self.cf_projection
+            if ret is not None:
+                return ret
         if isinstance(value, ccrs.CRS):
             return value
         else:
+            value = 'cyl' if value == 'cf' else value
             return self.projections[value](**self.get_kwargs(
                 value, *args, **kwargs))
 
@@ -229,8 +430,6 @@ class Projection(ProjectionBase):
         if self.plotter.cleared:
             self.ax.projection = self.projection
             self.ax.clear()
-        if self.transform.value == value:
-            self.transform.projection = self.projection
 
     def update(self, value):
         """Update the formatoption
@@ -651,8 +850,13 @@ class MapExtent(BoxBase):
 
     update_after_plot = True
 
-    def update(self, value):
+    @property
+    def coords(self):
+        arr = next(self.iter_data)
+        return [arr.psy.get_coord('x'),
+                arr.psy.get_coord('y')]
 
+    def update(self, value):
         set_global = False
         if isinstance(value, six.string_types):
             if value == 'global':
@@ -670,14 +874,23 @@ class MapExtent(BoxBase):
         # are not always correctly set, we test here whether the wished
         # extent (the value) is almost global. If so, we set it to a global
         # value
-        value = list(value)
-        with self.ax.hold_limits():
-            self.ax.set_global()
-            x1, x2, y1, y2 = self.ax.get_extent(ccrs.PlateCarree())
-        x_rng = 360. if x1 == x2 else x2 - x1
-        proj = self.ax.projection
-        if set_global or ((value[1] - value[0]) / (x_rng) > 0.95 and
-                          (value[3] - value[2]) / (y2 - y1) > 0.95):
+        value = psyps.convert_radian(
+            np.array(list(value)), *self.coords).tolist()
+        if not set_global:
+            with self.ax.hold_limits():
+                self.ax.set_global()
+                try:
+                    x1, x2, y1, y2 = self.ax.get_extent(ccrs.PlateCarree())
+                except ValueError:
+                    # extent could not be guessed, we let cartopy do everything
+                    x_rng = 360
+                    y_rng = 180
+                else:
+                    x_rng = 360. if x1 == x2 else x2 - x1
+                    y_rng = y2 - y1
+            proj = self.ax.projection
+        if set_global or ((value[1] - value[0]) / x_rng > 0.95 and
+                          (value[3] - value[2]) / y_rng > 0.95):
             self.logger.debug("Setting to global extent...")
             self.ax.set_global()
             return
@@ -772,7 +985,11 @@ class Transform(ProjectionBase):
     connections = ['plot', 'vplot']
 
     def update(self, value):
-        if value == 'cyl':
+        if value == 'cf':
+            self.projection = self.cf_projection
+            if self.projection is None:
+                self.projection = ccrs.PlateCarree()
+        elif value == 'cyl':
             self.projection = ccrs.PlateCarree()
         else:
             self.projection = self.set_projection(value, 0, 0)
@@ -1162,7 +1379,7 @@ class MapPlot2D(psyps.Plot2D):
 
     @property
     def array(self):
-        ret = super(MapPlot2D, self).array
+        ret = super(MapPlot2D, self).array.astype(float)
         xcoord = self.xcoord
         if xcoord.ndim == 2 and isinstance(self.transform.projection,
                                            ccrs.PlateCarree):
