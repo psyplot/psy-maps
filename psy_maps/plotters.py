@@ -3,6 +3,7 @@ import re
 import warnings
 from abc import abstractproperty
 from difflib import get_close_matches
+import copy
 from itertools import starmap, chain, repeat
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import Gridliner
@@ -122,6 +123,40 @@ def format_lats(x, pos):
     if x == 0:
         return fmt_string % (abs(x), '')
     return fmt_string % (abs(x), 'S' if x < 0 else 'N')
+
+
+class Transpose(Formatoption):
+    """Transpose the data before plotting
+
+    This formatoption can be used in case the data order of the variable
+    dimensions is (x, y) instead of (y, x)"""
+
+    priority = START
+
+    group = 'axes'
+
+    name = 'Transpose (switch) x- and y-dimensions'
+
+    def update(self, value):
+        for i, (raw, data) in enumerate(zip(
+                self.iter_raw_data, self.iter_data)):
+            base_var = next(raw.psy.iter_base_variables)
+            is_unstructured = raw.psy.decoder.is_unstructured(base_var)
+            if is_unstructured and value:
+                decoder = copy.copy(data.psy.decoder)
+                xcoord = data.psy.get_coord('x').name
+                ycoord = data.psy.get_coord('y').name
+                decoder.x.add(ycoord)
+                decoder.y.add(xcoord)
+                self.set_decoder(decoder, i)
+            elif is_unstructured:
+                self.set_decoder(raw.psy.decoder, i)
+            elif value:
+                if data.ndim > 2:
+                    new_dims = data.dims[:-2] + data.dims[-2:][::-1]
+                else:
+                    new_dims = data.dims[::-1]
+                self.set_data(data.transpose(*new_dims), i)
 
 
 lon_formatter = ticker.FuncFormatter(format_lons)
@@ -633,7 +668,7 @@ class LonLatBox(BoxBase):
 
     requires_clearing = True
 
-    dependencies = ['transform']
+    dependencies = ['transform', 'transpose']
 
     @property
     def lonlatbox_transformed(self):
@@ -665,7 +700,7 @@ class LonLatBox(BoxBase):
     def update(self, value):
         if isinstance(self.data, InteractiveList):
             for i, arr in enumerate(self.data):
-                decoder = self.raw_data[i].psy.decoder
+                decoder = self.get_decoder(i)
                 self.data[i] = self.update_array(
                     value, arr, decoder, next(six.itervalues(
                         self.raw_data[i].psy.base_variables)))
@@ -1641,8 +1676,8 @@ class MapVectorPlot(psyps.VectorPlot):
 
     __doc__ = psyps.VectorPlot.__doc__
 
-    dependencies = psyps.VectorPlot.dependencies + ['lonlatbox', 'transform',
-                                                    'clon', 'clat', 'clip']
+    dependencies = psyps.VectorPlot.dependencies + [
+        'lonlatbox', 'transform', 'clon', 'clat', 'clip', 'transpose']
 
     def set_value(self, value, *args, **kwargs):
         # stream plots for circumpolar grids is not supported
@@ -1671,6 +1706,9 @@ class MapVectorPlot(psyps.VectorPlot):
         transform = self.transform.projection
         if x.ndim == 1 and u.ndim == 2:
             x, y = np.meshgrid(x, y)
+        if self.transpose.value and x.shape != u.shape:
+            x = x.T
+            y = y.T
         u, v = self.ax.projection.transform_vectors(transform, x, y, u, v)
         ret = self.ax.projection.transform_points(transform, x, y)
         x = ret[..., 0]
@@ -1733,6 +1771,7 @@ class MapPlotter(psyps.Base2D):
 
     _rcparams_string = ['plotter.maps.']
 
+    transpose = Transpose('transpose')
     projection = Projection('projection')
     transform = Transform('transform')
     clon = CenterLon('clon')

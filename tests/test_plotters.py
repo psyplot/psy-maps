@@ -204,6 +204,20 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
         self.update(extend='neither')
         self.assertEqual(self.plotter.cbar.cbars['b'].extend, 'neither')
 
+    def transpose_data(self):
+        self.plotter.data = self.data.T
+        self.plotter.data.psy.base = self.data.psy.base
+
+    def test_transpose(self):
+        try:
+            self.transpose_data()
+            self.update(transpose=True)
+            for raw, arr in zip(self.plotter.plot.iter_raw_data,
+                                self.plotter.plot.iter_data):
+                self.assertEqual(arr.dims[-2:], raw.dims[-2:][::-1])
+        finally:
+            self.plotter.data = self.data
+
     @property
     def _minmax_cticks(self):
         return np.round(
@@ -510,6 +524,11 @@ class VectorPlotterTest(FieldPlotterTest, MapReferences):
     def test_miss_color(self):
         pass
 
+    def transpose_data(self):
+        self.plotter.data = self.plotter.data.transpose(
+            'variable', *self.data.dims[1:][::-1])
+        self.plotter.data.psy.base = self.data.psy.base
+
     def test_bounds(self):
         """Test bounds formatoption"""
         self.update(color='absolute')
@@ -733,6 +752,22 @@ class CombinedPlotterTest(VectorPlotterTest):
         if self.vector_mode:
             identifier += '_vector'
         return super(CombinedPlotterTest, self).get_ref_file(identifier)
+
+    def transpose_data(self):
+        self.plotter.data = self._data.copy()
+        self.plotter.data[0] = self.plotter.data[0].T
+        self.plotter.data[1] = self.plotter.data[1].transpose(
+            'variable', *self.plotter.data[1].dims[1:][::-1])
+
+    def test_transpose(self):
+        try:
+            self.transpose_data()
+            self.update(transpose=True)
+            for raw, arr in zip(self.plotter.plot.iter_raw_data,
+                                self.plotter.plot.iter_data):
+                self.assertEqual(arr.dims[-2:], raw.dims[-2:][::-1])
+        finally:
+            self.plotter.data = self._data
 
     @property
     def _minmax_cticks(self):
@@ -1266,6 +1301,17 @@ class IconFieldPlotterTest(FieldPlotterTest):
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
             np.linspace(255, 305, 5, endpoint=True).tolist())
 
+    def test_transpose(self):
+        raw = next(self.plotter.plot.iter_raw_data)
+        xcoord = raw.psy.get_coord('x').name
+        ycoord = raw.psy.get_coord('y').name
+        self.plotter.update(transpose=True)
+
+        for raw, arr in zip(self.plotter.plot.iter_raw_data,
+                            self.plotter.plot.iter_data):
+            self.assertEqual(self.plotter.plot.xcoord.name, ycoord)
+            self.assertEqual(self.plotter.plot.ycoord.name, xcoord)
+
     def test_lonlatbox(self, *args):
         """Test lonlatbox formatoption"""
         def get_unmasked(coord):
@@ -1394,6 +1440,16 @@ class IconVectorPlotterTest(VectorPlotterTest):
     def test_density(self):
         pass
 
+    def test_transpose(self):
+        raw = next(self.plotter.plot.iter_raw_data)
+        xcoord = raw.psy.get_coord('x').name
+        ycoord = raw.psy.get_coord('y').name
+        self.update(transpose=True)
+        for raw, arr in zip(self.plotter.plot.iter_raw_data,
+                            self.plotter.plot.iter_data):
+            self.assertEqual(self.plotter.plot.xcoord.name, ycoord)
+            self.assertEqual(self.plotter.plot.ycoord.name, xcoord)
+
     def test_bounds(self):
         """Test bounds formatoption"""
         self.update(color='absolute')
@@ -1489,6 +1545,17 @@ class IconCombinedPlotterTest(CombinedPlotterTest):
             self.assertLessEqual(get_unmasked(data.clat).max(), 81.0,
                                  msg=msg % ('latitude', 'maximum'))
         self.compare_figures(next(iter(args), self.get_ref_file('lonlatbox')))
+
+    def test_transpose(self):
+        raw = next(self.plotter.plot.iter_raw_data)
+        xcoord = raw.psy.get_coord('x').name
+        ycoord = raw.psy.get_coord('y').name
+        self.plotter.update(transpose=True)
+
+        for raw, arr in zip(self.plotter.plot.iter_raw_data,
+                            self.plotter.plot.iter_data):
+            self.assertEqual(self.plotter.plot.xcoord.name, ycoord)
+            self.assertEqual(self.plotter.plot.ycoord.name, xcoord)
 
     @property
     def _minmax_cticks(self):
