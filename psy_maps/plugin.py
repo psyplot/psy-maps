@@ -152,6 +152,8 @@ rcParams = RcParams(defaultParams={
     # --------------------- Default formatoptions -----------------------------
     # -------------------------------------------------------------------------
     # MapBase
+    'plotter.maps.transpose': [
+        False, validate_bool, "Transpose the input data before plotting"],
     'plotter.maps.lonlatbox': [
         None, validate_lonlatbox,
         'fmt key to define the longitude latitude box of the data'],

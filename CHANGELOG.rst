@@ -2,6 +2,8 @@ v1.2.1
 ======
 Added
 -----
+* all plotmethods now have a ``transpose`` formatoption that can be used if the
+  order of dimensions in the data is ``(x, y)`` rather than ``(y, x)``
 * the `transform` and `projection` formatoptions now automatically decode the
   ``'grid_mappings'`` attribute following the `CF-conventions <http://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html#appendix-grid-mappings>`__,
   see `#5 <https://github.com/psyplot/psy-maps/pull/5>`__)
