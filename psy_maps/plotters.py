@@ -634,7 +634,11 @@ class CenterLat(BoxBase):
             else:
                 self.clat = value
         if value is None:
-            self.clat = self.lat_mean
+            latmin, latmax = self.lonlatbox.lonlatbox[2:]
+            if latmax - latmin > 170:
+                self.clat = 0
+            else:
+                self.clat = self.lat_mean
 
 
 @docstrings.get_sectionsf('LonLatBox')
