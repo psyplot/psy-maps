@@ -33,8 +33,15 @@ def grid(request):
 
 
 @pytest.fixture
-def grid_ds(grid):
-    return psyd.open_dataset(osp.join(bt.test_dir, 'grids', grid + '.nc'))
+def open_grid_ds():
+    open_datasets = []
+    def _grid_ds(grid):
+        ds = psyd.open_dataset(osp.join(bt.test_dir, 'grids', grid + '.nc'))
+        open_datasets.append(ds)
+        return ds
+    yield _grid_ds
+    for ds in open_datasets:
+        ds.close()
 
 
 @pytest.fixture
@@ -42,7 +49,8 @@ def grid_projection(grid):
     return projection_mapping[grid]
 
 
-def test_grid_plotting(grid_ds, grid, grid_projection):
+def test_grid_plotting(open_grid_ds, grid, grid_projection):
+    grid_ds = open_grid_ds(grid)
     with grid_ds.psy.plot.mapplot() as sp:
         assert len(sp) == 1
         plotter = sp.plotters[0]
@@ -50,3 +58,22 @@ def test_grid_plotting(grid_ds, grid, grid_projection):
         assert plotter.plot._kwargs.get('transform') is \
             plotter.transform.projection
         assert isinstance(plotter.projection.projection, grid_projection)
+
+
+@pytest.mark.parametrize(
+    "grid,clon", [("rotated_latitude_longitude", 11),
+                  (osp.join("..", "test-t2m-u-v"), 0)])
+def test_clon_centering(open_grid_ds, grid, clon):
+    grid_ds = open_grid_ds(grid)
+    with grid_ds.psy.plot.mapplot(projection='ortho') as sp:
+        plotter = sp.plotters[0]
+        assert plotter.clon.clon == pytest.approx(clon, abs=1)
+
+@pytest.mark.parametrize(
+    "grid,clat", [("rotated_latitude_longitude", 51),
+                  (osp.join("..", "test-t2m-u-v"), 0)])
+def test_clat_centering(open_grid_ds, grid, clat):
+    grid_ds = open_grid_ds(grid)
+    with grid_ds.psy.plot.mapplot(projection='ortho') as sp:
+        plotter = sp.plotters[0]
+        assert plotter.clat.clat == pytest.approx(clat, abs=1)
