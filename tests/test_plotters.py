@@ -437,8 +437,9 @@ class TestProjectedLonlatbox(unittest.TestCase):
         sp = psy.plot.mapplot(os.path.join(bt.test_dir, 'Stockholm.nc'),
                               name='Population', transform='moll')
         ax = sp.plotters[0].ax
-        self.assertEqual(np.round(ax.get_extent(), 2).tolist(),
-                         [17.66, 18.39, 59.1, 59.59])
+        self.assertEqual(
+            np.round(ax.get_extent(ccrs.PlateCarree()), 2).tolist(),
+            [17.66, 18.39, 59.1, 59.59])
         sp.update(lonlatbox=[17.8, 18.2, 59.2, 59.4])
         self.assertEqual(
             np.round(ax.get_extent(ccrs.PlateCarree()), 2).tolist(),
