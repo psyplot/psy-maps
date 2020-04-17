@@ -21,6 +21,8 @@ Changed
   same time, ``clon`` now takes the mean longitude of the data if the
   formatoption value is None and the data does not span the entire longitudinal
   range (see `#8 <https://github.com/psyplot/psy-maps/pull/8>`__)
+* a bug was fixed for displaying data in the statusbar if the coordinate has
+  units in degree (see https://github.com/psyplot/psy-view/issues/6)
 
 v1.2.0
 ======

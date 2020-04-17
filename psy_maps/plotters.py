@@ -1577,6 +1577,9 @@ class MapPlot2D(psyps.Plot2D):
                 x -= 360
             elif coord.max() <= 180 and x > 180:
                 x -= 360
+            if 'rad' in coord.attrs.get('units', '').lower():
+                x = np.deg2rad(x)
+                y = np.deg2rad(y)
         return super(MapPlot2D, self).add2format_coord(x, y)
 
 
