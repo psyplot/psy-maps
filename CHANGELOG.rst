@@ -16,6 +16,11 @@ Changed
   see `#4 <https://github.com/psyplot/psy-maps/pull/4>`__
 * the default values for the `transform` and `projection` formatoptions are now
   ``'cf'`` (see `#5 <https://github.com/psyplot/psy-maps/pull/5>`__)
+* ``clat`` now always takes the mean latitude of the data if the formatoption
+  value is None and the data does not span the entire latitudinal range. At the
+  same time, ``clon`` now takes the mean longitude of the data if the
+  formatoption value is None and the data does not span the entire longitudinal
+  range (see `#8 <https://github.com/psyplot/psy-maps/pull/8>`__)
 
 v1.2.0
 ======

@@ -593,10 +593,12 @@ class CenterLon(BoxBase):
                     value = None
             else:
                 self.clon = value
-        if value is None and self.lonlatbox.value is not None:
-            self.clon = self.lon_mean
-        elif value is None:
-            self.clon = 0.0
+        if value is None:
+            lonmin, lonmax = self.lonlatbox.lonlatbox[:2]
+            if lonmax - lonmin > 350:
+                self.clon = 0.0
+            else:
+                self.clon = self.lon_mean
 
 
 class CenterLat(BoxBase):
@@ -631,10 +633,12 @@ class CenterLat(BoxBase):
                     value = None
             else:
                 self.clat = value
-        if value is None and self.lonlatbox.value is not None:
-            self.clat = self.lat_mean
-        elif value is None:
-            self.clat = 0.0
+        if value is None:
+            latmin, latmax = self.lonlatbox.lonlatbox[2:]
+            if latmax - latmin > 170:
+                self.clat = 0
+            else:
+                self.clat = self.lat_mean
 
 
 @docstrings.get_sectionsf('LonLatBox')
