@@ -77,3 +77,15 @@ def test_clat_centering(open_grid_ds, grid, clat):
     with grid_ds.psy.plot.mapplot(projection='ortho') as sp:
         plotter = sp.plotters[0]
         assert plotter.clat.clat == pytest.approx(clat, abs=1)
+
+
+def test_rotated_pole_transform(open_grid_ds):
+    """Test if the lon coordinate is correctly interpreted as PlateCarree
+
+    See https://github.com/psyplot/psy-maps/issues/9"""
+    grid_ds = open_grid_ds('rotated_latitude_longitude')
+    with grid_ds.psy.plot.mapplot(decoder=dict(x={'lon'}, y={'lat'})) as sp:
+        plotter = sp.plotters[0]
+        assert isinstance(plotter.transform.projection, ccrs.PlateCarree)
+        assert isinstance(plotter.ax.projection, ccrs.RotatedPole)
+
