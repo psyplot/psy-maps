@@ -583,12 +583,12 @@ class CenterLon(BoxBase):
     dependencies = ['lonlatbox']
 
     def update(self, value):
-        self.lon_mean = np.mean(self.lonlatbox.lonlatbox[:2])
+        self.lon_mean = float(np.mean(self.lonlatbox.lonlatbox[:2]))
         if value is not None:
             if isinstance(value, six.string_types):
                 box = self.lola_from_pattern(value)
                 if box is not None:
-                    self.clon = np.mean(box[:2])
+                    self.clon = float(np.mean(box[:2]))
                 else:
                     value = None
             else:
@@ -623,12 +623,12 @@ class CenterLat(BoxBase):
     dependencies = ['lonlatbox']
 
     def update(self, value):
-        self.lat_mean = np.mean(self.lonlatbox.lonlatbox[2:])
+        self.lat_mean = float(np.mean(self.lonlatbox.lonlatbox[2:]))
         if value is not None:
             if isinstance(value, six.string_types):
                 box = self.lola_from_pattern(value)
                 if box is not None:
-                    self.clat = np.mean(box[2:])
+                    self.clat = float(np.mean(box[2:]))
                 else:
                     value = None
             else:
@@ -1047,6 +1047,14 @@ class Transform(ProjectionBase):
     name = 'Coordinate system of the data'
 
     connections = ['plot', 'vplot']
+
+    @property
+    def cf_projection(self):
+        data = next(self.iter_data)
+        xcoord = data.psy.get_coord('x')
+        if xcoord.attrs.get('standard_name') == 'longitude':
+            return ccrs.PlateCarree()
+        return super().cf_projection
 
     def update(self, value):
         if value == 'cf':
