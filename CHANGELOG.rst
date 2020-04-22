@@ -13,6 +13,12 @@ Added
 
 Changed
 -------
+* the value ``None`` for the ``map_extent`` formatoption now triggers a
+  call of the :meth:`~matplotlib.axes._base.AxesBase.autoscale` of the axes,
+  see `#12 <https://github.com/psyplot/psy-maps/pull/12>`__. Before, it was
+  bound to the ``lonlatbox`` value which made problems for regional files
+  (see `#11 <https://github.com/psyplot/psy-maps/pull/11>`__). To retain the
+  old behaviour of the ``map_extent`` formatoption, use ``map_extent='data'``
 * psy-maps has been moved from https://github.com/Chilipp/psy-maps to https://github.com/psyplot/psy-maps,
   see `#4 <https://github.com/psyplot/psy-maps/pull/4>`__
 * the default values for the `transform` and `projection` formatoptions are now

@@ -848,6 +848,10 @@ class LonLatBox(BoxBase):
                 self.transform.projection, lon, lat)
             lon = points[..., 0]
             lat = points[..., 1]
+            lon_0 = self.transform.projection.proj4_params.get('lon_0')
+            if lon_0 is not None:
+                lon = np.where(lon > lon_0 + 180, lon - 360, lon)
+                lon = np.where(lon < lon_0 - 180, lon + 360, lon)
             return [lon.min(), lon.max(), lat.min(), lat.max()]
 
     def shiftdata(self, lonsin, datain, lon_0):
@@ -893,6 +897,9 @@ class MapExtent(BoxBase):
         formatoption)
     'global'
         The whole globe is shown
+    'data'
+        The extent is set to the longitude-latitute box defined by the
+        :attr:`lonlatbox` formatoption
     %(BoxBase.possible_types)s
 
     Notes
@@ -923,10 +930,14 @@ class MapExtent(BoxBase):
         if isinstance(value, six.string_types):
             if value == 'global':
                 set_global = True
+            elif value == 'data':
+                value = self.lonlatbox.lonlatbox
             else:
                 value = self.lola_from_pattern(value)
         elif value is None:
-            value = self.lonlatbox.lonlatbox
+            # use autoscale
+            self.ax.autoscale()
+            return
         else:
             value = list(value)
             for i, v in enumerate(value):
@@ -1008,6 +1019,8 @@ class ClipAxes(Formatoption):
         elif value is None:
             proj = self.ax.projection
             extent = self.map_extent.value or self.lonlatbox.lonlatbox
+            if extent == 'data':
+                extent = self.lonlatbox.lonlatbox
             if (isinstance(proj, (ccrs.Orthographic, ccrs.Stereographic)) and
                     extent != 'global' and np.abs(np.diff(extent[:2])) > 350):
                 self.draw_circle()

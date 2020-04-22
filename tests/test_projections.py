@@ -89,3 +89,11 @@ def test_rotated_pole_transform(open_grid_ds):
         assert isinstance(plotter.transform.projection, ccrs.PlateCarree)
         assert isinstance(plotter.ax.projection, ccrs.RotatedPole)
 
+
+def test_rotated_pole_extent(open_grid_ds):
+    grid_ds = open_grid_ds('rotated_latitude_longitude-australasia')
+    with grid_ds.psy.plot.mapplot(name='t2m') as sp:
+        plotter = sp.plotters[0]
+        assert isinstance(plotter.ax.projection, ccrs.RotatedPole)
+        lonmin, lonmax = plotter.ax.get_extent()[:2]
+        assert lonmax - lonmin < 200

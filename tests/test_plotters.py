@@ -33,7 +33,7 @@ class MapReferences(object):
         if self.plot_type[:6] == 'simple':
             kwargs = dict(xlim=(0, 40), ylim=(0, 40))
         else:
-            kwargs = dict(lonlatbox='Europe')
+            kwargs = dict(lonlatbox='Europe', map_extent='data')
         sp = self.plot(**kwargs)
         sp.update(datagrid='k-')
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('datagrid')))
@@ -105,7 +105,7 @@ class MapReferences(object):
         Create reference file for
         :attr:`~psyplot.plotter.maps.FieldPlotter.lonlatbox` formatoption"""
         sp = self.plot()
-        sp.update(lonlatbox='Europe|India')
+        sp.update(lonlatbox='Europe|India', map_extent='data')
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('lonlatbox')))
         if close:
             sp.close(True, True, True)
@@ -147,7 +147,7 @@ class MapReferences(object):
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('projection2')))
         sp.update(projection=ccrs.LambertConformal())
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('projection3')))
-        sp.update(projection='rotated', lonlatbox='Europe')
+        sp.update(projection='rotated', lonlatbox='Europe', map_extent='data')
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('projection4')))
         if close:
             sp.close(True, True, True)
@@ -261,7 +261,7 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
 
     def test_datagrid(self, *args):
         """Test datagrid formatoption"""
-        self.update(lonlatbox='Europe', datagrid='k-')
+        self.update(lonlatbox='Europe', datagrid='k-', map_extent='data')
         self.compare_figures(next(iter(args), self.get_ref_file('datagrid')))
 
     def test_cmap(self, *args):
@@ -312,7 +312,7 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
 
     def test_lonlatbox(self, *args):
         """Test lonlatbox formatoption"""
-        self.update(lonlatbox='Europe|India')
+        self.update(lonlatbox='Europe|India', map_extent='data')
         ax = self.plotter.ax
         list(starmap(self.assertAlmostEqual, zip(
             ax.get_extent(ccrs.PlateCarree()), (-32.0, 97.0, -8.0, 81.0),
@@ -363,7 +363,8 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
         self.update(projection=ccrs.LambertConformal())
         self.compare_figures(next(iter(args),
                                   self.get_ref_file('projection3')))
-        self.update(projection='rotated', lonlatbox='Europe')
+        self.update(projection='rotated', lonlatbox='Europe',
+                    map_extent='data')
         self.compare_figures(next(iter(args),
                                   self.get_ref_file('projection4')))
 
@@ -435,7 +436,8 @@ class TestProjectedLonlatbox(unittest.TestCase):
 
     def test_lonlatbox(self):
         sp = psy.plot.mapplot(os.path.join(bt.test_dir, 'Stockholm.nc'),
-                              name='Population', transform='moll')
+                              name='Population', transform='moll',
+                              map_extent='data')
         ax = sp.plotters[0].ax
         self.assertEqual(
             np.round(ax.get_extent(ccrs.PlateCarree()), 2).tolist(),
@@ -491,6 +493,9 @@ class VectorPlotterTest(FieldPlotterTest, MapReferences):
         cls.ds = open_dataset(cls.ncfile)
         plotter = VectorPlotter()
         rcParams[plotter.lonlatbox.default_key] = 'Europe'
+        # to make sure, we do not have problems with slightly differing
+        # axes changes
+        rcParams[plotter.map_extent.default_key] = 'data'
         rcParams[plotter.color.default_key] = 'absolute'
         rcParams[plotter.cticklabels.default_key] = '%0.6g'
         cls.data = ArrayList.from_dataset(
@@ -984,7 +989,7 @@ class CircumpolarFieldPlotterTest(FieldPlotterTest):
             """return the values of the coordinate that is not masked in the
             data"""
             return coord.values[~np.isnan(data.values)]
-        self.update(lonlatbox='Europe|India')
+        self.update(lonlatbox='Europe|India', map_extent='data')
         ax = self.plotter.ax
         list(starmap(self.assertAlmostEqual, zip(
             ax.get_extent(ccrs.PlateCarree()), (-55.6, 120.6,  -24.4, 85.9),
@@ -1090,7 +1095,7 @@ class CircumpolarVectorPlotterTest(VectorPlotterTest):
             """return the values of the coordinate that is not masked in the
             data"""
             return coord.values[~np.isnan(data[0].values)]
-        self.update(lonlatbox='Europe|India')
+        self.update(lonlatbox='Europe|India', map_extent='data')
         ax = self.plotter.ax
         list(starmap(self.assertAlmostEqual, zip(
             ax.get_extent(ccrs.PlateCarree()), (-55.6, 120.6,  -24.4, 85.9),
@@ -1235,7 +1240,7 @@ class CircumpolarCombinedPlotterTest(CombinedPlotterTest):
             data"""
             arr = data if data.ndim == 2 else data[0]
             return coord.values[~np.isnan(arr.values)]
-        self.update(lonlatbox='Europe|India')
+        self.update(lonlatbox='Europe|India', map_extent='data')
         ax = self.plotter.ax
         list(starmap(self.assertAlmostEqual, zip(
             ax.get_extent(ccrs.PlateCarree()), (-55.6, 120.6,  -24.4, 85.9),
@@ -1319,7 +1324,7 @@ class IconFieldPlotterTest(FieldPlotterTest):
             """return the values of the coordinate that is not masked in the
             data"""
             return coord.values[~np.isnan(data.values)]
-        self.update(lonlatbox='Europe|India')
+        self.update(lonlatbox='Europe|India', map_extent='data')
         ax = self.plotter.ax
         list(starmap(self.assertAlmostEqual, zip(
             ax.get_extent(ccrs.PlateCarree()), (-32.0, 97.0, -8.0, 81.0),
@@ -1371,7 +1376,7 @@ class IconEdgeFieldPlotterTest(FieldPlotterTest):
             """return the values of the coordinate that is not masked in the
             data"""
             return coord.values[~np.isnan(data.values)]
-        self.update(lonlatbox='Europe|India')
+        self.update(lonlatbox='Europe|India', map_extent='data')
         ax = self.plotter.ax
         list(starmap(self.assertAlmostEqual, zip(
             ax.get_extent(ccrs.PlateCarree()), (-32.0, 97.0, -8.0, 81.0),
@@ -1408,7 +1413,7 @@ class IconVectorPlotterTest(VectorPlotterTest):
             """return the values of the coordinate that is not masked in the
             data"""
             return coord.values[~np.isnan(data[0].values)]
-        self.update(lonlatbox='Europe|India')
+        self.update(lonlatbox='Europe|India', map_extent='data')
         ax = self.plotter.ax
         list(starmap(self.assertAlmostEqual, zip(
             ax.get_extent(ccrs.PlateCarree()), (-32.0, 97.0, -8.0, 81.0),
@@ -1524,7 +1529,7 @@ class IconCombinedPlotterTest(CombinedPlotterTest):
             data"""
             arr = data if data.ndim == 1 else data[0]
             return coord.values[~np.isnan(arr.values)]
-        self.update(lonlatbox='Europe|India')
+        self.update(lonlatbox='Europe|India', map_extent='data')
         ax = self.plotter.ax
         list(starmap(self.assertAlmostEqual, zip(
             ax.get_extent(ccrs.PlateCarree()), (-32.0, 97.0, -8.0, 81.0),
