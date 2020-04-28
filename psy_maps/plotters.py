@@ -284,6 +284,10 @@ class ProjectionBase(Formatoption):
             central_latitude=crs.latitude_of_projection_origin,
             standard_parallels=crs.standard_parallel
             )
+        try:
+            iter(kwargs['standard_parallels'])
+        except TypeError:
+            kwargs['standard_parallels'] = [kwargs['standard_parallels']]
         if getattr(crs, 'false_easting'):
             kwargs['false_easting'] = crs.false_easting
         if getattr(crs, 'false_northing'):
@@ -330,6 +334,10 @@ class ProjectionBase(Formatoption):
             central_latitude=crs.latitude_of_projection_origin,
             standard_parallels=crs.standard_parallel,
             )
+        try:
+            iter(kwargs['standard_parallels'])
+        except TypeError:
+            kwargs['standard_parallels'] = [kwargs['standard_parallels']]
         if getattr(crs, 'false_easting'):
             kwargs['false_easting'] = crs.false_easting
         if getattr(crs, 'false_northing'):
