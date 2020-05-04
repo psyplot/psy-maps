@@ -407,6 +407,7 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
         except AttributeError:
             texts = list(chain(self.plotter.xgrid._gridliner.label_artists,
                                self.plotter.ygrid._gridliner.label_artists))
+            texts = [t[-1] for t in texts]
         self.assertEqual([t.get_size() for t in texts], [20] * len(texts))
 
 
