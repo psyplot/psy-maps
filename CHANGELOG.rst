@@ -2,6 +2,7 @@ v1.2.1
 ======
 Added
 -----
+* compatibility for cartopy 0.18 (see `#14 <https://github.com/psyplot/psy-maps/pull/14>`__)
 * all plotmethods now have a ``transpose`` formatoption that can be used if the
   order of dimensions in the data is ``(x, y)`` rather than ``(y, x)``
 * the `transform` and `projection` formatoptions now automatically decode the
