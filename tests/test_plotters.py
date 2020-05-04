@@ -401,8 +401,12 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
     def test_grid_labelsize(self):
         """Test grid_labelsize formatoption"""
         self.update(grid_labelsize=20)
-        texts = list(chain(self.plotter.xgrid._gridliner.xlabel_artists,
-                           self.plotter.ygrid._gridliner.ylabel_artists))
+        try:
+            texts = list(chain(self.plotter.xgrid._gridliner.xlabel_artists,
+                               self.plotter.ygrid._gridliner.ylabel_artists))
+        except AttributeError:
+            texts = list(chain(self.plotter.xgrid._gridliner.label_artists,
+                               self.plotter.ygrid._gridliner.label_artists))
         self.assertEqual([t.get_size() for t in texts], [20] * len(texts))
 
 
