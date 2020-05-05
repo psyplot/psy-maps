@@ -420,6 +420,8 @@ class FieldPlotterContourTest(FieldPlotterTest):
         plotter = FieldPlotter()
         rcParams[plotter.plot.default_key] = 'contourf'
         rcParams[plotter.lonlatbox.default_key] = [-180, 180, -90, 90]
+        rcParams[plotter.xgrid.default_key] = False
+        rcParams[plotter.ygrid.default_key] = False
         super(FieldPlotterContourTest, cls).setUpClass()
 
     @unittest.skip('Extend keyword not implemented')
