@@ -5,6 +5,7 @@ from abc import abstractproperty
 from difflib import get_close_matches
 import copy
 from itertools import starmap, chain, repeat
+import cartopy
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import Gridliner
 import matplotlib as mpl
@@ -1299,7 +1300,11 @@ class GridLabelSize(Formatoption):
                 continue
             gl.xlabel_style['size'] = value
             gl.ylabel_style['size'] = value
-            for text in chain(gl.xlabel_artists, gl.ylabel_artists):
+            try:
+                texts = [t[-1] for t in gl.label_artists]
+            except AttributeError:  # cartopy < 0.18
+                texts = chain(gl.xlabel_artists, gl.ylabel_artists)
+            for text in texts:
                 text.set_size(value)
 
 
@@ -1379,8 +1384,12 @@ class GridBase(psyps.DataTicksCalculator):
 
     def _modify_gridliner(self, gridliner):
         """Modify the formatting of the given `gridliner` before drawing"""
-        gridliner.xlabels_top = False
-        gridliner.ylabels_right = False
+        if cartopy.__version__ < "0.18":  # cartopy < 0.18
+            gridliner.xlabels_top = False
+            gridliner.ylabels_right = False
+        else:
+            gridliner.top_labels = False
+            gridliner.right_labels = False
         gridliner.yformatter = lat_formatter
         gridliner.xformatter = lon_formatter
 
@@ -1388,8 +1397,13 @@ class GridBase(psyps.DataTicksCalculator):
         if not hasattr(self, '_gridliner'):
             return
         gl = self._gridliner
-        for artist in chain(gl.xline_artists, gl.yline_artists,
-                            gl.xlabel_artists, gl.ylabel_artists):
+        try:
+            artists = chain(gl.xline_artists, gl.yline_artists,
+                            [t[-1] for t in gl.label_artists])
+        except AttributeError:  # cartopy < 0.17
+            artists = chain(gl.xline_artists, gl.yline_artists,
+                            gl.xlabel_artists, gl.ylabel_artists)
+        for artist in artists:
             artist.remove()
         if gl in self.ax._gridliners:
             self.ax._gridliners.remove(gl)

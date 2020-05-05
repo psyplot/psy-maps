@@ -371,14 +371,14 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
     def test_grid(self, *args):
         """Test xgrid, ygrid, grid_color, grid_labels, grid_settings fmts"""
         self.update(xgrid=False, ygrid=False)
-        self.compare_figures(next(iter(args), self.get_ref_file('grid1')))
+        self.compare_figures(next(iter(args), self.get_ref_file('grid1')), tol=10)
         self.update(xgrid='rounded', ygrid=['data', 20])
-        self.compare_figures(next(iter(args), self.get_ref_file('grid2')))
+        self.compare_figures(next(iter(args), self.get_ref_file('grid2')), tol=10)
         self.update(xgrid=True, ygrid=True, grid_color='w')
-        self.compare_figures(next(iter(args), self.get_ref_file('grid3')))
+        self.compare_figures(next(iter(args), self.get_ref_file('grid3')), tol=10)
         self.update(xgrid=True, ygrid=True, grid_color='k',
                     grid_settings={'linestyle': 'dotted'})
-        self.compare_figures(next(iter(args), self.get_ref_file('grid4')))
+        self.compare_figures(next(iter(args), self.get_ref_file('grid4')), tol=10)
 
     def test_clon(self):
         """Test clon formatoption"""
@@ -400,9 +400,14 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
 
     def test_grid_labelsize(self):
         """Test grid_labelsize formatoption"""
-        self.update(grid_labelsize=20)
-        texts = list(chain(self.plotter.xgrid._gridliner.xlabel_artists,
-                           self.plotter.ygrid._gridliner.ylabel_artists))
+        self.update(xgrid=True, ygrid=True, grid_labelsize=20)
+        try:
+            texts = list(chain(self.plotter.xgrid._gridliner.xlabel_artists,
+                               self.plotter.ygrid._gridliner.ylabel_artists))
+        except AttributeError:
+            texts = list(chain(self.plotter.xgrid._gridliner.label_artists,
+                               self.plotter.ygrid._gridliner.label_artists))
+            texts = [t[-1] for t in texts]
         self.assertEqual([t.get_size() for t in texts], [20] * len(texts))
 
 
@@ -415,6 +420,8 @@ class FieldPlotterContourTest(FieldPlotterTest):
         plotter = FieldPlotter()
         rcParams[plotter.plot.default_key] = 'contourf'
         rcParams[plotter.lonlatbox.default_key] = [-180, 180, -90, 90]
+        rcParams[plotter.xgrid.default_key] = False
+        rcParams[plotter.ygrid.default_key] = False
         super(FieldPlotterContourTest, cls).setUpClass()
 
     @unittest.skip('Extend keyword not implemented')
@@ -498,6 +505,8 @@ class VectorPlotterTest(FieldPlotterTest, MapReferences):
         rcParams[plotter.map_extent.default_key] = 'data'
         rcParams[plotter.color.default_key] = 'absolute'
         rcParams[plotter.cticklabels.default_key] = '%0.6g'
+        rcParams[plotter.xgrid.default_key] = False
+        rcParams[plotter.ygrid.default_key] = False
         cls.data = ArrayList.from_dataset(
             cls.ds, t=0, z=0, name=[cls.var], auto_update=True)[0]
         cls.data.attrs['long_name'] = 'absolute wind speed'
@@ -589,6 +598,8 @@ class StreamVectorPlotterTest(VectorPlotterTest):
     def setUpClass(cls):
         plotter = VectorPlotter()
         rcParams[plotter.plot.default_key] = 'stream'
+        rcParams[plotter.xgrid.default_key] = False
+        rcParams[plotter.ygrid.default_key] = False
         return super(StreamVectorPlotterTest, cls).setUpClass()
 
     def get_ref_file(self, identifier):
@@ -709,6 +720,8 @@ class CombinedPlotterTest(VectorPlotterTest):
         rcParams[plotter.lonlatbox.default_key] = 'Europe'
         rcParams[plotter.cticklabels.default_key] = '%0.6g'
         rcParams[plotter.vcmap.default_key] = 'winter'
+        rcParams[plotter.xgrid.default_key] = False
+        rcParams[plotter.ygrid.default_key] = False
         cls._data = ArrayList.from_dataset(
             cls.ds, t=0, z=0, name=[cls.var], auto_update=True,
             prefer_list=True)[0]
@@ -1040,6 +1053,8 @@ class CircumpolarVectorPlotterTest(VectorPlotterTest):
         rcParams['plotter.maps.clat'] = 90
         rcParams['plotter.vector.arrowsize'] = 200
         rcParams['plotter.maps.lonlatbox'] = 'Europe'
+        rcParams['plotter.maps.xgrid'] = False
+        rcParams['plotter.maps.ygrid'] = False
         super(CircumpolarVectorPlotterTest, cls).setUpClass()
 
     def ref_map_grid(self, close=True):

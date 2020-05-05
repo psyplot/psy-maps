@@ -9,7 +9,7 @@ from psy_simple.plugin import (
     try_and_error, validate_none, validate_str, validate_float,
     validate_nseq_float, validate_bool_maybe_none, validate_fontsize,
     validate_color, validate_dict, BoundsValidator, bound_strings,
-    ValidateInStrings, validate_bool)
+    ValidateInStrings, validate_bool, BoundsType)
 from psy_maps import __version__ as plugin_version
 
 
@@ -50,7 +50,7 @@ def validate_grid(val):
     try:
         return validate_bool_maybe_none(val)
     except ValueError:
-        return BoundsValidator('grid', bound_strings, True)(val)
+        return BoundsValidator(BoundsType)(val)
 
 
 def validate_lsm(val):
