@@ -371,14 +371,14 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
     def test_grid(self, *args):
         """Test xgrid, ygrid, grid_color, grid_labels, grid_settings fmts"""
         self.update(xgrid=False, ygrid=False)
-        self.compare_figures(next(iter(args), self.get_ref_file('grid1')), 10)
+        self.compare_figures(next(iter(args), self.get_ref_file('grid1')), tol=10)
         self.update(xgrid='rounded', ygrid=['data', 20])
-        self.compare_figures(next(iter(args), self.get_ref_file('grid2')), 10)
+        self.compare_figures(next(iter(args), self.get_ref_file('grid2')), tol=10)
         self.update(xgrid=True, ygrid=True, grid_color='w')
-        self.compare_figures(next(iter(args), self.get_ref_file('grid3')), 10)
+        self.compare_figures(next(iter(args), self.get_ref_file('grid3')), tol=10)
         self.update(xgrid=True, ygrid=True, grid_color='k',
                     grid_settings={'linestyle': 'dotted'})
-        self.compare_figures(next(iter(args), self.get_ref_file('grid4')), 10)
+        self.compare_figures(next(iter(args), self.get_ref_file('grid4')), tol=10)
 
     def test_clon(self):
         """Test clon formatoption"""
