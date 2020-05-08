@@ -8,6 +8,7 @@ from itertools import starmap, repeat, chain
 import numpy as np
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
+import matplotlib.colors as mcol
 from psyplot.utils import _TempBool
 from psy_maps.plotters import (
     FieldPlotter, VectorPlotter, rcParams, CombinedPlotter, InteractiveList)
@@ -194,6 +195,11 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
     @unittest.skip("axiscolor formatoption not implemented")
     def test_axiscolor(self):
         pass
+
+    def test_background(self):
+        self.update(background='0.5')
+        bc = mcol.to_rgba(self.plotter.ax.background_patch.get_facecolor())
+        self.assertEqual(bc, (0.5, 0.5, 0.5, 1.0))
 
     def test_extend(self):
         """Test extend formatoption"""
