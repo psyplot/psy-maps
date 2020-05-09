@@ -19,6 +19,7 @@ from psyplot.data import InteractiveList, _infer_interval_breaks
 from psyplot.plotter import (
     Formatoption, START, DictFormatoption, END, BEFOREPLOTTING)
 import psy_simple.plotters as psyps
+import psy_simple.base
 from psy_maps.boxes import lonlatboxes
 from psy_simple.colors import FixedBoundaryNorm
 
@@ -990,6 +991,15 @@ class MapExtent(BoxBase):
                     exc_info=True)
 
 
+class MapBackground(psy_simple.base.BackgroundColor):
+
+    __doc__ = psy_simple.base.BackgroundColor.__doc__
+
+    def update(self, value):
+        super().update(value)
+        self.ax.background_patch.set_facecolor(self.ax.patch.get_facecolor())
+
+
 class ClipAxes(Formatoption):
     """
     Clip the part outside the latitudes of the map extent
@@ -1820,6 +1830,8 @@ class MapPlotter(psyps.Base2D):
     convert_radian = True
 
     _rcparams_string = ['plotter.maps.']
+
+    background = MapBackground('background')
 
     transpose = Transpose('transpose')
     projection = Projection('projection')
