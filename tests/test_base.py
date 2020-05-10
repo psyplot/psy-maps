@@ -150,7 +150,6 @@ class TestBase2D(object):
             key, label_func, has_time=has_time)
 
 
-@pytest.mark.TWOD
 class BasePlotterTest2D(TestBase2D, BasePlotterTest):
     """Test :class:`psyplot.plotter.baseplotter.BasePlotter` class without time
     and vertical dimension"""
