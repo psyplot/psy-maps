@@ -2,6 +2,8 @@ v1.2.1
 ======
 Added
 -----
+* The ``xgrid`` and ``ygrid`` formatoptions now have a new widget in the GUI
+  (see `#17 <https://github.com/psyplot/psy-maps/pull/17>`__)
 * The ``lsm`` formatoption now supports a multitude of different options. You
   can specify a land color, and ocean color and the coast lines color. These
   settings can now also be set through the psyplot GUI

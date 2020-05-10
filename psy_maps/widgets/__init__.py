@@ -113,3 +113,42 @@ class LSMFmtWidget(QtWidgets.QWidget):
                 self.coast_color._set_color(value['coast'])
 
             self.toggle_color_labels()
+
+
+class GridFmtWidget(psyps_wcol.CTicksFmtWidget):
+    """The formatoption widget for xgrid and ygrid"""
+
+    methods = ['Discrete', 'Auto', 'Disable']
+
+    methods_type = psyps_wcol.BoundsType
+
+    auto_val = True
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs, properties=False)
+
+    def set_value(self, value):
+        if value is False or value is None:
+            with self.block_widgets(self.method_combo, self.type_combo):
+                self.type_combo.setCurrentText('Disable')
+            self.refresh_methods('Disable')
+        else:
+            super().set_value(value)
+
+    def refresh_methods(self, text):
+        if text == 'Disable':
+            with self.block_widgets(self.method_combo):
+                self.method_combo.clear()
+            self.set_obj(False)
+            self.refresh_current_widget()
+        else:
+            super().refresh_methods(text)
+
+    def refresh_current_widget(self):
+        w = self.current_widget
+        no_lines = self.type_combo.currentText() == 'Disable'
+        if no_lines and w is not None:
+            w.setVisible(False)
+            self.current_widget = None
+        if not no_lines:
+            super().refresh_current_widget()

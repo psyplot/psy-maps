@@ -1323,7 +1323,7 @@ class GridLabels(Formatoption):
                     self.ax, self.ax.projection, draw_labels=test_value)
             except TypeError as e:  # labels cannot be drawn
                 if value:
-                    warnings.warn(e.message, RuntimeWarning)
+                    warnings.warn(str(e), RuntimeWarning)
                 value = False
             else:
                 value = True
@@ -1478,6 +1478,10 @@ class GridBase(psyps.DataTicksCalculator):
             gridliner.right_labels = False
         gridliner.yformatter = lat_formatter
         gridliner.xformatter = lon_formatter
+
+    def get_fmt_widget(self, parent, project):
+        from psy_maps.widgets import GridFmtWidget
+        return GridFmtWidget(parent, self, project)
 
     def remove(self):
         if not hasattr(self, '_gridliner'):
