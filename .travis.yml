@@ -13,11 +13,13 @@ matrix:
         - env:
             - PYTHON_VERSION=3.8
             - MPL_VERSION=3.1
+            - QT_VERSION=5
             - DEPLOY_CONDA=true
           os: linux
         - env:
             - PYTHON_VERSION=3.7
             - MPL_VERSION=3.1
+            - QT_VERSION=5
             - DEPLOY_CONDA=true
           os: linux
         - env:

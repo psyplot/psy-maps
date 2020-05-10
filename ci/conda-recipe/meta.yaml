@@ -40,8 +40,8 @@ test:
   source_files:
     - tests
   commands:
-    - pytest -sv --cov=psy_maps --ref
-    - py.test -sv --cov-append --cov=psy_maps
+    - pytest -sv --cov=psy_maps --ref --ignore=tests/widgets
+    - pytest -sv --cov-append --cov=psy_maps --ignore=tests/widgets
 
 about:
   home: https://github.com/psyplot/psy-maps
