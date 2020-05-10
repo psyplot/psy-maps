@@ -7,6 +7,7 @@ import copy
 from itertools import starmap, chain, repeat
 import cartopy
 import cartopy.crs as ccrs
+import cartopy.feature as cf
 from cartopy.mpl.gridliner import Gridliner
 import matplotlib as mpl
 import matplotlib.ticker as ticker
@@ -1111,27 +1112,92 @@ class LSM(Formatoption):
     Possible types
     --------------
     bool
-        True: draw the continents with a line width of 1
-        False: don't draw the continents
+        True: draw the coastlines with a line width of 1
+        False: don't draw anything
     float
-        Specifies the linewidth of the continents
+        Specifies the linewidth of the coastlines
     str
         The resolution of the land-sea mask (see the
-        :meth:`cartopy.mpl.geoaxes.GeoAxesSubplot.coastlines` method. Usually
+        :meth:`cartopy.mpl.geoaxes.GeoAxesSubplot.coastlines` method. Must be
         one of ``('110m', '50m', '10m')``.
     list [str or bool, float]
-        The resolution and the linewidth"""
+        The resolution and the linewidth
+    dict
+        A dictionary with any of the following keys
+
+        coast
+            The color for the coastlines
+        land
+            The fill color for the continents
+        ocean
+            The fill color for the oceans
+        res
+            The resolution (see above)
+        linewidth
+            The linewidth of the coastlines (see above)"""
 
     name = 'Land-Sea mask'
 
     lsm = None
 
+    dependencies = ['background']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.draw_funcs = {
+            ('coast', ): self.draw_coast,
+            ('coast', 'land'): self.draw_land_coast,
+            ('land', ): self.draw_land,
+            ('ocean', ): self.draw_ocean,
+            ('coast', 'land', 'ocean'): self.draw_all,
+            ('land', 'ocean'): self.draw_land_ocean,
+            ('coast', 'ocean'): self.draw_ocean_coast,
+            }
+
+    def draw_all(self, land, ocean, coast, res='110m', linewidth=1):
+        land_feature = cf.LAND.with_scale(res)
+        if land is None:
+            land = land_feature._kwargs.get('facecolor')
+        if ocean is None:
+            ocean = cf.OCEAN._kwargs.get('facecolor')
+        self.lsm = self.ax.add_feature(
+            land_feature, facecolor=land, edgecolor=coast, linewidth=linewidth)
+        self.ax.background_patch.set_facecolor(ocean)
+
+    def draw_land(self, land, res='110m'):
+        self.draw_all(land, self.ax.background_patch.get_facecolor(),
+                      'face', res, 0.0)
+
+    def draw_coast(self, coast, res='110m', linewidth=1.0):
+        if coast is None:
+            coast = 'k'
+        self.lsm = self.ax.coastlines(res, color=coast, linewidth=linewidth)
+
+    def draw_ocean(self, ocean, res='110m'):
+        self.draw_ocean_coast(ocean, None, res, 0.0)
+
+    def draw_land_coast(self, land, coast, res='110m', linewidth=1.0):
+        self.draw_all(land, self.ax.background_patch.get_facecolor(), coast,
+                      res, linewidth)
+
+    def draw_ocean_coast(self, ocean, coast, res='110m', linewidth=1.0):
+        ocean_feature = cf.OCEAN.with_scale(res)
+        if ocean is None:
+            ocean = cf.OCEAN._kwargs.get('facecolor')
+        self.lsm = self.ax.add_feature(
+            ocean_feature, facecolor=ocean, edgecolor=coast,
+            linewidth=linewidth)
+
+    def draw_land_ocean(self, land, ocean, res='110m'):
+        self.draw_all(land, ocean, None, res, 0.0)
+
     def update(self, value):
         self.remove()
-        res, lw = value
-        if res:
-            args = (res, ) if isinstance(res, six.string_types) else ()
-            self.lsm = self.ax.coastlines(*args, linewidth=lw)
+        # to make sure, we have a dictionary
+        value = self.validate(value)
+        keys = tuple(sorted({'land', 'ocean', 'coast'}.intersection(value)))
+        if keys:
+            self.draw_funcs[keys](**value)
 
     def remove(self):
         if self.lsm is not None:
@@ -1139,6 +1205,16 @@ class LSM(Formatoption):
                 self.lsm.remove()
             except ValueError:
                 pass
+            finally:
+                del self.lsm
+        try:
+            self.background.update(self.background.value)
+        except Exception:
+            pass
+
+    def get_fmt_widget(self, parent, project):
+        from psy_maps.widgets import LSMFmtWidget
+        return LSMFmtWidget(parent, self, project)
 
 
 class StockImage(Formatoption):

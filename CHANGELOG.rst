@@ -2,6 +2,10 @@ v1.2.1
 ======
 Added
 -----
+* The ``lsm`` formatoption now supports a multitude of different options. You
+  can specify a land color, and ocean color and the coast lines color. These
+  settings can now also be set through the psyplot GUI
+  (see `#17 <https://github.com/psyplot/psy-maps/pull/17>`__).
 * a new ``background`` formatoption has been implemented that allows to set the
   facecolor of the axes (i.e. the background color for the plot)
 * compatibility for cartopy 0.18 (see `#14 <https://github.com/psyplot/psy-maps/pull/14>`__)
@@ -16,6 +20,9 @@ Added
 
 Changed
 -------
+* the ``lsm`` formatoptions value is now a dictionary. Old values, such as
+  the string ``'10m'`` or ``['10m', 1.0]`` are still valid and will be converted
+  to a dictionary (see `#17 <https://github.com/psyplot/psy-maps/pull/17>`__).
 * the value ``None`` for the ``map_extent`` formatoption now triggers a
   call of the :meth:`~matplotlib.axes._base.AxesBase.autoscale` of the axes,
   see `#12 <https://github.com/psyplot/psy-maps/pull/12>`__. Before, it was

@@ -122,18 +122,21 @@ class MapReferences(object):
         if close:
             sp.close(True, True, True)
 
-    def ref_lsm(self, close=True):
+    def ref_lsm(self):
         """Create reference file for lsm formatoption.
 
         Create reference file for
         :attr:`~psyplot.plotter.maps.FieldPlotter.lsm` formatoption"""
-        sp = self.plot()
-        sp.update(lsm=False)
-        sp.export(os.path.join(bt.ref_dir, self.get_ref_file('lsm')))
-        sp.update(lsm=['110m', 2.0])
-        sp.export(os.path.join(bt.ref_dir, self.get_ref_file('lsm2')))
-        if close:
-            sp.close(True, True, True)
+        for i, val in enumerate(
+                [False, ['110m', 2.0], {'land': '0.5'}, {'ocean': '0.5'},
+                 {'land': '0.5', 'ocean': '0.8'},
+                 {'land': '0.5', 'coast': 'r'},
+                 {'land': '0.5', 'linewidth': 5.0}, {'linewidth': 5.0},
+                ], 1):
+            with self.plot(lsm=val) as sp:
+                sp.export(os.path.join(
+                    bt.ref_dir,
+                    self.get_ref_file('lsm{}'.format(i if i-1 else ''))))
 
     def ref_projection(self, close=True):
         """Create reference file for projection formatoption.
@@ -357,6 +360,18 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
         self.compare_figures(next(iter(args), self.get_ref_file('lsm')))
         self.update(lsm=['110m', 2.0])
         self.compare_figures(next(iter(args), self.get_ref_file('lsm2')))
+        self.update(lsm={'land': '0.5'})
+        self.compare_figures(next(iter(args), self.get_ref_file('lsm3')))
+        self.update(lsm={'ocean': '0.5'})
+        self.compare_figures(next(iter(args), self.get_ref_file('lsm4')))
+        self.update(lsm={'land': '0.5', 'ocean': '0.8'})
+        self.compare_figures(next(iter(args), self.get_ref_file('lsm5')))
+        self.update(lsm={'land': '0.5', 'coast': 'r'})
+        self.compare_figures(next(iter(args), self.get_ref_file('lsm6')))
+        self.update(lsm={'land': '0.5', 'linewidth': 5.0})
+        self.compare_figures(next(iter(args), self.get_ref_file('lsm7')))
+        self.update(lsm={'linewidth': 5.0})
+        self.compare_figures(next(iter(args), self.get_ref_file('lsm8')))
 
     def test_projection(self, *args):
         """Test projection formatoption"""
