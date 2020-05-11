@@ -9,7 +9,7 @@ from psy_simple.plugin import (
     try_and_error, validate_none, validate_str, validate_float,
     validate_nseq_float, validate_bool_maybe_none, validate_fontsize,
     validate_color, validate_dict, BoundsValidator, bound_strings,
-    ValidateInStrings, validate_bool, BoundsType)
+    ValidateInStrings, validate_bool, BoundsType, DictValValidator)
 from psy_maps import __version__ as plugin_version
 
 
@@ -54,21 +54,58 @@ def validate_grid(val):
 
 
 def validate_lsm(val):
-    res_validation = try_and_error(validate_bool, validate_str)
-    try:
-        val = res_validation(val)
-    except (ValueError, TypeError):
-        pass
+    res_validation = ValidateInStrings('lsm', ['110m', '50m' ,'10m'])
+    if not val:
+        val = {}
+    elif isinstance(val, dict):
+        invalid = set(val).difference(
+            ['coast', 'land', 'ocean', 'res', 'linewidth'])
+        if invalid:
+            raise ValueError(f"Invalid keys for lsm: {invalid}")
     else:
-        return [val, 1.0]
-    try:
-        val = validate_float(val)
-    except (ValueError, TypeError):
-        pass
-    else:
-        return [True, val]
-    res, lw = val
-    return [res_validation(res), validate_float(lw)]
+        # First try, if it's a bool, if yes, use 110m
+        # then try, if it's a valid resolution
+        # then try, if it's a float (i.e. the linewidth)
+        # then try if it's a tuple [res, lw]
+        try:
+            validate_bool(val)
+        except (ValueError, TypeError):
+            pass
+        else:
+            val = '110m'
+        try:
+            val = res_validation(val)
+        except (ValueError, TypeError):
+            pass
+        else:
+            if not isinstance(val, str):
+                val = '110m'
+            val = {'res': val, 'linewidth': 1.0, 'coast': 'k'}
+        try:
+            val = validate_float(val)
+        except (ValueError, TypeError):
+            pass
+        else:
+            val = {'res': '110m', 'linewidth': val, 'coast': 'k'}
+    if not isinstance(val, dict):
+        try:
+            res, lw = val
+        except (ValueError, TypeError):
+            raise ValueError(f"Invalid lsm configuration: {val}")
+        else:
+            val = {'res': res, 'linewidth': lw}
+    val = dict(val)
+    for key, v in val.items():
+        if key in ['coast', 'land', 'ocean']:
+            val[key] = validate_color(v)
+        elif key == 'res':
+            val[key] = res_validation(v)
+        else:
+            val[key] = validate_float(v)  # linewidth
+    # finally set black color if linewidth is in val
+    if 'linewidth' in val:
+        val.setdefault('coast', 'k')
+    return val
 
 
 class ProjectionValidator(ValidateInStrings):

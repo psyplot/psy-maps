@@ -34,6 +34,7 @@ if any(pyqt_patt.match(pkg) for pkg in args.packages):
         0, "pytest --cov=psy_maps --cov-append -v tests/widgets")
     config["test"]["imports"] = ["psy_maps.widgets"]
     config["test"]["requires"].append("psyplot-gui")
+    config["test"]["requires"].append("pytest-qt")
 
 with open(output, 'w') as f:
     yaml.dump(config, f)
