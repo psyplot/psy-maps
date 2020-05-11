@@ -1,3 +1,8 @@
+try:
+    # make sure we import QtWebEngineWidgets at the start
+    import psyplot_gui.compat.qtcompat
+except ImportError:
+    pass
 
 def pytest_addoption(parser):
     group = parser.getgroup("psyplot", "psyplot specific options")
