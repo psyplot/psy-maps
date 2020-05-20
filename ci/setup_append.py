@@ -24,8 +24,7 @@ for pkg in args.packages:
 
 config = {"test": {
     "requires": packages,
-    "commands": ["codecov",
-                 """python -c 'import shutil; shutil.rmtree("tests")'"""]
+    "commands": ["codecov"]
     }}
 
 pyqt_patt = re.compile("pyqt=.")
