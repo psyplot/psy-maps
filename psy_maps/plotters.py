@@ -1701,7 +1701,6 @@ class MapPlot2D(psyps.Plot2D):
             del self._wrapped_plot
 
     def add2format_coord(self, x, y):
-        xorig, yorig = x, y
         x, y = self.transform.projection.transform_point(
             x, y, self.ax.projection)
         # shift if necessary
@@ -1714,8 +1713,7 @@ class MapPlot2D(psyps.Plot2D):
             if 'rad' in coord.attrs.get('units', '').lower():
                 x = np.deg2rad(x)
                 y = np.deg2rad(y)
-        return super(MapPlot2D, self).add2format_coord(x, y, xorig=xorig,
-                                                       yorig=yorig)
+        return super(MapPlot2D, self).add2format_coord(x, y)
 
 
 class MapDataGrid(psyps.DataGrid):
