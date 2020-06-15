@@ -64,6 +64,7 @@ def test_grid_plotting(open_grid_ds, grid, grid_projection):
     "grid,clon", [("rotated_latitude_longitude", 11),
                   (osp.join("..", "test-t2m-u-v"), 0)])
 def test_clon_centering(open_grid_ds, grid, clon):
+    pytest.importorskip("cartopy", minversion="0.18")
     grid_ds = open_grid_ds(grid)
     with grid_ds.psy.plot.mapplot(projection='ortho') as sp:
         plotter = sp.plotters[0]
@@ -73,6 +74,7 @@ def test_clon_centering(open_grid_ds, grid, clon):
     "grid,clat", [("rotated_latitude_longitude", 51),
                   (osp.join("..", "test-t2m-u-v"), 0)])
 def test_clat_centering(open_grid_ds, grid, clat):
+    pytest.importorskip("cartopy", minversion="0.18")
     grid_ds = open_grid_ds(grid)
     with grid_ds.psy.plot.mapplot(projection='ortho') as sp:
         plotter = sp.plotters[0]
