@@ -1466,7 +1466,10 @@ class GridBase(psyps.DataTicksCalculator):
         other_axis = 'y' if self.axis == 'x' else 'x'
         setattr(self._gridliner, other_axis + 'lines', False)
         for pos in label_positions[other_axis]:
-            setattr(self._gridliner, other_axis + 'labels_' + pos, False)
+            if cartopy.__version__ < "0.18":  # cartopy < 0.18
+                setattr(self._gridliner, other_axis + 'labels_' + pos, False)
+            else:
+                setattr(self._gridliner, pos + '_labels', False)
 
     def _modify_gridliner(self, gridliner):
         """Modify the formatting of the given `gridliner` before drawing"""
