@@ -1153,6 +1153,18 @@ class LSM(Formatoption):
             ('land', 'ocean'): self.draw_land_ocean,
             ('coast', 'ocean'): self.draw_ocean_coast,
             }
+        self.artists = []
+
+    @property
+    def lsm(self):
+        try:
+            return self.artists[0]
+        except ValueError:
+            return None
+
+    @lsm.setter
+    def lsm(self, val):
+        self.artists.append(val)
 
     def draw_all(self, land, ocean, coast, res='110m', linewidth=1):
         land_feature = cf.LAND.with_scale(res)
@@ -1162,6 +1174,10 @@ class LSM(Formatoption):
             ocean = cf.OCEAN._kwargs.get('facecolor')
         self.lsm = self.ax.add_feature(
             land_feature, facecolor=land, edgecolor=coast, linewidth=linewidth)
+        # draw the coast above the plot
+        self.lsm = self.ax.add_feature(
+            land_feature, facecolor='none', edgecolor=coast,
+            linewidth=linewidth, zorder=1)
         self.ax.background_patch.set_facecolor(ocean)
 
     def draw_land(self, land, res='110m'):
@@ -1187,6 +1203,10 @@ class LSM(Formatoption):
         self.lsm = self.ax.add_feature(
             ocean_feature, facecolor=ocean, edgecolor=coast,
             linewidth=linewidth)
+        # draw the coast above the plot
+        self.lsm = self.ax.add_feature(
+            ocean_feature, facecolor='none', edgecolor=coast,
+            linewidth=linewidth, zorder=1)
 
     def draw_land_ocean(self, land, ocean, res='110m'):
         self.draw_all(land, ocean, None, res, 0.0)
@@ -1200,13 +1220,12 @@ class LSM(Formatoption):
             self.draw_funcs[keys](**value)
 
     def remove(self):
-        if self.lsm is not None:
+        for artist in self.artists:
             try:
-                self.lsm.remove()
+                artist.remove()
             except ValueError:
                 pass
-            finally:
-                del self.lsm
+        self.artists.clear()
         try:
             self.background.update(self.background.value)
         except Exception:
