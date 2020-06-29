@@ -1383,6 +1383,19 @@ class IconFieldPlotterTest(FieldPlotterTest):
                                  msg=msg % ('latitude', 'maximum'))
         self.compare_figures(next(iter(args), self.get_ref_file('lonlatbox')))
 
+    def ref_pole(self):
+        """Test whether the grid cells are correctly displayed at the pole"""
+        sp = self.plot(projection="northpole", lonlatbox=[-180, 180, 80, 90],
+                       cmap='viridis', datagrid='r-')
+        sp.export(os.path.join(bt.ref_dir, self.get_ref_file('pole')))
+        sp.close(True, True, True)
+
+    def test_pole(self):
+        """Test whether the grid cells are correctly displayed at the pole"""
+        self.update(projection="northpole", lonlatbox=[-180, 180, 80, 90],
+                    cmap='viridis', datagrid='r-')
+        self.compare_figures(self.get_ref_file('pole'))
+
 
 class IconEdgeFieldPlotterTest(FieldPlotterTest):
     """Test :class:`psyplot.plotter.maps.FieldPlotter` class for icon grid"""
