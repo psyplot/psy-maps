@@ -1668,21 +1668,34 @@ class MapPlot2D(psyps.Plot2D):
             # identify the corresponding grid cells and then use the standard
             # matplotlib transform.
             if isinstance(t, wrap_proj_types) and 'lon_0' in proj.proj4_params:
-                # First we transform the coordinates to a PlateCarree
-                # projection with the same center longitude as the projection
-                # of the plot.
+                # We adopt and copy some code from the methodology of cartopy
+                # _pcolormesh_patched method of the geoaxes. As such, we
+                # transform the coordinates using standard matplotlib
+                # transformation and check if the hypotenuse is larger than
+                # half of the available x-limit of the ax.projection
                 # By using the geodetic version of `t`, we place the center
                 # longitude to `lon_0` and cells at the boundary do have a
                 # distance of 180 degrees to lon_0
-                lon_0 = proj.proj4_params['lon_0']
-                xb_trans = ccrs.PlateCarree(lon_0).transform_points(
-                    t.as_geodetic(), xb, yb)[..., 0].reshape(xb.shape)
+                trans_to_data = t.as_geodetic()._as_mpl_transform(self.ax) - \
+                    self.ax.transData
                 # now we identify the cells at the x-boundary by
-                # checking whether they have coordinates close to 180 and
-                # close to -180
-                mask = np.any(
-                    xb_trans - xb_trans.min(axis=1, keepdims=True) > 180,
-                    axis=1)
+                # checking the hypotenuse
+                coords = np.column_stack((xb.flat, yb.flat)).astype(float, copy=False)
+                transformed_pts = trans_to_data.transform(coords)
+                transformed_pts = transformed_pts.reshape(
+                    xb.shape + (transformed_pts.shape[-1], ))
+
+                with np.errstate(invalid='ignore'):
+                    edge_lengths = np.hypot(
+                        np.diff(transformed_pts[..., 0], axis=1),
+                        np.diff(transformed_pts[..., 1], axis=1)
+                    )
+                    mask = (
+                        (edge_lengths > abs(self.ax.projection.x_limits[1] -
+                                            self.ax.projection.x_limits[0]) / 2) |
+                        np.isnan(edge_lengths)
+                    ).any(1)
+
                 # if so, we create a wrapped collection that is transformed in
                 # the standard matplotlib way.
                 if mask.any():
@@ -1761,12 +1774,25 @@ class MapDataGrid(psyps.DataGrid):
         if isinstance(t, wrap_proj_types) and 'lon_0' in proj.proj4_params:
             # See the :meth:`MapPlot2D._polycolor` method for a documentation
             # of the steps
-            lon_0 = proj.proj4_params['lon_0']
-            xb_trans = ccrs.PlateCarree(lon_0).transform_points(
-                t.as_geodetic(), xb, yb)[..., 0].reshape(xb.shape)
-            mask = np.any(
-                xb_trans - xb_trans.min(axis=1, keepdims=True) > 180,
-                axis=1)
+            trans_to_data = t.as_geodetic()._as_mpl_transform(self.ax) - \
+                self.ax.transData
+
+            coords = np.column_stack((xb.flat, yb.flat)).astype(float, copy=False)
+            transformed_pts = trans_to_data.transform(coords)
+            transformed_pts = transformed_pts.reshape(
+                xb.shape + (transformed_pts.shape[-1], ))
+
+            with np.errstate(invalid='ignore'):
+                edge_lengths = np.hypot(
+                    np.diff(transformed_pts[..., 0], axis=1),
+                    np.diff(transformed_pts[..., 1], axis=1)
+                )
+                mask = (
+                    (edge_lengths > abs(self.ax.projection.x_limits[1] -
+                                        self.ax.projection.x_limits[0]) / 2) |
+                    np.isnan(edge_lengths)
+                ).any(1)
+
             if mask.any():
                 xb_wrap = xb[mask]
                 yb_wrap = yb[mask]

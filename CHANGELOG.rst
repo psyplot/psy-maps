@@ -22,6 +22,8 @@ Added
 
 Changed
 -------
+* A bug has been fixed visualizing unstructured grid cells at the poles (see
+  `#23 <https://github.com/psyplot/psy-maps/pull/23>`__)
 * the ``lsm`` formatoptions value is now a dictionary. Old values, such as
   the string ``'10m'`` or ``['10m', 1.0]`` are still valid and will be converted
   to a dictionary (see `#17 <https://github.com/psyplot/psy-maps/pull/17>`__).
