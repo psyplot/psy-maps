@@ -1385,8 +1385,9 @@ class IconFieldPlotterTest(FieldPlotterTest):
 
     def ref_pole(self):
         """Test whether the grid cells are correctly displayed at the pole"""
-        sp = self.plot(projection="northpole", lonlatbox=[-180, 180, 80, 90],
-                       cmap='viridis', datagrid='r-')
+        sp = self.plot()
+        sp.update(projection="northpole", lonlatbox=[-180, 180, 80, 90],
+                  cmap='viridis', datagrid='r-')
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('pole')))
         sp.close(True, True, True)
 
