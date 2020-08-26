@@ -104,7 +104,11 @@ source_suffix = '.rst'
 # The master toctree document.
 master_doc = 'index'
 
-autodoc_default_flags = ['show_inheritance', 'autosummary']
+autodoc_default_options = {
+    'show_inheritance': True,
+    'autosummary': True,
+}
+
 autoclass_content = 'both'
 
 not_document_data = ['psy_maps.plugin.defaultParams',
