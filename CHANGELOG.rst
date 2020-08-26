@@ -1,5 +1,7 @@
-v1.2.1
+v1.3.0
 ======
+New GUI widgets and better projection support
+
 Added
 -----
 * The ``xgrid`` and ``ygrid`` formatoptions now have a new widget in the GUI
