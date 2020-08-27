@@ -86,3 +86,7 @@
 	path = tests/reference_figures/linux/py3.8/mpl3.2
 	url = https://github.com/psyplot/psy-simple-references.git
 	branch = linux_py3.8_mpl3.2
+[submodule "tests/reference_figures/linux/py3.8/mpl3.3"]
+	path = tests/reference_figures/linux/py3.8/mpl3.3
+	url = https://github.com/psyplot/psy-simple-references.git
+	branch = linux_py3.8_mpl3.3
