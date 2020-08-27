@@ -74,3 +74,7 @@
 	path = tests/reference_figures/darwin/py3.7/mpl3.3
 	url = https://github.com/psyplot/psy-maps-references.git
 	branch = darwin_py3.7_mpl3.3
+[submodule "tests/reference_figures/darwin/py3.8/mpl3.3"]
+	path = tests/reference_figures/darwin/py3.8/mpl3.3
+	url = https://github.com/psyplot/psy-maps-references.git
+	branch = darwin_py3.8_mpl3.3
