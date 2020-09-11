@@ -31,7 +31,7 @@ wrap_proj_types = (ccrs._RectangularProjection,
                    ccrs.Mercator)
 
 
-@docstrings.get_sectionsf('shiftdata')
+@docstrings.get_sections(base='shiftdata')
 def shiftdata(lonsin, datain, lon_0):
     """
     Shift longitudes (and optionally data) so that they match map projection
@@ -166,7 +166,7 @@ lon_formatter = ticker.FuncFormatter(format_lons)
 lat_formatter = ticker.FuncFormatter(format_lats)
 
 
-@docstrings.get_sectionsf(
+@docstrings.get_sections(base=
     'ProjectionBase', sections=['Possible types', 'See Also'])
 class ProjectionBase(Formatoption):
     """
@@ -509,7 +509,7 @@ class Projection(ProjectionBase):
         pass
 
 
-@docstrings.get_sectionsf('BoxBase')
+@docstrings.get_sections(base='BoxBase')
 class BoxBase(Formatoption):
     """
     Abstract base class for specifying a longitude-latitude box
@@ -652,7 +652,7 @@ class CenterLat(BoxBase):
                 self.clat = self.lat_mean
 
 
-@docstrings.get_sectionsf('LonLatBox')
+@docstrings.get_sections(base='LonLatBox')
 class LonLatBox(BoxBase):
     """
     Set the longitude-latitude box of the data shown
@@ -1413,7 +1413,7 @@ class GridLabelSize(Formatoption):
                 text.set_size(value)
 
 
-@docstrings.get_sectionsf('GridBase', sections=['Possible types', 'See Also'])
+@docstrings.get_sections(base='GridBase', sections=['Possible types', 'See Also'])
 class GridBase(psyps.DataTicksCalculator):
     """
     Abstract base class for x- and y- grid lines
@@ -1753,7 +1753,7 @@ class MapPlot2D(psyps.Plot2D):
 
 class MapDataGrid(psyps.DataGrid):
 
-    __doc__ = psyps.DataGrid.__doc__ + '\n' + docstrings.dedents("""
+    __doc__ = psyps.DataGrid.__doc__ + '\n' + docstrings.dedent("""
     See Also
     --------
     xgrid
