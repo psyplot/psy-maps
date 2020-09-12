@@ -44,7 +44,7 @@ build: off
 test_script:
     - setlocal
     - set CONDA_REPO_TOKEN=
-    - conda build ci/conda-recipe --python %PYTHON_VERSION%
+    - conda build ci/conda-recipe --python %PYTHON_VERSION% --no-include-recipe
     - IF DEFINED PSYPLOT_REFERENCES (python ci/check_ref_deploy.py)
     - endlocal
 

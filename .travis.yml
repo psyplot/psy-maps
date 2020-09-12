@@ -149,7 +149,7 @@ script:
     - if [[ $USE_PIP == true ]]; then
           pytest -v --cov=psy_maps && codecov;
       else
-          conda build ci/conda-recipe --python $PYTHON_VERSION;
+          conda build ci/conda-recipe --python $PYTHON_VERSION --no-include-recipe;
       fi
     - if [[ ${BUILD_STR_END} == "cf" ]]; then python ci/check_ref_deploy.py; fi
     # export the pw to make it available for the deploy
