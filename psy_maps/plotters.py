@@ -1727,7 +1727,10 @@ class MapPlot2D(psyps.Plot2D):
                 edgecolors='none', antialiaseds=False)
             self.logger.debug('Adding collection to axes')
             self.ax.add_collection(self._plot)
-            self._plot.set_clip_path(self.ax.outline_patch)
+            if cartopy.__version__ <= "0.18":
+                self._plot.set_clip_path(self.ax.outline_patch)
+            else:
+                self._plot.set_clip_path(self.ax.spines["geo"])
             if wrapped_arr is not None:
                 self.logger.debug('Making wrapped plot with %i cells',
                                   wrapped_arr.size)
@@ -1738,7 +1741,10 @@ class MapPlot2D(psyps.Plot2D):
                     edgecolors='none', antialiaseds=False)
                 self.logger.debug('Adding wrapped collection to axes')
                 self.ax.add_collection(self._wrapped_plot)
-                self._wrapped_plot.set_clip_path(self.ax.outline_patch)
+                if cartopy.__version__ <= "0.18":
+                    self._wrapped_plot.set_clip_path(self.ax.outline_patch)
+                else:
+                    self._wrapped_plot.set_clip_path(self.ax.spines["geo"])
         self.logger.debug('Done.')
 
     def remove(self, *args, **kwargs):
