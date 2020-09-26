@@ -998,7 +998,10 @@ class MapBackground(psy_simple.base.BackgroundColor):
 
     def update(self, value):
         super().update(value)
-        self.ax.background_patch.set_facecolor(self.ax.patch.get_facecolor())
+        if cartopy.__version__ < "0.18":
+            self.ax.background_patch.set_facecolor(self.ax.patch.get_facecolor())
+        else:
+            self.ax.patch.set_facecolor(self.ax.patch.get_facecolor())
 
 
 class ClipAxes(Formatoption):
@@ -1178,11 +1181,17 @@ class LSM(Formatoption):
         self.lsm = self.ax.add_feature(
             land_feature, facecolor='none', edgecolor=coast,
             linewidth=linewidth, zorder=1)
-        self.ax.background_patch.set_facecolor(ocean)
+        if cartopy.__version__ < "0.18":
+            self.ax.background_patch.set_facecolor(ocean)
+        else:
+            self.ax.patch.set_facecolor(ocean)
 
     def draw_land(self, land, res='110m'):
-        self.draw_all(land, self.ax.background_patch.get_facecolor(),
-                      'face', res, 0.0)
+        if cartopy.__version__ < "0.18":
+            ocean = self.ax.background_patch.get_facecolor()
+        else:
+            ocean = self.ax.patch.get_facecolor()
+        self.draw_all(land, ocean, 'face', res, 0.0)
 
     def draw_coast(self, coast, res='110m', linewidth=1.0):
         if coast is None:
@@ -1193,8 +1202,11 @@ class LSM(Formatoption):
         self.draw_ocean_coast(ocean, None, res, 0.0)
 
     def draw_land_coast(self, land, coast, res='110m', linewidth=1.0):
-        self.draw_all(land, self.ax.background_patch.get_facecolor(), coast,
-                      res, linewidth)
+        if cartopy.__version__ < "0.18":
+            ocean = self.ax.background_patch.get_facecolor()
+        else:
+            ocean = self.ax.patch.get_facecolor()
+        self.draw_all(land, ocean, coast, res, linewidth)
 
     def draw_ocean_coast(self, ocean, coast, res='110m', linewidth=1.0):
         ocean_feature = cf.OCEAN.with_scale(res)
