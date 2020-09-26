@@ -38,7 +38,7 @@ warnings.filterwarnings('ignore', message="axes.color_cycle is deprecated")
 warnings.filterwarnings(
     'ignore', message=("This has been deprecated in mpl 1.5,"))
 warnings.filterwarnings('ignore', message="invalid value encountered in ")
-warnings.filterwarnings('ignore', message="\s*examples.directory")
+warnings.filterwarnings('ignore', message=r"\s*examples.directory")
 warnings.filterwarnings('ignore', message='numpy.dtype size changed')
 
 # -- General configuration ------------------------------------------------
@@ -117,9 +117,9 @@ not_document_data = ['psy_maps.plugin.defaultParams',
 ipython_savefig_dir = os.path.join(os.path.dirname(__file__), '_static')
 
 # General information about the project.
-project = u'psy-maps'
-copyright = u'2015, Philipp Sommer'
-author = u'Philipp Sommer'
+project = 'psy-maps'
+copyright = psy_maps.__copyright__
+author = psy_maps.__author__
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -180,8 +180,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'psy-maps.tex', u'psy-maps Documentation',
-   u'Philipp Sommer', 'manual'),
+  (master_doc, 'psy-maps.tex', 'psy-maps Documentation',
+   author, 'manual'),
 ]
 
 
@@ -190,7 +190,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'psy-maps', u'psy-maps Documentation',
+    (master_doc, 'psy-maps', 'psy-maps Documentation',
      [author], 1)
 ]
 
@@ -201,7 +201,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'psy-maps', u'psy-maps Documentation',
+  (master_doc, 'psy-maps', 'psy-maps Documentation',
    author, 'psy-maps', 'The psyplot plugin for simple visualizations',
    'Miscellaneous'),
 ]
