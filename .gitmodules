@@ -98,3 +98,7 @@
 	path = tests/reference_figures/win32/py3.7/mpl3.2
 	url = https://github.com/psyplot/psy-maps-references.git
 	branch = win32_py3.7_mpl3.2
+[submodule "tests/reference_figures/win32/py3.8/mpl3.2"]
+	path = tests/reference_figures/win32/py3.8/mpl3.2
+	url = https://github.com/psyplot/psy-maps-references.git
+	branch = win32_py3.8_mpl3.2
