@@ -6,14 +6,14 @@ environment:
 
   matrix:
     - PYTHON_VERSION: "3.8"
-      MPL_VERSION: "3.1"
+      MPL_VERSION: "3.2"
       BUILD_STR_END: cf
     - PYTHON_VERSION: "3.7"
     - PYTHON_VERSION: "3.7"
-      MPL_VERSION: "3.1"
+      MPL_VERSION: "3.2"
       BUILD_STR_END: cf
     - PYTHON_VERSION: "3.7"
-      MPL_VERSION: "3.0"
+      MPL_VERSION: "3.1"
       BUILD_STR_END: cf
 install:
     # windows config (for installation)
