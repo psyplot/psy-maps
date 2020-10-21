@@ -1,4 +1,4 @@
 include README.rst
 include LICENSE
 include versioneer.py
-include psy_simple/_version.py
+include psy_maps/_version.py
