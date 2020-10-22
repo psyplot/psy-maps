@@ -1,7 +1,19 @@
+import os
 import os.path as osp
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 import sys
+
+
+if os.getenv("READTHEDOCS") == "True":
+    # to make versioneer working, we need to unshallow this repo
+    # because RTD does a checkout with --depth 50
+    import subprocess as spr
+    rootdir = osp.dirname(__file__)
+    spr.call(["git", "-C", rootdir, "fetch", "--unshallow", "origin"])
+
+
+import versioneer
 
 
 def readme():
@@ -24,13 +36,11 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 
-# read the version from version.py
-with open(osp.join('psy_maps', 'version.py')) as f:
-    exec(f.read())
+cmdclass = versioneer.get_cmdclass({'test': PyTest})
 
 
 setup(name='psy-maps',
-      version=__version__,
+      version=versioneer.get_version(),
       description='Psyplot plugin for visualization on a map',
       long_description=readme(),
       classifiers=[
@@ -63,7 +73,7 @@ setup(name='psy-maps',
           'Tracker': 'https://github.com/psyplot/psy-maps/issues',
       },
       tests_require=['pytest'],
-      cmdclass={'test': PyTest},
+      cmdclass=cmdclass,
       entry_points={'psyplot': ['plugin=psy_maps.plugin',
                                 'patches=psy_maps.plugin:patches']},
       zip_safe=False)
