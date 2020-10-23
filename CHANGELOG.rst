@@ -11,6 +11,8 @@ Fixed
 - fixed a bug when using ``plot="poly"`` for data on non-standard projections
   (i.e. anything that is not ``cartopy.crs.PlateCarree``). See
   `#29 <https://github.com/psyplot/psy-maps/pull/29>`__).
+- fixed plotting of data with 3D bounds (see
+  `#30 <https://github.com/psyplot/psy-maps/pull/30>`__)
 
 v1.3.0
 ======
