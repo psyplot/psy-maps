@@ -1719,8 +1719,7 @@ class MapPlot2D(psyps.Plot2D):
                     yb = yb[~mask]
             self.logger.debug('Making plot with %i cells', arr.size)
             transformed = proj.transform_points(
-                t.as_geodetic(), xb.ravel(), yb.ravel())[..., :2].reshape(
-                    xb.shape + (2, ))
+                t, xb.ravel(), yb.ravel())[..., :2].reshape(xb.shape + (2,))
             self._plot = PolyCollection(
                 transformed, array=arr.ravel(),
                 norm=self.bounds.norm, rasterized=True, cmap=cmap,
@@ -1817,8 +1816,7 @@ class MapDataGrid(psyps.DataGrid):
                 xb = xb[~mask]
                 yb = yb[~mask]
         orig_shape = xb.shape
-        transformed = proj.transform_points(t.as_geodetic(), xb.ravel(),
-                                            yb.ravel())
+        transformed = proj.transform_points(t, xb.ravel(), yb.ravel())
         xb = transformed[..., 0].reshape(orig_shape)
         yb = transformed[..., 1].reshape(orig_shape)
         # We insert nan values in the flattened edges arrays rather than
