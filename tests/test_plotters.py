@@ -1748,5 +1748,29 @@ def test_rotated_pole_poly():
         assert abs(maxy - 31.88) < 2
 
 
+def test_plot_poly_3D_bounds():
+    """Test plotting the polygons with 3D bounds."""
+    fname = os.path.join(bt.test_dir, "rotated-pole-test.nc")
+    with psy.plot.mapplot(fname, plot='poly') as sp:
+        assert sp[0].ndim == 2
+        plotter = sp.plotters[0]
+        xmin, xmax = plotter.ax.get_xlim()
+        ymin, ymax = plotter.ax.get_ylim()
+        assert abs(xmax - xmin - 53) < 2
+        assert abs(ymax - ymin - 52) < 2
+
+
+def test_datagrid_3D_bounds():
+    """Test plotting the datagrid with 3D bounds."""
+    fname = os.path.join(bt.test_dir, "rotated-pole-test.nc")
+    with psy.plot.mapplot(fname, datagrid='k-') as sp:
+        assert sp[0].ndim == 2
+        plotter = sp.plotters[0]
+        xmin, xmax = plotter.ax.get_xlim()
+        ymin, ymax = plotter.ax.get_ylim()
+        assert abs(xmax - xmin - 53) < 2
+        assert abs(ymax - ymin - 52) < 2
+
+
 if __name__ == '__main__':
     bt.RefTestProgram()
