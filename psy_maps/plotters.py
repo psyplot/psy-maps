@@ -1717,6 +1717,9 @@ class MapPlot2D(psyps.Plot2D):
                     yb_wrap = yb[mask]
                     xb = xb[~mask]
                     yb = yb[~mask]
+            if xb.ndim > 2:
+                xb = xb.reshape((-1, xb.shape[-1]))
+                yb = yb.reshape((-1, yb.shape[-1]))
             self.logger.debug('Making plot with %i cells', arr.size)
             transformed = proj.transform_points(
                 t, xb.ravel(), yb.ravel())[..., :2].reshape(xb.shape + (2,))
@@ -1819,6 +1822,9 @@ class MapDataGrid(psyps.DataGrid):
         transformed = proj.transform_points(t, xb.ravel(), yb.ravel())
         xb = transformed[..., 0].reshape(orig_shape)
         yb = transformed[..., 1].reshape(orig_shape)
+        if xb.ndim > 2:
+            xb = xb.reshape((-1, xb.shape[-1]))
+            yb = yb.reshape((-1, yb.shape[-1]))
         # We insert nan values in the flattened edges arrays rather than
         # plotting the grid cells separately as it considerably speeds-up code
         # execution.
