@@ -66,6 +66,7 @@ setup(name='psy-maps',
           'psyplot>=1.3.0',
           'psy-simple>=1.3.0',
           'cartopy',
+          'scipy',  # required for plotting with cartopy
       ],
       project_urls={
           'Documentation': 'https://psyplot.readthedocs.io/projects/psy-maps',
