@@ -1738,14 +1738,40 @@ del cls
 def test_rotated_pole_poly():
     """Test function for https://github.com/psyplot/psy-maps/issues/28"""
     test_file = os.path.join(bt.test_dir, "rotated-pole-test.nc")
-    with psy.plot.mapplot(test_file, name="t2m", plot="poly") as sp:
+    # select rlon and rlat manually to make sure we do not use the coordinates
+    decoder_kws = {"x": "rlon", "y": "rlat"}
+    with psy.plot.mapplot(test_file, plot="poly", decoder=decoder_kws) as sp:
         plotter = sp.plotters[0]
         minx, maxx = plotter.ax.get_xlim()
         miny, maxy = plotter.ax.get_ylim()
-        assert abs(minx - -30.88) < 2
-        assert abs(maxx - 19.95) < 2
-        assert abs(miny - -26.21) < 2
-        assert abs(maxy - 31.88) < 2
+        assert abs(minx - -32.2) < 2
+        assert abs(maxx - 22) < 2
+        assert abs(miny - -27.14) < 2
+        assert abs(maxy - 25.6) < 2
+
+
+def test_plot_poly_3D_bounds():
+    """Test plotting the polygons with 3D bounds."""
+    fname = os.path.join(bt.test_dir, "rotated-pole-test.nc")
+    with psy.plot.mapplot(fname, plot='poly') as sp:
+        assert sp[0].ndim == 2
+        plotter = sp.plotters[0]
+        xmin, xmax = plotter.ax.get_xlim()
+        ymin, ymax = plotter.ax.get_ylim()
+        assert abs(xmax - xmin - 53) < 2
+        assert abs(ymax - ymin - 52) < 2
+
+
+def test_datagrid_3D_bounds():
+    """Test plotting the datagrid with 3D bounds."""
+    fname = os.path.join(bt.test_dir, "rotated-pole-test.nc")
+    with psy.plot.mapplot(fname, datagrid='k-') as sp:
+        assert sp[0].ndim == 2
+        plotter = sp.plotters[0]
+        xmin, xmax = plotter.ax.get_xlim()
+        ymin, ymax = plotter.ax.get_ylim()
+        assert abs(xmax - xmin - 53) < 2
+        assert abs(ymax - ymin - 52) < 2
 
 
 if __name__ == '__main__':
