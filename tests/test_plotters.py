@@ -1738,7 +1738,7 @@ del cls
 def test_rotated_pole_poly():
     """Test function for https://github.com/psyplot/psy-maps/issues/28"""
     test_file = os.path.join(bt.test_dir, "rotated-pole-test.nc")
-    with psy.plot.mapplot(test_file, name="t2m", plot="poly") as sp:
+    with psy.plot.mapplot(test_file, plot="poly") as sp:
         plotter = sp.plotters[0]
         minx, maxx = plotter.ax.get_xlim()
         miny, maxy = plotter.ax.get_ylim()
