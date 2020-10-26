@@ -13,6 +13,8 @@ Fixed
   `#29 <https://github.com/psyplot/psy-maps/pull/29>`__).
 - fixed plotting of data with 3D bounds (see
   `#30 <https://github.com/psyplot/psy-maps/pull/30>`__)
+- fixed plotting of curvilinear data with 3D bounds (see
+  `#31 <https://github.com/psyplot/psy-maps/pull/31>`__)
 
 v1.3.0
 ======
