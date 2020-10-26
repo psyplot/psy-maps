@@ -1679,6 +1679,10 @@ class MapPlot2D(psyps.Plot2D):
             # However, in order to wrap the boundaries correctly, we have to
             # identify the corresponding grid cells and then use the standard
             # matplotlib transform.
+            if xb.ndim > 2:
+                xb = xb.reshape((-1, xb.shape[-1]))
+                yb = yb.reshape((-1, yb.shape[-1]))
+                arr = arr.reshape(-1)
             if isinstance(t, wrap_proj_types) and 'lon_0' in proj.proj4_params:
                 # We adopt and copy some code from the methodology of cartopy
                 # _pcolormesh_patched method of the geoaxes. As such, we
@@ -1717,9 +1721,6 @@ class MapPlot2D(psyps.Plot2D):
                     yb_wrap = yb[mask]
                     xb = xb[~mask]
                     yb = yb[~mask]
-            if xb.ndim > 2:
-                xb = xb.reshape((-1, xb.shape[-1]))
-                yb = yb.reshape((-1, yb.shape[-1]))
             self.logger.debug('Making plot with %i cells', arr.size)
             transformed = proj.transform_points(
                 t, xb.ravel(), yb.ravel())[..., :2].reshape(xb.shape + (2,))
@@ -1791,6 +1792,11 @@ class MapDataGrid(psyps.DataGrid):
         proj = self.ax.projection
         # HACK: We remove the cells at the boundary of the map projection
         xb_wrap = None
+
+        if xb.ndim > 2:
+            xb = xb.reshape((-1, xb.shape[-1]))
+            yb = yb.reshape((-1, yb.shape[-1]))
+
         if isinstance(t, wrap_proj_types) and 'lon_0' in proj.proj4_params:
             # See the :meth:`MapPlot2D._polycolor` method for a documentation
             # of the steps
@@ -1822,20 +1828,48 @@ class MapDataGrid(psyps.DataGrid):
         transformed = proj.transform_points(t, xb.ravel(), yb.ravel())
         xb = transformed[..., 0].reshape(orig_shape)
         yb = transformed[..., 1].reshape(orig_shape)
-        if xb.ndim > 2:
-            xb = xb.reshape((-1, xb.shape[-1]))
-            yb = yb.reshape((-1, yb.shape[-1]))
         # We insert nan values in the flattened edges arrays rather than
         # plotting the grid cells separately as it considerably speeds-up code
         # execution.
         n = len(xb)
         xb = np.c_[xb, xb[:, :1], [[np.nan]] * n].ravel()
         yb = np.c_[yb, yb[:, :1], [[np.nan]] * n].ravel()
+
         if isinstance(value, dict):
             self._artists = self.ax.plot(xb, yb, **value)
         else:
             self._artists = self.ax.plot(xb, yb, value)
+
         if xb_wrap is not None:
+            # first we drop all grid cells that have any NaN in their bounds
+            # as we do not know, how to handle these
+            valid = (~np.isnan(xb_wrap).any(-1)) & (~np.isnan(yb_wrap).any(-1))
+            xb_wrap = xb_wrap[valid]
+            yb_wrap = yb_wrap[valid]
+
+            if isinstance(t, ccrs.PlateCarree):
+
+                # identify the grid cells at the boundary
+                xdiff2min = xb_wrap - xb_wrap.min(axis=-1, keepdims=True)
+                cross_world_mask = np.any(np.abs(xdiff2min) > 180, -1)
+                if cross_world_mask.any():
+                    cross_world_x = xb_wrap[cross_world_mask]
+                    cross_world_y = yb_wrap[cross_world_mask]
+                    cross_world_diff = xdiff2min[cross_world_mask]
+                    xdiff2max = cross_world_x - cross_world_x.max(
+                        axis=-1, keepdims=True)
+
+                    leftx = cross_world_x.copy()
+                    leftx[cross_world_diff > 180] -= 360
+
+                    rightx = cross_world_x.copy()
+                    rightx[xdiff2max < -180] += 360
+
+                    xb_wrap = np.r_[xb_wrap[~cross_world_mask], leftx, rightx]
+                    yb_wrap = np.r_[
+                        yb_wrap[~cross_world_mask], cross_world_y, cross_world_y
+                    ]
+
             n = len(xb_wrap)
             xb_wrap = np.c_[xb_wrap, xb_wrap[:, :1], [[np.nan]] * n].ravel()
             yb_wrap = np.c_[yb_wrap, yb_wrap[:, :1], [[np.nan]] * n].ravel()
