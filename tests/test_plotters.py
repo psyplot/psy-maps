@@ -1774,5 +1774,30 @@ def test_datagrid_3D_bounds():
         assert abs(ymax - ymin - 52) < 2
 
 
+def test_plot_curvilinear_datagrid(tmpdir):
+    """Test if the there is no datagrid plotted over land
+
+    This implicitly checks, if grid cells at the boundary are warped correctly.
+    The file ``'curvilinear-with-bounds.nc'`` contains a variable on a
+    curvilinear grid that is only defined over the ocean (derived from MPI-OM).
+    Within this test, we focus on a region over land far away from
+    the ocean (Czech Republic) where there are no grid cells. If the datagrid
+    is plotted correctly, it should be all white.
+    """
+    from matplotlib.testing.compare import compare_images
+    fname = os.path.join(bt.test_dir, 'curvilinear-with-bounds.nc')
+    # make a white plot without datagrid
+    kws = dict(plot=None, xgrid=False, ygrid=False, map_extent='Czech Republic')
+    with psy.plot.mapplot(fname, **kws) as sp:
+        sp.export(str(tmpdir / "ref.png"))  # this is all white
+    # now draw the datagrid, it should still be empty (as the input file only
+    # defines the data over the ocean)
+    with psy.plot.mapplot(fname, datagrid='k-', **kws) as sp:
+        sp.export(str(tmpdir / "test.png"))  # this should be all white, too
+    results = compare_images(
+        str(tmpdir / "ref.png"), str(tmpdir / "test.png"), tol=1)
+    assert results is None, results
+
+
 if __name__ == '__main__':
     bt.RefTestProgram()
