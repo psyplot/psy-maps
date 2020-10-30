@@ -1683,6 +1683,8 @@ class MapPlot2D(psyps.Plot2D):
                 xb = xb.reshape((-1, xb.shape[-1]))
                 yb = yb.reshape((-1, yb.shape[-1]))
                 arr = arr.reshape(-1)
+            if arr.ndim > 1:
+                arr = arr.reshape(-1)
             if isinstance(t, wrap_proj_types) and 'lon_0' in proj.proj4_params:
                 # We adopt and copy some code from the methodology of cartopy
                 # _pcolormesh_patched method of the geoaxes. As such, we
