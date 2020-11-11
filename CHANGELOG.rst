@@ -1,3 +1,8 @@
+v1.3.2
+======
+Minor patch that fixes the visualization of regular data with plot="poly"
+
+
 v1.3.1
 ======
 
