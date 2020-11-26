@@ -702,7 +702,8 @@ class LonLatBox(BoxBase):
             data = data[0]
         decoder = data.psy.decoder
         lon, lat = self._get_lola(data, decoder)
-        new_lonlatbox = self.calc_lonlatbox(lon, lat)
+        new_lonlatbox = self.calc_lonlatbox(
+            lon, lat, decoder.is_unstructured(data))
         update = self.data_lonlatbox != new_lonlatbox
         if not update and set_data and self.value is not None:
             self.update(self.value)
@@ -744,7 +745,8 @@ class LonLatBox(BoxBase):
     def update_array(self, value, data, decoder, base_var=None):
         """Update the given `data` array"""
         lon, lat = self._get_lola(data, decoder)
-        self.data_lonlatbox = self.calc_lonlatbox(lon, lat)
+        self.data_lonlatbox = self.calc_lonlatbox(
+            lon, lat, decoder.is_unstructured(data))
         if value is None:
             self.lonlatbox = self.data_lonlatbox
             return data
@@ -793,7 +795,8 @@ class LonLatBox(BoxBase):
                     ret = self.mask_outside(data.copy(True), lon, lat, *value,
                                             is_unstructured=is_unstructured)
             lon, lat = self._get_lola(ret, decoder)
-            self.data_lonlatbox = self.calc_lonlatbox(lon, lat)
+            self.data_lonlatbox = self.calc_lonlatbox(
+                lon, lat, is_unstructured)
             return ret
 
     def to_degree(self, units=None, *args):
@@ -844,7 +847,7 @@ class LonLatBox(BoxBase):
                 data.values[mask] = np.nan
         return data
 
-    def calc_lonlatbox(self, lon, lat):
+    def calc_lonlatbox(self, lon, lat, is_unstructured=False):
         if isinstance(self.transform.projection, ccrs.PlateCarree):
             with warnings.catch_warnings():
                 warnings.filterwarnings('ignore', 'invalid value encountered',
@@ -853,7 +856,7 @@ class LonLatBox(BoxBase):
                 lat = lat[np.all([lat >= -90, lat <= 90], axis=0)]
                 return [lon.min(), lon.max(), lat.min(), lat.max()]
         else:
-            if lon.ndim == 1:
+            if lon.ndim == 1 and not is_unstructured:
                 lon, lat = np.meshgrid(lon, lat)
             points = ccrs.PlateCarree().transform_points(
                 self.transform.projection, lon, lat)
@@ -1725,7 +1728,8 @@ class MapPlot2D(psyps.Plot2D):
                     yb = yb[~mask]
             self.logger.debug('Making plot with %i cells', arr.size)
             transformed = proj.transform_points(
-                t, xb.ravel(), yb.ravel())[..., :2].reshape(xb.shape + (2,))
+                t, xb.ravel(), yb.ravel())[...,:2].reshape(xb.shape + (2,))
+            arr = arr.ravel()
             self._plot = PolyCollection(
                 transformed, array=arr.ravel(),
                 norm=self.bounds.norm, rasterized=True, cmap=cmap,
