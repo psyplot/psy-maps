@@ -1,3 +1,11 @@
+v1.3.3
+======
+
+Fixed
+-----
+- minor fix for unstructured data on a non-PlateCarree transform, see
+  `#33 <https://github.com/psyplot/psy-maps/pull/33>`__
+
 v1.3.2
 ======
 Minor patch that fixes the visualization of regular data with plot="poly"
