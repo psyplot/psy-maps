@@ -4,7 +4,7 @@ This module defines the rcParams for the psy-simple plugin"""
 import six
 import yaml
 from psyplot.config.rcsetup import RcParams
-from matplotlib.rcsetup import validate_path_exists
+from os.path import exists as validate_path_exists
 from psy_simple.plugin import (
     try_and_error, validate_none, validate_str, validate_float,
     validate_bool_maybe_none, validate_fontsize,
