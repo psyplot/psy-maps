@@ -1,3 +1,12 @@
+v1.3.4
+======
+
+Fixed
+-----
+- minor fix of calling a deprecated function in matplotlib
+  (use `os.path.exists` instead of `matplotlib.rcsetup.validate_path_exists`)
+
+
 v1.3.3
 ======
 
