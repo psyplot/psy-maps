@@ -82,5 +82,12 @@ class IconVectorPlotterTest(tpv.VectorPlotterTest):
             np.round(np.linspace(1.0, 8.0, 5, endpoint=True), 2).tolist())
 
 
+class IconVectorPlotterTest2D(bt.TestBase2D, IconVectorPlotterTest):
+    """Test :class:`psyplot.plotter.maps.VectorPlotter` class for icon grid
+    without time and vertical dimension"""
+
+    var = ['u_2d', 'v_2d']
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -56,5 +56,12 @@ class StreamVectorPlotterTest(tpv.VectorPlotterTest):
         self.compare_figures(next(iter(args), self.get_ref_file('density')))
 
 
+class StreamVectorPlotterTest2D(bt.TestBase2D, StreamVectorPlotterTest):
+    """Test case for stream plot of :class:`psyplot.plotter.maps.VectorPlotter`
+    without time and vertical dimension"""
+
+    var = ['u_2d', 'v_2d']
+
+
 if __name__ == '__main__':
     unittest.main()

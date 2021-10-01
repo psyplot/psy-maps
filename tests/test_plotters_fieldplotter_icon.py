@@ -86,5 +86,12 @@ class IconFieldPlotterTest(tpf.FieldPlotterTest):
         self.compare_figures(self.get_ref_file('pole'))
 
 
+class IconFieldPlotterTest2D(bt.TestBase2D, IconFieldPlotterTest):
+    """Test :class:`psyplot.plotter.maps.FieldPlotter` class for icon grid
+    without time and vertical dimension"""
+
+    var = 't2m_2d'
+
+
 if __name__ == '__main__':
     unittest.main()

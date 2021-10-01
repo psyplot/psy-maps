@@ -429,6 +429,13 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
         self.assertEqual([t.get_size() for t in texts], [20] * len(texts))
 
 
+class FieldPlotterTest2D(bt.TestBase2D, FieldPlotterTest):
+    """Test :class:`psyplot.plotter.maps.FieldPlotter` class without time and
+    vertical dimension"""
+
+    var = 't2m_2d'
+
+
 def test_lonlatbox_projected():
     sp = psy.plot.mapplot(os.path.join(bt.test_dir, 'Stockholm.nc'),
                             name='Population', transform='moll',

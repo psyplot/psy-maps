@@ -144,5 +144,12 @@ class VectorPlotterTest(tpf.FieldPlotterTest, tpf.MapReferences):
             decimals=2).tolist()
 
 
+class VectorPlotterTest2D(bt.TestBase2D, VectorPlotterTest):
+    """Test :class:`psyplot.plotter.maps.VectorPlotter` class without time and
+    vertical dimension"""
+
+    var = ['u_2d', 'v_2d']
+
+
 if __name__ == '__main__':
     unittest.main()

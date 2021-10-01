@@ -125,5 +125,13 @@ class CircumpolarVectorPlotterTest(tpv.VectorPlotterTest):
         pass
 
 
+class CircumpolarVectorPlotterTest2D(
+        bt.TestBase2D, CircumpolarVectorPlotterTest):
+    """Test :class:`psyplot.plotter.maps.VectorPlotter` class without time and
+    vertical dimension for circumpolar grids"""
+
+    var = ['u_2d', 'v_2d']
+
+
 if __name__ == '__main__':
     unittest.main()

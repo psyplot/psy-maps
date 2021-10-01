@@ -115,5 +115,18 @@ class IconCombinedPlotterTest(tpc.CombinedPlotterTest):
             decimals=2).tolist()
 
 
+class IconCombinedPlotterTest2D(bt.TestBase2D, IconCombinedPlotterTest):
+    """Test :class:`psyplot.plotter.maps.CombinedPlotter` class for icon grid
+    without time and vertical dimension"""
+
+    var = ['t2m', ['u_2d', 'v_2d']]
+
+    def _label_test(self, key, label_func, has_time=None):
+        if has_time is None:
+            has_time = not bool(self.vector_mode)
+        tpc.CombinedPlotterTest._label_test(
+            self, key, label_func, has_time=has_time)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -111,5 +111,13 @@ class CircumpolarFieldPlotterTest(tpf.FieldPlotterTest):
         pass
 
 
+class CircumpolarFieldPlotterTest2D(
+        bt.TestBase2D, CircumpolarFieldPlotterTest):
+    """Test :class:`psyplot.plotter.maps.FieldPlotter` class without time and
+    vertical dimension for circumpolar grids"""
+
+    var = 't2m_2d'
+
+
 if __name__ == '__main__':
     unittest.main()
