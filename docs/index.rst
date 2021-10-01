@@ -31,17 +31,19 @@ See the :ref:`plot_methods` and :ref:`gallery_examples` for more information.
         * - docs
           - |docs|
         * - tests
-          - |travis| |appveyor| |requires| |codecov|
+          - |circleci| |appveyor| |requires| |codecov|
         * - package
-          - |version| |conda| |supported-versions| |supported-implementations| |zenodo|
+          - |version| |conda| |github| |zenodo|
+        * - implementations
+          - |supported-versions| |supported-implementations|
 
     .. |docs| image:: http://readthedocs.org/projects/psy-maps/badge/?version=latest
         :alt: Documentation Status
         :target: http://psy-maps.readthedocs.io/en/latest/?badge=latest
 
-    .. |travis| image:: https://travis-ci.org/psyplot/psy-maps.svg?branch=master
-        :alt: Travis
-        :target: https://travis-ci.org/psyplot/psy-maps
+    .. |circleci| image:: https://circleci.com/gh/psyplot/psy-maps/tree/master.svg?style=svg
+        :alt: CircleCI
+        :target: https://circleci.com/gh/psyplot/psy-maps/tree/master
 
     .. |appveyor| image:: ttps://ci.appveyor.com/api/projects/status/rd733xj3tfrk4tot/branch/master?svg=true
         :alt: AppVeyor
@@ -74,6 +76,10 @@ See the :ref:`plot_methods` and :ref:`gallery_examples` for more information.
     .. |zenodo| image:: https://zenodo.org/badge/83305582.svg
         :alt: Zenodo
         :target: https://zenodo.org/badge/latestdoi/83305582
+
+    .. |github| image:: https://img.shields.io/github/v/release/psyplot/psy-maps.svg
+        :target: https://github.com/psyplot/psy-maps/releases/latest
+        :alt: Latest github release
 
 .. end-badges
 
