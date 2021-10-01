@@ -12,3 +12,4 @@ dependencies:
     - sphinx
     - psy-maps
     - autodocsumm
+    - sphinx_rtd_theme
