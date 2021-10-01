@@ -78,3 +78,5 @@ target/
 
 # conda build files
 ci/conda-recipe/recipe_append.yaml
+tests/reference_figures
+tests/test_figures
