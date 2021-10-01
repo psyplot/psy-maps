@@ -13,3 +13,4 @@ dependencies:
     - psy-maps
     - autodocsumm
     - sphinx_rtd_theme
+    - psyplot-gui
