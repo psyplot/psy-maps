@@ -141,7 +141,7 @@ class BasePlotterTest(bt.PsyPlotTestCase):
             self.assertGreaterEqual(data[data > 250].max(), 251)
 
 
-class TestBase2D(object):
+class TestBase2D:
     """Test :class:`psyplot.plotter.baseplotter.BasePlotter` class without time
     and vertical dimension"""
 
@@ -149,12 +149,18 @@ class TestBase2D(object):
         return super(TestBase2D, self)._label_test(
             key, label_func, has_time=has_time)
 
+    def __getattribute__(self, attr):
+        """Hack to disable the creation of reference figures"""
+        ret = super().__getattribute__(attr)
+        if callable(ret) and attr.startswith("ref_"):
 
-class BasePlotterTest2D(TestBase2D, BasePlotterTest):
-    """Test :class:`psyplot.plotter.baseplotter.BasePlotter` class without time
-    and vertical dimension"""
+            @unittest.skip("Reference figures are created from the base class")
+            def skip_func(self):
+                pass
 
-    var = 't2m_2d'
+            skip_func.__name__ = attr
+            return skip_func()
+        return ret
 
 
 if __name__ == '__main__':
