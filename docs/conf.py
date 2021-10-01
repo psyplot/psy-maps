@@ -65,12 +65,6 @@ templates_path = ['_templates']
 if not osp.exists(osp.join(osp.dirname(__file__), 'api')):
     spr.check_call(['bash', 'apigen.bash'])
 
-# HACK: Create an empty file called '<string>' to prevent
-# https://github.com/sphinx-doc/sphinx/issues/5614
-if not osp.exists('<string>'):
-    with open('<string>', 'w') as f:
-        pass
-
 napoleon_use_admonition_for_examples = True
 
 # The suffix(es) of source filenames.
@@ -195,7 +189,7 @@ epub_exclude_files = ['search.html']
 intersphinx_mapping = {
     'pandas': ('http://pandas.pydata.org/pandas-docs/stable/', None),
     'numpy': ('https://docs.scipy.org/doc/numpy/', None),
-    'matplotlib': ('https://matplotlib.org/', None),
+    'matplotlib': ('https://matplotlib.org/stable/', None),
     'sphinx': ('http://www.sphinx-doc.org/en/stable/', None),
     'xarray': ('http://xarray.pydata.org/en/stable/', None),
     'cartopy': ('https://scitools.org.uk/cartopy/docs/latest/', None),

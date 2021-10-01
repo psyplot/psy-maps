@@ -17,8 +17,8 @@ rectangular and triangular 2-dimensional data.
 
 See the :ref:`plot_methods` and :ref:`gallery_examples` for more information.
 
-.. _cartopy: http://scitools.org.uk/cartopy
-.. _psy-simple: http://psyplot.readthedocs.io/projects/psy-simple/
+.. _cartopy: https://scitools.org.uk/cartopy
+.. _psy-simple: https://psyplot.github.io/psy-simple/
 
 .. start-badges
 
@@ -86,7 +86,6 @@ Documentation
 
     installing
     plot_methods
-    examples/index
     contribute
     api/psy_maps
 
