@@ -51,7 +51,9 @@ class MapReferences:
         Create reference file for
         :attr:`~psyplot.plotter.simple.Simple2DPlotter.cbar`
         formatoption"""
-        sp = self.plot(cbar=['fb', 'fr', 'fl', 'ft', 'b', 'r'])
+        sp = self.plot(
+            cbar=['fb', 'fr', 'fl', 'ft', 'b', 'r'], xgrid=False, ygrid=False
+        )
         sp.export(os.path.join(bt.ref_dir, self.get_ref_file('cbar')))
         if close:
             sp.close(True, True, True)
@@ -276,7 +278,9 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
 
     def test_cbar(self, *args):
         """Test colorbar (cbar) formatoption"""
-        self.update(cbar=['fb', 'fr', 'fl', 'ft', 'b', 'r'])
+        self.update(
+            cbar=['fb', 'fr', 'fl', 'ft', 'b', 'r'], xgrid=False, ygrid=False
+        )
         self.compare_figures(next(iter(args), self.get_ref_file('cbar')))
 
     def test_bounds(self):
