@@ -154,9 +154,11 @@ class CircumpolarCombinedPlotterTest(tpc.CombinedPlotterTest):
         pass
 
 
-class CombinedPlotterTest2D(bt.TestBase2D, tpc.CombinedPlotterTest):
-    """Test :class:`psyplot.plotter.maps.CombinedPlotter` class without time and
-    vertical dimension"""
+class CircumpolarCombinedPlotterTest2D(
+    bt.TestBase2D, CircumpolarCombinedPlotterTest
+):
+    """Test :class:`psyplot.plotter.maps.CombinedPlotter` class for icon grid
+    without time and vertical dimension"""
 
     var = ['t2m', ['u_2d', 'v_2d']]
 

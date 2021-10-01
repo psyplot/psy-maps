@@ -313,5 +313,18 @@ class CombinedPlotterTest(tpv.VectorPlotterTest):
             self.assertEqual(label.get_ha(), 'left')
 
 
+class CombinedPlotterTest2D(bt.TestBase2D, CombinedPlotterTest):
+    """Test :class:`psyplot.plotter.maps.CombinedPlotter` class without time and
+    vertical dimension"""
+
+    var = ['t2m', ['u_2d', 'v_2d']]
+
+    def _label_test(self, key, label_func, has_time=None):
+        if has_time is None:
+            has_time = not bool(self.vector_mode)
+        CombinedPlotterTest._label_test(
+            self, key, label_func, has_time=has_time)
+
+
 if __name__ == '__main__':
     unittest.main()
