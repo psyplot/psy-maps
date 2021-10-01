@@ -45,7 +45,7 @@ workflows:
           setup_env: true
           build_args: "--no-test"
           build_docs: << pipeline.parameters.build_docs >>
-          env_packages: pytest-cov dask psyplot-gui statsmodels netcdf4 seaborn
+          env_packages: pytest-cov dask psyplot-gui statsmodels netcdf4 seaborn pytest-qt
       - psyplot/test-parallel:
           name: test-matplotlib-latest
           parallelism: << pipeline.parameters.parallelism >>
