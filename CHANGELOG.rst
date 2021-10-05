@@ -1,9 +1,15 @@
 v1.4.0
 ======
+Compatibility fixes and LGPL license
+
+As with psyplot 1.4.0, psy-maps is now continuously tested and deployed with
+CircleCI.
 
 
 Fixed
 -----
+- psy-maps is now officially licensed under LGPL-3.0-only,
+  see `#36 <https://github.com/psyplot/psy-maps/pull/36>`__
 - psy-maps is now compatible with cartopy 0.19 and 0.20
 
 Changed
