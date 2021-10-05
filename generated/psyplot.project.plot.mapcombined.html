@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>psyplot.project.plot.mapcombined &mdash; psy-maps 1.3.2+10.ga4c8929 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contributing to psy-maps" href="../contribute.html" />
+    <link rel="prev" title="psyplot.project.plot.mapvector" href="psyplot.project.plot.mapvector.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> psy-maps
+          </a>
+              <div class="version">
+                1.3.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../plot_methods.html">psyplot plot methods</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="psyplot.project.plot.mapplot.html">psyplot.project.plot.mapplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psyplot.project.plot.mapvector.html">psyplot.project.plot.mapvector</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">psyplot.project.plot.mapcombined</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute.html">Contributing to psy-maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/psy_maps.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">psy-maps</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../plot_methods.html">psyplot plot methods</a> &raquo;</li>
+      <li>psyplot.project.plot.mapcombined</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/psyplot.project.plot.mapcombined.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="psyplot-project-plot-mapcombined">
+<h1>psyplot.project.plot.mapcombined<a class="headerlink" href="#psyplot-project-plot-mapcombined" title="Permalink to this headline"></a></h1>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="psyplot.project.plot.mapcombined">
+<span class="sig-prename descclassname"><span class="pre">plot.</span></span><span class="sig-name descname"><span class="pre">mapcombined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psyplot.project.plot.mapcombined" title="Permalink to this definition"></a></dt>
+<dd><p>Plot a 2D scalar field with an overlying vector field on a map</p>
+<blockquote>
+<div><blockquote>
+<div><p>This plotting method adds data arrays and plots them via
+<a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter" title="psy_maps.plotters.CombinedPlotter"><code class="xref py py-class docutils literal notranslate"><span class="pre">psy_maps.plotters.CombinedPlotter</span></code></a> plotters</p>
+<p>To plot data from a netCDF file type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">psy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">mapcombined</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39;my_variable&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;u_var&#39;</span><span class="p">,</span> <span class="s1">&#39;v_var&#39;</span><span class="p">]]],</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Possible formatoptions are</p>
+</div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.arrowsize" title="psy_maps.plotters.CombinedPlotter.arrowsize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">arrowsize</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.arrowstyle" title="psy_maps.plotters.CombinedPlotter.arrowstyle"><code class="xref py py-attr docutils literal notranslate"><span class="pre">arrowstyle</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.background" title="psy_maps.plotters.CombinedPlotter.background"><code class="xref py py-attr docutils literal notranslate"><span class="pre">background</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.bounds" title="psy_maps.plotters.CombinedPlotter.bounds"><code class="xref py py-attr docutils literal notranslate"><span class="pre">bounds</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.cbar" title="psy_maps.plotters.CombinedPlotter.cbar"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cbar</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.cbarspacing" title="psy_maps.plotters.CombinedPlotter.cbarspacing"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cbarspacing</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.clabel" title="psy_maps.plotters.CombinedPlotter.clabel"><code class="xref py py-attr docutils literal notranslate"><span class="pre">clabel</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.clabelprops" title="psy_maps.plotters.CombinedPlotter.clabelprops"><code class="xref py py-attr docutils literal notranslate"><span class="pre">clabelprops</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.clabelsize" title="psy_maps.plotters.CombinedPlotter.clabelsize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">clabelsize</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.clabelweight" title="psy_maps.plotters.CombinedPlotter.clabelweight"><code class="xref py py-attr docutils literal notranslate"><span class="pre">clabelweight</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.clat" title="psy_maps.plotters.CombinedPlotter.clat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">clat</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.clip" title="psy_maps.plotters.CombinedPlotter.clip"><code class="xref py py-attr docutils literal notranslate"><span class="pre">clip</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.clon" title="psy_maps.plotters.CombinedPlotter.clon"><code class="xref py py-attr docutils literal notranslate"><span class="pre">clon</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.cmap" title="psy_maps.plotters.CombinedPlotter.cmap"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cmap</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.color" title="psy_maps.plotters.CombinedPlotter.color"><code class="xref py py-attr docutils literal notranslate"><span class="pre">color</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.cticklabels" title="psy_maps.plotters.CombinedPlotter.cticklabels"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cticklabels</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.ctickprops" title="psy_maps.plotters.CombinedPlotter.ctickprops"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ctickprops</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.cticks" title="psy_maps.plotters.CombinedPlotter.cticks"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cticks</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.cticksize" title="psy_maps.plotters.CombinedPlotter.cticksize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cticksize</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.ctickweight" title="psy_maps.plotters.CombinedPlotter.ctickweight"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ctickweight</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.datagrid" title="psy_maps.plotters.CombinedPlotter.datagrid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">datagrid</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.density" title="psy_maps.plotters.CombinedPlotter.density"><code class="xref py py-attr docutils literal notranslate"><span class="pre">density</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.extend" title="psy_maps.plotters.CombinedPlotter.extend"><code class="xref py py-attr docutils literal notranslate"><span class="pre">extend</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.figtitle" title="psy_maps.plotters.CombinedPlotter.figtitle"><code class="xref py py-attr docutils literal notranslate"><span class="pre">figtitle</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.figtitleprops" title="psy_maps.plotters.CombinedPlotter.figtitleprops"><code class="xref py py-attr docutils literal notranslate"><span class="pre">figtitleprops</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.figtitlesize" title="psy_maps.plotters.CombinedPlotter.figtitlesize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">figtitlesize</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.figtitleweight" title="psy_maps.plotters.CombinedPlotter.figtitleweight"><code class="xref py py-attr docutils literal notranslate"><span class="pre">figtitleweight</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.grid_color" title="psy_maps.plotters.CombinedPlotter.grid_color"><code class="xref py py-attr docutils literal notranslate"><span class="pre">grid_color</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.grid_labels" title="psy_maps.plotters.CombinedPlotter.grid_labels"><code class="xref py py-attr docutils literal notranslate"><span class="pre">grid_labels</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.grid_labelsize" title="psy_maps.plotters.CombinedPlotter.grid_labelsize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">grid_labelsize</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.grid_settings" title="psy_maps.plotters.CombinedPlotter.grid_settings"><code class="xref py py-attr docutils literal notranslate"><span class="pre">grid_settings</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.interp_bounds" title="psy_maps.plotters.CombinedPlotter.interp_bounds"><code class="xref py py-attr docutils literal notranslate"><span class="pre">interp_bounds</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.levels" title="psy_maps.plotters.CombinedPlotter.levels"><code class="xref py py-attr docutils literal notranslate"><span class="pre">levels</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.linewidth" title="psy_maps.plotters.CombinedPlotter.linewidth"><code class="xref py py-attr docutils literal notranslate"><span class="pre">linewidth</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.lonlatbox" title="psy_maps.plotters.CombinedPlotter.lonlatbox"><code class="xref py py-attr docutils literal notranslate"><span class="pre">lonlatbox</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.lsm" title="psy_maps.plotters.CombinedPlotter.lsm"><code class="xref py py-attr docutils literal notranslate"><span class="pre">lsm</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.map_extent" title="psy_maps.plotters.CombinedPlotter.map_extent"><code class="xref py py-attr docutils literal notranslate"><span class="pre">map_extent</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.mask" title="psy_maps.plotters.CombinedPlotter.mask"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mask</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.mask_datagrid" title="psy_maps.plotters.CombinedPlotter.mask_datagrid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mask_datagrid</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.maskbetween" title="psy_maps.plotters.CombinedPlotter.maskbetween"><code class="xref py py-attr docutils literal notranslate"><span class="pre">maskbetween</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.maskgeq" title="psy_maps.plotters.CombinedPlotter.maskgeq"><code class="xref py py-attr docutils literal notranslate"><span class="pre">maskgeq</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.maskgreater" title="psy_maps.plotters.CombinedPlotter.maskgreater"><code class="xref py py-attr docutils literal notranslate"><span class="pre">maskgreater</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.maskleq" title="psy_maps.plotters.CombinedPlotter.maskleq"><code class="xref py py-attr docutils literal notranslate"><span class="pre">maskleq</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.maskless" title="psy_maps.plotters.CombinedPlotter.maskless"><code class="xref py py-attr docutils literal notranslate"><span class="pre">maskless</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.miss_color" title="psy_maps.plotters.CombinedPlotter.miss_color"><code class="xref py py-attr docutils literal notranslate"><span class="pre">miss_color</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.plot" title="psy_maps.plotters.CombinedPlotter.plot"><code class="xref py py-attr docutils literal notranslate"><span class="pre">plot</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.post" title="psy_maps.plotters.CombinedPlotter.post"><code class="xref py py-attr docutils literal notranslate"><span class="pre">post</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.post_timing" title="psy_maps.plotters.CombinedPlotter.post_timing"><code class="xref py py-attr docutils literal notranslate"><span class="pre">post_timing</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.projection" title="psy_maps.plotters.CombinedPlotter.projection"><code class="xref py py-attr docutils literal notranslate"><span class="pre">projection</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.stock_img" title="psy_maps.plotters.CombinedPlotter.stock_img"><code class="xref py py-attr docutils literal notranslate"><span class="pre">stock_img</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.text" title="psy_maps.plotters.CombinedPlotter.text"><code class="xref py py-attr docutils literal notranslate"><span class="pre">text</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.tight" title="psy_maps.plotters.CombinedPlotter.tight"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tight</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.title" title="psy_maps.plotters.CombinedPlotter.title"><code class="xref py py-attr docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.titleprops" title="psy_maps.plotters.CombinedPlotter.titleprops"><code class="xref py py-attr docutils literal notranslate"><span class="pre">titleprops</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.titlesize" title="psy_maps.plotters.CombinedPlotter.titlesize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">titlesize</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.titleweight" title="psy_maps.plotters.CombinedPlotter.titleweight"><code class="xref py py-attr docutils literal notranslate"><span class="pre">titleweight</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.transform" title="psy_maps.plotters.CombinedPlotter.transform"><code class="xref py py-attr docutils literal notranslate"><span class="pre">transform</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.transpose" title="psy_maps.plotters.CombinedPlotter.transpose"><code class="xref py py-attr docutils literal notranslate"><span class="pre">transpose</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vbounds" title="psy_maps.plotters.CombinedPlotter.vbounds"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vbounds</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vcbar" title="psy_maps.plotters.CombinedPlotter.vcbar"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vcbar</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vcbarspacing" title="psy_maps.plotters.CombinedPlotter.vcbarspacing"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vcbarspacing</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vclabel" title="psy_maps.plotters.CombinedPlotter.vclabel"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vclabel</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vclabelprops" title="psy_maps.plotters.CombinedPlotter.vclabelprops"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vclabelprops</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vclabelsize" title="psy_maps.plotters.CombinedPlotter.vclabelsize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vclabelsize</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vclabelweight" title="psy_maps.plotters.CombinedPlotter.vclabelweight"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vclabelweight</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vcmap" title="psy_maps.plotters.CombinedPlotter.vcmap"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vcmap</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vcticklabels" title="psy_maps.plotters.CombinedPlotter.vcticklabels"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vcticklabels</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vctickprops" title="psy_maps.plotters.CombinedPlotter.vctickprops"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vctickprops</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vcticks" title="psy_maps.plotters.CombinedPlotter.vcticks"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vcticks</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vcticksize" title="psy_maps.plotters.CombinedPlotter.vcticksize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vcticksize</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vctickweight" title="psy_maps.plotters.CombinedPlotter.vctickweight"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vctickweight</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.vplot" title="psy_maps.plotters.CombinedPlotter.vplot"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vplot</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.xgrid" title="psy_maps.plotters.CombinedPlotter.xgrid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">xgrid</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter.ygrid" title="psy_maps.plotters.CombinedPlotter.ygrid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ygrid</span></code></a></p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<div class="admonition-examples admonition">
+<p class="admonition-title">Examples</p>
+<p>To explore the formatoptions and their documentations, use the
+<code class="docutils literal notranslate"><span class="pre">keys</span></code>, <code class="docutils literal notranslate"><span class="pre">summaries</span></code> and <code class="docutils literal notranslate"><span class="pre">docs</span></code> methods. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">psyplot.project</span> <span class="k">as</span> <span class="nn">psy</span>
+
+<span class="go"># show the keys corresponding to a group or multiple</span>
+<span class="go"># formatopions</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">mapcombined</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">)</span>
+
+<span class="go"># show the summaries of a group of formatoptions or of a</span>
+<span class="go"># formatoption</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">mapcombined</span><span class="o">.</span><span class="n">summaries</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
+
+<span class="go"># show the full documentation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">mapcombined</span><span class="o">.</span><span class="n">docs</span><span class="p">(</span><span class="s1">&#39;plot&#39;</span><span class="p">)</span>
+
+<span class="go"># or access the documentation via the attribute</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">mapcombined</span><span class="o">.</span><span class="n">plot</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="psyplot.project.plot.mapvector.html" class="btn btn-neutral float-left" title="psyplot.project.plot.mapvector" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../contribute.html" class="btn btn-neutral float-right" title="Contributing to psy-maps" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright 2015 - 2020, Philipp S. Sommer.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

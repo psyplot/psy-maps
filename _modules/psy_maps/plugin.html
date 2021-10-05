@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>psy_maps.plugin &mdash; psy-maps 1.3.2+10.ga4c8929 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> psy-maps
+          </a>
+              <div class="version">
+                1.3.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plot_methods.html">psyplot plot methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute.html">Contributing to psy-maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/psy_maps.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">psy-maps</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>psy_maps.plugin</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for psy_maps.plugin</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;psy-simple psyplot plugin</span>
+
+<span class="sd">This module defines the rcParams for the psy-simple plugin&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">six</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">from</span> <span class="nn">psyplot.config.rcsetup</span> <span class="kn">import</span> <span class="n">RcParams</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">exists</span> <span class="k">as</span> <span class="n">validate_path_exists</span>
+<span class="kn">from</span> <span class="nn">psy_simple.plugin</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">try_and_error</span><span class="p">,</span> <span class="n">validate_none</span><span class="p">,</span> <span class="n">validate_str</span><span class="p">,</span> <span class="n">validate_float</span><span class="p">,</span>
+    <span class="n">validate_bool_maybe_none</span><span class="p">,</span> <span class="n">validate_fontsize</span><span class="p">,</span>
+    <span class="n">validate_color</span><span class="p">,</span> <span class="n">validate_dict</span><span class="p">,</span> <span class="n">BoundsValidator</span><span class="p">,</span> <span class="n">bound_strings</span><span class="p">,</span>
+    <span class="n">ValidateInStrings</span><span class="p">,</span> <span class="n">validate_bool</span><span class="p">,</span> <span class="n">BoundsType</span><span class="p">,</span> <span class="n">DictValValidator</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">psy_maps</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">plugin_version</span>
+
+
+<div class="viewcode-block" id="get_versions"><a class="viewcode-back" href="../../api/psy_maps.plugin.html#psy_maps.plugin.get_versions">[docs]</a><span class="k">def</span> <span class="nf">get_versions</span><span class="p">(</span><span class="n">requirements</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">requirements</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">cartopy</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="n">plugin_version</span><span class="p">,</span>
+                <span class="s1">&#39;requirements&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cartopy&#39;</span><span class="p">:</span> <span class="n">cartopy</span><span class="o">.</span><span class="n">__version__</span><span class="p">}}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="n">plugin_version</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="patch_prior_1_0"><a class="viewcode-back" href="../../api/psy_maps.plugin.html#psy_maps.plugin.patch_prior_1_0">[docs]</a><span class="k">def</span> <span class="nf">patch_prior_1_0</span><span class="p">(</span><span class="n">plotter_d</span><span class="p">,</span> <span class="n">versions</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Patch psy_maps plotters for versions smaller than 1.0</span>
+
+<span class="sd">    Before psyplot 1.0.0, the plotters in the psy_maps package where part of</span>
+<span class="sd">    the psyplot.plotter.maps module. This has to be corrected&quot;&quot;&quot;</span>
+    <span class="n">plotter_d</span><span class="p">[</span><span class="s1">&#39;cls&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;psy_maps.plotters&#39;</span><span class="p">,</span> <span class="n">plotter_d</span><span class="p">[</span><span class="s1">&#39;cls&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+<span class="c1">#: patches to apply when loading a project</span>
+<span class="n">patches</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="s1">&#39;psyplot.plotter.maps&#39;</span><span class="p">,</span> <span class="s1">&#39;MapPlotter&#39;</span><span class="p">):</span> <span class="n">patch_prior_1_0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s1">&#39;psyplot.plotter.maps&#39;</span><span class="p">,</span> <span class="s1">&#39;VectorPlotter&#39;</span><span class="p">):</span> <span class="n">patch_prior_1_0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s1">&#39;psyplot.plotter.maps&#39;</span><span class="p">,</span> <span class="s1">&#39;FieldPlotter&#39;</span><span class="p">):</span> <span class="n">patch_prior_1_0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s1">&#39;psyplot.plotter.maps&#39;</span><span class="p">,</span> <span class="s1">&#39;CombinedPlotter&#39;</span><span class="p">):</span> <span class="n">patch_prior_1_0</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># ------------------------- validation functions ------------------------------</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="validate_grid"><a class="viewcode-back" href="../../api/psy_maps.plugin.html#psy_maps.plugin.validate_grid">[docs]</a><span class="k">def</span> <span class="nf">validate_grid</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">val</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">validate_bool_maybe_none</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">BoundsValidator</span><span class="p">(</span><span class="n">BoundsType</span><span class="p">)(</span><span class="n">val</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="validate_lsm"><a class="viewcode-back" href="../../api/psy_maps.plugin.html#psy_maps.plugin.validate_lsm">[docs]</a><span class="k">def</span> <span class="nf">validate_lsm</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+    <span class="n">res_validation</span> <span class="o">=</span> <span class="n">ValidateInStrings</span><span class="p">(</span><span class="s1">&#39;lsm&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;110m&#39;</span><span class="p">,</span> <span class="s1">&#39;50m&#39;</span> <span class="p">,</span><span class="s1">&#39;10m&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">val</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">invalid</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span>
+            <span class="p">[</span><span class="s1">&#39;coast&#39;</span><span class="p">,</span> <span class="s1">&#39;land&#39;</span><span class="p">,</span> <span class="s1">&#39;ocean&#39;</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">,</span> <span class="s1">&#39;linewidth&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">invalid</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid keys for lsm: </span><span class="si">{</span><span class="n">invalid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># First try, if it&#39;s a bool, if yes, use 110m</span>
+        <span class="c1"># then try, if it&#39;s a valid resolution</span>
+        <span class="c1"># then try, if it&#39;s a float (i.e. the linewidth)</span>
+        <span class="c1"># then try if it&#39;s a tuple [res, lw]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">validate_bool</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="s1">&#39;110m&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">res_validation</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="s1">&#39;110m&#39;</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="n">val</span><span class="p">,</span> <span class="s1">&#39;linewidth&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;coast&#39;</span><span class="p">:</span> <span class="s1">&#39;k&#39;</span><span class="p">}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">validate_float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="s1">&#39;110m&#39;</span><span class="p">,</span> <span class="s1">&#39;linewidth&#39;</span><span class="p">:</span> <span class="n">val</span><span class="p">,</span> <span class="s1">&#39;coast&#39;</span><span class="p">:</span> <span class="s1">&#39;k&#39;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">res</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid lsm configuration: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span> <span class="s1">&#39;linewidth&#39;</span><span class="p">:</span> <span class="n">lw</span><span class="p">}</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;coast&#39;</span><span class="p">,</span> <span class="s1">&#39;land&#39;</span><span class="p">,</span> <span class="s1">&#39;ocean&#39;</span><span class="p">]:</span>
+            <span class="n">val</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">validate_color</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;res&#39;</span><span class="p">:</span>
+            <span class="n">val</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">res_validation</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">val</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">validate_float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>  <span class="c1"># linewidth</span>
+    <span class="c1"># finally set black color if linewidth is in val</span>
+    <span class="k">if</span> <span class="s1">&#39;linewidth&#39;</span> <span class="ow">in</span> <span class="n">val</span><span class="p">:</span>
+        <span class="n">val</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;coast&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">val</span></div>
+
+
+<div class="viewcode-block" id="ProjectionValidator"><a class="viewcode-back" href="../../api/psy_maps.plugin.html#psy_maps.plugin.ProjectionValidator">[docs]</a><span class="k">class</span> <span class="nc">ProjectionValidator</span><span class="p">(</span><span class="n">ValidateInStrings</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">ValidateInStrings</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">val</span>  <span class="c1"># otherwise we skip the validation</span></div>
+
+
+<div class="viewcode-block" id="validate_dict_yaml"><a class="viewcode-back" href="../../api/psy_maps.plugin.html#psy_maps.plugin.validate_dict_yaml">[docs]</a><span class="k">def</span> <span class="nf">validate_dict_yaml</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">s</span>
+    <span class="n">validate_path_exists</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="validate_lonlatbox"><a class="viewcode-back" href="../../api/psy_maps.plugin.html#psy_maps.plugin.validate_lonlatbox">[docs]</a><span class="k">def</span> <span class="nf">validate_lonlatbox</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">validate</span> <span class="o">=</span> <span class="n">try_and_error</span><span class="p">(</span><span class="n">validate_float</span><span class="p">,</span> <span class="n">validate_str</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">validate_none</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">validate_str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Need 4 values for longitude-latitude box, &quot;</span>
+                                 <span class="s2">&quot;got </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">validate</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># ------------------------------ rcParams -------------------------------------</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+
+
+<span class="c1">#: the :class:`~psyplot.config.rcsetup.RcParams` for the psy-simple plugin</span>
+<span class="n">rcParams</span> <span class="o">=</span> <span class="n">RcParams</span><span class="p">(</span><span class="n">defaultParams</span><span class="o">=</span><span class="p">{</span>
+
+    <span class="c1"># -------------------------------------------------------------------------</span>
+    <span class="c1"># ----------------------- Registered plotters -----------------------------</span>
+    <span class="c1"># -------------------------------------------------------------------------</span>
+
+    <span class="s1">&#39;project.plotters&#39;</span><span class="p">:</span> <span class="p">[</span>
+
+        <span class="p">{</span><span class="s1">&#39;maps&#39;</span><span class="p">:</span> <span class="p">{</span>
+             <span class="s1">&#39;module&#39;</span><span class="p">:</span> <span class="s1">&#39;psy_maps.plotters&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;plotter_name&#39;</span><span class="p">:</span> <span class="s1">&#39;MapPlotter&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;plot_func&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+             <span class="s1">&#39;summary&#39;</span><span class="p">:</span> <span class="s1">&#39;The data objects visualized on a map&#39;</span><span class="p">},</span>
+         <span class="s1">&#39;mapplot&#39;</span><span class="p">:</span> <span class="p">{</span>
+             <span class="s1">&#39;module&#39;</span><span class="p">:</span> <span class="s1">&#39;psy_maps.plotters&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;plotter_name&#39;</span><span class="p">:</span> <span class="s1">&#39;FieldPlotter&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;prefer_list&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+             <span class="s1">&#39;default_slice&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+             <span class="s1">&#39;default_dims&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)},</span>
+             <span class="s1">&#39;summary&#39;</span><span class="p">:</span> <span class="s1">&#39;Plot a 2D scalar field on a map&#39;</span><span class="p">},</span>
+         <span class="s1">&#39;mapvector&#39;</span><span class="p">:</span> <span class="p">{</span>
+             <span class="s1">&#39;module&#39;</span><span class="p">:</span> <span class="s1">&#39;psy_maps.plotters&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;plotter_name&#39;</span><span class="p">:</span> <span class="s1">&#39;VectorPlotter&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;prefer_list&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+             <span class="s1">&#39;default_slice&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+             <span class="s1">&#39;default_dims&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)},</span>
+             <span class="s1">&#39;summary&#39;</span><span class="p">:</span> <span class="s1">&#39;Plot a 2D vector field on a map&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;example_call&#39;</span><span class="p">:</span> <span class="s2">&quot;filename, name=[[&#39;u_var&#39;, &#39;v_var&#39;]], ...&quot;</span><span class="p">},</span>
+         <span class="s1">&#39;mapcombined&#39;</span><span class="p">:</span> <span class="p">{</span>
+             <span class="s1">&#39;module&#39;</span><span class="p">:</span> <span class="s1">&#39;psy_maps.plotters&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;plotter_name&#39;</span><span class="p">:</span> <span class="s1">&#39;CombinedPlotter&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;prefer_list&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+             <span class="s1">&#39;default_slice&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+             <span class="s1">&#39;default_dims&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)},</span>
+             <span class="s1">&#39;summary&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Plot a 2D scalar field with an overlying vector &#39;</span>
+                         <span class="s1">&#39;field on a map&#39;</span><span class="p">),</span>
+             <span class="s1">&#39;example_call&#39;</span><span class="p">:</span> <span class="p">(</span>
+                 <span class="s2">&quot;filename, name=[[&#39;my_variable&#39;, [&#39;u_var&#39;, &#39;v_var&#39;]]], ...&quot;</span><span class="p">)},</span>
+         <span class="p">},</span> <span class="n">validate_dict</span><span class="p">],</span>
+
+    <span class="c1"># -------------------------------------------------------------------------</span>
+    <span class="c1"># --------------------- Default formatoptions -----------------------------</span>
+    <span class="c1"># -------------------------------------------------------------------------</span>
+    <span class="c1"># MapBase</span>
+    <span class="s1">&#39;plotter.maps.transpose&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="n">validate_bool</span><span class="p">,</span> <span class="s2">&quot;Transpose the input data before plotting&quot;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.lonlatbox&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">validate_lonlatbox</span><span class="p">,</span>
+        <span class="s1">&#39;fmt key to define the longitude latitude box of the data&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.map_extent&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">validate_lonlatbox</span><span class="p">,</span>
+        <span class="s1">&#39;fmt key to define the extent of the map plot&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.clip&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">validate_bool_maybe_none</span><span class="p">,</span>
+        <span class="s1">&#39;fmt key to define clip the axes outside the latitudes&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.clon&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">try_and_error</span><span class="p">(</span><span class="n">validate_none</span><span class="p">,</span> <span class="n">validate_float</span><span class="p">,</span> <span class="n">validate_str</span><span class="p">),</span>
+        <span class="s1">&#39;fmt key to specify the center longitude of the projection&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.clat&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">try_and_error</span><span class="p">(</span><span class="n">validate_none</span><span class="p">,</span> <span class="n">validate_float</span><span class="p">,</span> <span class="n">validate_str</span><span class="p">),</span>
+        <span class="s1">&#39;fmt key to specify the center latitude of the projection&#39;</span><span class="p">],</span>
+    <span class="c1"># TODO: Implement the drawing of shape files on a map</span>
+    <span class="c1"># &#39;plotter.maps.lineshapes&#39;: [None, try_and_error(</span>
+    <span class="c1">#     validate_none, validate_dict, validate_str, validate_stringlist)],</span>
+    <span class="s1">&#39;plotter.maps.grid_labels&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">validate_bool_maybe_none</span><span class="p">,</span>
+        <span class="s1">&#39;fmt key to draw labels of the lat-lon-grid&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.grid_labelsize&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="mf">12.0</span><span class="p">,</span> <span class="n">validate_fontsize</span><span class="p">,</span>
+        <span class="s1">&#39;fmt key to modify the fontsize of the lat-lon-grid labels&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.grid_color&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">try_and_error</span><span class="p">(</span><span class="n">validate_none</span><span class="p">,</span> <span class="n">validate_color</span><span class="p">),</span>
+        <span class="s1">&#39;fmt key to modify the color of the lat-lon-grid&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.grid_settings&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{},</span> <span class="n">validate_dict</span><span class="p">,</span>
+        <span class="s1">&#39;fmt key for additional line properties for the lat-lon-grid&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.xgrid&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="kc">True</span><span class="p">,</span> <span class="n">validate_grid</span><span class="p">,</span> <span class="s1">&#39;fmt key for drawing meridians on the map&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.ygrid&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="kc">True</span><span class="p">,</span> <span class="n">validate_grid</span><span class="p">,</span> <span class="s1">&#39;fmt key for drawing parallels on the map&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.projection&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">&#39;cf&#39;</span><span class="p">,</span> <span class="n">ProjectionValidator</span><span class="p">(</span>
+            <span class="s1">&#39;projection&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;cf&#39;</span><span class="p">,</span> <span class="s1">&#39;northpole&#39;</span><span class="p">,</span> <span class="s1">&#39;ortho&#39;</span><span class="p">,</span> <span class="s1">&#39;southpole&#39;</span><span class="p">,</span> <span class="s1">&#39;moll&#39;</span><span class="p">,</span> <span class="s1">&#39;geo&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;robin&#39;</span><span class="p">,</span> <span class="s1">&#39;cyl&#39;</span><span class="p">,</span> <span class="s1">&#39;stereo&#39;</span><span class="p">,</span> <span class="s1">&#39;near&#39;</span><span class="p">,</span> <span class="s1">&#39;rotated&#39;</span><span class="p">],</span>
+            <span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;fmt key to define the projection of the plot&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.transform&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">&#39;cf&#39;</span><span class="p">,</span> <span class="n">ProjectionValidator</span><span class="p">(</span>
+            <span class="s1">&#39;projection&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;cf&#39;</span><span class="p">,</span> <span class="s1">&#39;northpole&#39;</span><span class="p">,</span> <span class="s1">&#39;ortho&#39;</span><span class="p">,</span> <span class="s1">&#39;southpole&#39;</span><span class="p">,</span> <span class="s1">&#39;moll&#39;</span><span class="p">,</span> <span class="s1">&#39;geo&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;robin&#39;</span><span class="p">,</span> <span class="s1">&#39;cyl&#39;</span><span class="p">,</span> <span class="s1">&#39;stereo&#39;</span><span class="p">,</span> <span class="s1">&#39;near&#39;</span><span class="p">,</span> <span class="s1">&#39;rotated&#39;</span><span class="p">],</span>
+            <span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;fmt key to define the native projection of the data&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.lsm&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="kc">True</span><span class="p">,</span> <span class="n">validate_lsm</span><span class="p">,</span>
+        <span class="s1">&#39;fmt key to draw a land sea mask&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plotter.maps.stock_img&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="n">validate_bool</span><span class="p">,</span> <span class="s1">&#39;fmt key to draw a stock_img on the map&#39;</span><span class="p">],</span>
+
+    <span class="c1"># -------------------------------------------------------------------------</span>
+    <span class="c1"># ---------------------------- Miscallaneous ------------------------------</span>
+    <span class="c1"># -------------------------------------------------------------------------</span>
+
+    <span class="c1"># yaml file that holds definitions of lonlatboxes</span>
+    <span class="s1">&#39;lonlatbox.boxes&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{},</span> <span class="n">validate_dict_yaml</span><span class="p">,</span>
+        <span class="s1">&#39;longitude-latitude boxes that shall be accessible for the lonlatbox, &#39;</span>
+        <span class="s1">&#39;map_extent, etc. keywords. May be a dictionary or the path to a &#39;</span>
+        <span class="s1">&#39;yaml file&#39;</span><span class="p">],</span>
+
+    <span class="p">})</span>
+
+
+<span class="n">rcParams</span><span class="o">.</span><span class="n">_deprecated_map</span><span class="p">[</span><span class="s1">&#39;plotter.maps.plot.min_circle_ratio&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">&#39;plotter.plot2d.plot.min_circle_ratio&#39;</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+
+<span class="n">rcParams</span><span class="o">.</span><span class="n">update_from_defaultParams</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright 2015 - 2020, Philipp S. Sommer.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+psy\_maps.widgets package
+=========================
+
+.. automodule:: psy_maps.widgets
+   :members:
+   :undoc-members:
+   :show-inheritance:

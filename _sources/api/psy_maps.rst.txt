@@ -1,0 +1,25 @@
+API Reference
+=================
+
+.. automodule:: psy_maps
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   psy_maps.widgets
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   psy_maps.boxes
+   psy_maps.plotters
+   psy_maps.plugin

@@ -1,0 +1,7 @@
+psy\_maps.plotters module
+=========================
+
+.. automodule:: psy_maps.plotters
+   :members:
+   :undoc-members:
+   :show-inheritance:

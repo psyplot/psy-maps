@@ -1,0 +1,6 @@
+psyplot.project.plot.mapcombined
+================================
+
+.. currentmodule:: psyplot.project
+
+.. autoattribute:: plot.mapcombined

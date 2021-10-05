@@ -1,0 +1,6 @@
+psyplot.project.plot.mapvector
+==============================
+
+.. currentmodule:: psyplot.project
+
+.. autoattribute:: plot.mapvector

@@ -1,0 +1,7 @@
+psy\_maps.plugin module
+=======================
+
+.. automodule:: psy_maps.plugin
+   :members:
+   :undoc-members:
+   :show-inheritance:
