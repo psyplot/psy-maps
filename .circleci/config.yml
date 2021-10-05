@@ -65,6 +65,8 @@ workflows:
           name: test-docs
           run-job: << pipeline.parameters.build_docs >>
           builders: linkcheck
+          requires:
+            - install
       - mattermost-plugin-notify/approval-notification:
           name: notify-deploy
           context: mattermost
