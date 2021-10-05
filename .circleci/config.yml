@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  psyplot: psyplot/psyplot-ci-orb@1.5.22
+  psyplot: psyplot/psyplot-ci-orb@1.5.23
   mattermost-plugin-notify: nathanaelhoun/mattermost-plugin-notify@1.2.0
 
 executors:
@@ -50,6 +50,7 @@ workflows:
           name: test-matplotlib-latest
           parallelism: << pipeline.parameters.parallelism >>
           run-job: << pipeline.parameters.test-matplotlib-latest >>
+          pytest_args: --cov=psy_maps
           build_refs: true
           requires:
             - install
@@ -57,6 +58,7 @@ workflows:
           name: test-matplotlib-3.3
           parallelism: << pipeline.parameters.parallelism >>
           run-job: << pipeline.parameters.test-matplotlib-3_3 >>
+          pytest_args: --cov=psy_maps
           build_refs: true
           packages: matplotlib=3.3
           requires:
