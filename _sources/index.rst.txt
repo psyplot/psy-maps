@@ -31,7 +31,7 @@ See the :ref:`plot_methods` and :ref:`gallery_examples` for more information.
         * - docs
           - |docs|
         * - tests
-          - |circleci| |appveyor| |requires| |codecov|
+          - |circleci| |appveyor| |codecov|
         * - package
           - |version| |conda| |github| |zenodo|
         * - implementations
@@ -45,17 +45,13 @@ See the :ref:`plot_methods` and :ref:`gallery_examples` for more information.
         :alt: CircleCI
         :target: https://circleci.com/gh/psyplot/psy-maps/tree/master
 
-    .. |appveyor| image:: ttps://ci.appveyor.com/api/projects/status/rd733xj3tfrk4tot/branch/master?svg=true
+    .. |appveyor| image:: https://ci.appveyor.com/api/projects/status/rd733xj3tfrk4tot/branch/master?svg=true
         :alt: AppVeyor
         :target: https://ci.appveyor.com/project/psyplot/psy-maps
 
     .. |codecov| image:: https://codecov.io/gh/psyplot/psy-maps/branch/master/graph/badge.svg
         :alt: Coverage
         :target: https://codecov.io/gh/psyplot/psy-maps
-
-    .. |requires| image:: https://requires.io/github/psyplot/psy-maps/requirements.svg?branch=master
-        :alt: Requirements Status
-        :target: https://requires.io/github/psyplot/psy-maps/requirements/?branch=master
 
     .. |version| image:: https://img.shields.io/pypi/v/psy-maps.svg?style=flat
         :alt: PyPI Package latest release
@@ -98,11 +94,8 @@ Documentation
 
 Copyright
 ---------
-Copyright (C) 2021 Helmholtz-Zentrum Hereon
-
-Copyright (C) 2020-2021 Helmholtz-Zentrum Geesthacht
-
-Copyright (C) 2016-2021 University of Lausanne
+Copyright © 2021 Helmholtz-Zentrum Hereon, 2020-2021 Helmholtz-Zentrum
+Geesthacht, 2016-2021 University of Lausanne
 
 psy-maps and is released under the GNU LGPL-3.O license.
 See COPYING and COPYING.LESSER in the root of the repository for full
@@ -118,8 +111,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU LGPL-3.0 license for more details.
 
 You should have received a copy of the GNU LGPL-3.0 license
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+along with this program.  If not, see https://www.gnu.org/licenses/.
 
 
 Indices and tables
