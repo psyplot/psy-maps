@@ -12,12 +12,12 @@ Installation using conda
 ^^^^^^^^^^^^^^^^^^^^^^^^
 We highly recommend to use conda_ for installing psy-maps.
 
-After downloading the installer from anaconda_, you can install psy-maps simply
+After downloading the `miniconda installer`_, you can install psy-maps simply
 via::
 
     $ conda install -c conda-forge psy-maps
 
-.. _anaconda: https://www.continuum.io/downloads
+.. _miniconda installer: https://conda.io/en/latest/miniconda.html
 .. _conda: http://conda.io/
 
 Installation using pip

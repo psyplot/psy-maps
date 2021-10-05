@@ -57,43 +57,13 @@ extensions = [
     'IPython.sphinxext.ipython_directive',
     'psyplot.sphinxext.extended_napoleon',
     'autodocsumm',
-    'sphinx_nbexamples',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
-# on_rtd is whether we are on readthedocs.org, this line of code grabbed from
-# docs.readthedocs.org
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-
-# process the examples if they don't exist already
-process_examples = (
-    not osp.exists(osp.join(osp.dirname(__file__), 'examples')))
-
-if on_rtd:
-    spr.call([sys.executable] +
-             ('-m ipykernel install --user --name python3 '
-              '--display-name python3').split())
-
 if not osp.exists(osp.join(osp.dirname(__file__), 'api')):
     spr.check_call(['bash', 'apigen.bash'])
-
-# HACK: Create an empty file called '<string>' to prevent
-# https://github.com/sphinx-doc/sphinx/issues/5614
-if not osp.exists('<string>'):
-    with open('<string>', 'w') as f:
-        pass
-
-# The cdo example would require the installation of climate data operators
-# which is a bit of an overkill
-example_gallery_config = dict(
-    urls='https://github.com/psyplot/psy-maps/blob/master/examples',
-    )
-
-if on_rtd:
-    example_gallery_config['dont_preprocess'] = [
-        '../examples/example_ugrid.ipynb']
 
 napoleon_use_admonition_for_examples = True
 
@@ -153,16 +123,13 @@ todo_include_todos = True
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 
-if not on_rtd:  # only import and set the theme if we're building docs locally
-    import sphinx_rtd_theme
-    html_theme = 'sphinx_rtd_theme'
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_theme = 'sphinx_rtd_theme'
 
-    # Add any paths that contain custom static files (such as style sheets)
-    # here, relative to this directory. They are copied after the builtin
-    # static files, so a file named "default.css" will overwrite the builtin
-    # "default.css".
-    html_static_path = ['_static']
+# Add any paths that contain custom static files (such as style sheets)
+# here, relative to this directory. They are copied after the builtin
+# static files, so a file named "default.css" will overwrite the builtin
+# "default.css".
+html_static_path = ['_static']
 
 # otherwise, readthedocs.org uses their theme by default, so no need to specify
 
@@ -222,22 +189,17 @@ epub_exclude_files = ['search.html']
 intersphinx_mapping = {
     'pandas': ('http://pandas.pydata.org/pandas-docs/stable/', None),
     'numpy': ('https://docs.scipy.org/doc/numpy/', None),
-    'matplotlib': ('https://matplotlib.org/', None),
+    'matplotlib': ('https://matplotlib.org/stable/', None),
     'sphinx': ('http://www.sphinx-doc.org/en/stable/', None),
     'xarray': ('http://xarray.pydata.org/en/stable/', None),
     'cartopy': ('https://scitools.org.uk/cartopy/docs/latest/', None),
     'mpl_toolkits': ('https://matplotlib.org/basemap/', None),
-    'psyplot': ('https://psyplot.readthedocs.io/en/latest/', None),
-    'psy_simple': (
-        'https://psyplot.readthedocs.io/projects/psy-simple/en/latest/', None),
+    'psyplot': ('https://psyplot.github.io/psyplot/', None),
+    'psy_simple': ('https://psyplot.github.io/psy-simple/', None),
     'psy_reg': (
         'https://psyplot.readthedocs.io/projects/psy-reg/en/latest/', None),
+    "python": ('https://docs.python.org/3/', None),
 }
-if six.PY3:
-    intersphinx_mapping['python'] = ('https://docs.python.org/3.7/', None)
-else:
-    intersphinx_mapping['python'] = ('https://docs.python.org/2.7/', None)
-
 
 def group_formatoptions(app, what, name, obj, section, parent):
     if inspect.isclass(obj) and issubclass(obj, Formatoption):

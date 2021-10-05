@@ -11,17 +11,19 @@ psy-maps: The psyplot plugin for visualizations on a map
     * - docs
       - |docs|
     * - tests
-      - |travis| |appveyor| |requires| |codecov|
+      - |circleci| |appveyor| |requires| |codecov|
     * - package
-      - |version| |conda| |supported-versions| |supported-implementations| |zenodo|
+      - |version| |conda| |github| |zenodo|
+    * - implementations
+      - |supported-versions| |supported-implementations|
 
 .. |docs| image:: http://readthedocs.org/projects/psy-maps/badge/?version=latest
     :alt: Documentation Status
     :target: http://psy-maps.readthedocs.io/en/latest/?badge=latest
 
-.. |travis| image:: https://travis-ci.org/psyplot/psy-maps.svg?branch=master
-    :alt: Travis
-    :target: https://travis-ci.org/psyplot/psy-maps
+.. |circleci| image:: https://circleci.com/gh/psyplot/psy-maps/tree/master.svg?style=svg
+    :alt: CircleCI
+    :target: https://circleci.com/gh/psyplot/psy-maps/tree/master
 
 .. |appveyor| image:: https://ci.appveyor.com/api/projects/status/3jk6ea1n4a4dl6vk?svg=true
     :alt: AppVeyor
@@ -54,6 +56,10 @@ psy-maps: The psyplot plugin for visualizations on a map
 .. |zenodo| image:: https://zenodo.org/badge/83305582.svg
     :alt: Zenodo
     :target: https://zenodo.org/badge/latestdoi/83305582
+
+.. |github| image:: https://img.shields.io/github/release/psyplot/psy-simple.svg
+    :target: https://github.com/psyplot/psy-simple/releases/latest
+    :alt: Latest github release
 
 
 .. end-badges

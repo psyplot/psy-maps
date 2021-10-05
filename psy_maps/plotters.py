@@ -31,6 +31,9 @@ wrap_proj_types = (ccrs._RectangularProjection,
                    ccrs.Mercator)
 
 
+cartopy_version = list(map(int, cartopy.__version__.split(".")[:2]))
+
+
 @docstrings.get_sections(base='shiftdata')
 def shiftdata(lonsin, datain, lon_0):
     """
@@ -1421,7 +1424,10 @@ class GridLabelSize(Formatoption):
             gl.xlabel_style['size'] = value
             gl.ylabel_style['size'] = value
             try:
-                texts = [t[-1] for t in gl.label_artists]
+                if cartopy_version < [0, 19]:
+                    texts = [t[-1] for t in gl.label_artists]
+                else:
+                    texts = gl.label_artists
             except AttributeError:  # cartopy < 0.18
                 texts = chain(gl.xlabel_artists, gl.ylabel_artists)
             for text in texts:
@@ -1525,8 +1531,13 @@ class GridBase(psyps.DataTicksCalculator):
             return
         gl = self._gridliner
         try:
-            artists = chain(gl.xline_artists, gl.yline_artists,
-                            [t[-1] for t in gl.label_artists])
+            if cartopy_version < [0, 19]:
+                artists = chain(gl.xline_artists, gl.yline_artists,
+                                [t[-1] for t in gl.label_artists])
+            else:
+                artists = chain(
+                    gl.xline_artists, gl.yline_artists, gl.label_artists
+                )
         except AttributeError:  # cartopy < 0.17
             artists = chain(gl.xline_artists, gl.yline_artists,
                             gl.xlabel_artists, gl.ylabel_artists)

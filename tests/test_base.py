@@ -141,16 +141,7 @@ class BasePlotterTest(bt.PsyPlotTestCase):
             self.assertGreaterEqual(data[data > 250].max(), 251)
 
 
-class TestBase2D(object):
-    """Test :class:`psyplot.plotter.baseplotter.BasePlotter` class without time
-    and vertical dimension"""
-
-    def _label_test(self, key, label_func, has_time=False):
-        return super(TestBase2D, self)._label_test(
-            key, label_func, has_time=has_time)
-
-
-class BasePlotterTest2D(TestBase2D, BasePlotterTest):
+class BasePlotterTest2D(bt.TestBase2D, BasePlotterTest):
     """Test :class:`psyplot.plotter.baseplotter.BasePlotter` class without time
     and vertical dimension"""
 
