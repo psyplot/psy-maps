@@ -1,3 +1,22 @@
+v1.4.0
+======
+
+
+Fixed
+-----
+- psy-maps is now compatible with cartopy 0.19 and 0.20
+
+Changed
+-------
+- Documentation is now hosted with Github Pages at https://psyplot.github.io/psy-maps.
+  Redirects from the old documentation at https://psyplot.readthedocs.io have been
+  configured.
+- Examples have been removed from the psy-maps repository as they now live in a
+  central place at https://github.com/psyplot/examples
+- We use CicleCI now for a standardized CI/CD pipeline to build and test
+  the code and docs all at one place, see `#35 <https://github.com/psyplot/psy-maps/pull/35>`__
+
+
 v1.3.4
 ======
 
