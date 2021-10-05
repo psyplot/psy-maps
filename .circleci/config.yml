@@ -61,6 +61,10 @@ workflows:
           packages: matplotlib=3.3
           requires:
             - install
+      - psyplot/build-docs:
+          name: test-docs
+          run-job: << pipeline.parameters.build_docs >>
+          builders: linkcheck
       - mattermost-plugin-notify/approval-notification:
           name: notify-deploy
           context: mattermost
@@ -70,6 +74,7 @@ workflows:
           requires:
             - test-matplotlib-latest
             - test-matplotlib-3.3
+            - test-docs
       - hold-for-deploy:
           type: approval
           requires:
