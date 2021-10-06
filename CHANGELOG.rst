@@ -15,7 +15,7 @@ Fixed
 Changed
 -------
 - Documentation is now hosted with Github Pages at https://psyplot.github.io/psy-maps.
-  Redirects from the old documentation at https://psyplot.readthedocs.io have been
+  Redirects from the old documentation at `https://psy-maps.readthedocs.io` have been
   configured.
 - Examples have been removed from the psy-maps repository as they now live in a
   central place at https://github.com/psyplot/examples
@@ -131,9 +131,9 @@ Added
 -----
 * Changelog
 * ``stock_img`` formatoption for map plots (see the
-  `docs <https://psyplot.readthedocs.io/projects/psy-maps/en/latest/api/psy_maps.plotters.html#psy_maps.plotters.FieldPlotter.stock_img>`__)
+  `docs <https://psyplot.github.io/psy-maps/api/psy_maps.plotters.html#psy_maps.plotters.FieldPlotter.stock_img>`__)
 * Added ``'stereo'`` and ``'near'`` projections for the
-  `projection <https://psyplot.readthedocs.io/projects/psy-maps/en/latest/api/psy_maps.plotters.html#psy_maps.plotters.FieldPlotter.projection>`__
+  `projection <https://psyplot.github.io/psy-maps/api/psy_maps.plotters.html#psy_maps.plotters.FieldPlotter.projection>`__
   formatoption
 * The ``lonlatbox`` and ``map_extent`` formatoption keywords now also accepts
   a combination of floats and strings

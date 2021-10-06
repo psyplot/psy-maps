@@ -28,16 +28,6 @@ import os.path as osp
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 import sys
-
-
-if os.getenv("READTHEDOCS") == "True":
-    # to make versioneer working, we need to unshallow this repo
-    # because RTD does a checkout with --depth 50
-    import subprocess as spr
-    rootdir = osp.dirname(__file__)
-    spr.call(["git", "-C", rootdir, "fetch", "--unshallow", "origin"])
-
-
 import versioneer
 
 
@@ -95,7 +85,7 @@ setup(name='psy-maps',
           'scipy',  # required for plotting with cartopy
       ],
       project_urls={
-          'Documentation': 'https://psyplot.readthedocs.io/projects/psy-maps',
+          'Documentation': 'https://psyplot.github.io/psy-maps',
           'Source': 'https://github.com/psyplot/psy-maps',
           'Tracker': 'https://github.com/psyplot/psy-maps/issues',
       },

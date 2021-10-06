@@ -131,8 +131,6 @@ html_theme = 'sphinx_rtd_theme'
 # "default.css".
 html_static_path = ['_static']
 
-# otherwise, readthedocs.org uses their theme by default, so no need to specify
-
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'psy-mapsdoc'
 

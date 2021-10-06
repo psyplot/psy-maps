@@ -17,9 +17,9 @@ psy-maps: The psyplot plugin for visualizations on a map
     * - implementations
       - |supported-versions| |supported-implementations|
 
-.. |docs| image:: http://readthedocs.org/projects/psy-maps/badge/?version=latest
-    :alt: Documentation Status
-    :target: http://psy-maps.readthedocs.io/en/latest/?badge=latest
+.. |docs| image:: https://img.shields.io/github/deployments/psyplot/psy-maps/github-pages
+    :alt: Documentation
+    :target: http://psyplot.github.io/psy-maps/
 
 .. |circleci| image:: https://circleci.com/gh/psyplot/psy-maps/tree/master.svg?style=svg
     :alt: CircleCI
@@ -67,15 +67,16 @@ mapplot_ and mapvector_ plot methods which can plot
 rectangular and triangular plots.
 
 See the full documentation on
-`readthedocs.org <http://psyplot.readthedocs.io/projects/psy-maps>`__ for all
-`plot methods`_ and examples_.
+`psyplot.github.io/psy-maps/ <http://psyplot.github.io/psy-maps>`__ for all
+`plot methods`_, and checkout the examples_.
+
 
 .. _cartopy: http://scitools.org.uk/cartopy
-.. _mapplot: http://psyplot.readthedocs.io/projects/psy-maps/en/latest/generated/psyplot.project.plot.mapplot.html#psyplot.project.plot.mapplot
-.. _mapvector: http://psyplot.readthedocs.io/projects/psy-maps/en/latest/generated/psyplot.project.plot.mapvector.html#psyplot.project.plot.mapvector
-.. _psy-simple: http://psyplot.readthedocs.io/projects/psy-simple/
-.. _plot methods: http://psyplot.readthedocs.io/projects/psy-maps/en/latest/plot_methods
-.. _examples: http://psyplot.readthedocs.io/projects/psy-maps/en/latest/examples
+.. _mapplot: http://psyplot.github.io/psy-maps/generated/psyplot.project.plot.mapplot.html#psyplot.project.plot.mapplot
+.. _mapvector: http://psyplot.github.io/psy-maps/generated/psyplot.project.plot.mapvector.html#psyplot.project.plot.mapvector
+.. _psy-simple: http://psyplot.github.io/psy-simple/
+.. _plot methods: http://psyplot.github.io/psy-maps/en/latest/plot_methods
+.. _examples: http://psyplot.github.io/examples/
 
 
 Copyright
