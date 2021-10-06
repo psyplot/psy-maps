@@ -27,29 +27,20 @@ use the python package manager ``pip`` and install via::
 
     $ pip install psy-maps
 
-Note however, that you have to install cartopy_ beforehand.
+Note however, that you should install cartopy_ beforehand.
 
 .. _cartopy: http://scitools.org.uk/cartopy
 
 Running the tests
 -----------------
-First, clone out the github_ repository. First you have to
+First, clone out the github_ repository. First, install pytest_ and create the
+reference figures via::
 
-- either checkout the reference figures via::
-
-    $ git submodule update --init `python tests/get_ref_dir.py`
-
-- or create the reference figures via::
-
-    $ python setup.py test -a "--ref"
+    $ pytest --ref
 
 After that, you can run::
 
-    $ python setup.py test
-
-or after having install pytest_::
-
-    $ py.test
+    $ pytest
 
 
 .. _pytest: https://pytest.org/latest/contents.html
