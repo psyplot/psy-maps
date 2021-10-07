@@ -88,7 +88,9 @@ ipython_savefig_dir = os.path.join(os.path.dirname(__file__), '_static')
 
 # General information about the project.
 project = 'psy-maps'
-copyright = psy_maps.__copyright__
+copyright = ", ".join(
+    psy_maps.__copyright__.strip().replace("Copyright (C) ", "").splitlines()
+)
 author = psy_maps.__author__
 
 # The version info for the project you're documenting, acts as replacement for
@@ -130,8 +132,6 @@ html_theme = 'sphinx_rtd_theme'
 # static files, so a file named "default.css" will overwrite the builtin
 # "default.css".
 html_static_path = ['_static']
-
-# otherwise, readthedocs.org uses their theme by default, so no need to specify
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'psy-mapsdoc'
@@ -190,16 +190,16 @@ intersphinx_mapping = {
     'pandas': ('http://pandas.pydata.org/pandas-docs/stable/', None),
     'numpy': ('https://docs.scipy.org/doc/numpy/', None),
     'matplotlib': ('https://matplotlib.org/stable/', None),
-    'sphinx': ('http://www.sphinx-doc.org/en/stable/', None),
-    'xarray': ('http://xarray.pydata.org/en/stable/', None),
+    'sphinx': ('https://www.sphinx-doc.org/en/stable/', None),
+    'xarray': ('https://xarray.pydata.org/en/stable/', None),
     'cartopy': ('https://scitools.org.uk/cartopy/docs/latest/', None),
     'mpl_toolkits': ('https://matplotlib.org/basemap/', None),
     'psyplot': ('https://psyplot.github.io/psyplot/', None),
     'psy_simple': ('https://psyplot.github.io/psy-simple/', None),
-    'psy_reg': (
-        'https://psyplot.readthedocs.io/projects/psy-reg/en/latest/', None),
+    'psy_reg': ('https://psyplot.github.io/psy-reg/', None),
     "python": ('https://docs.python.org/3/', None),
 }
+
 
 def group_formatoptions(app, what, name, obj, section, parent):
     if inspect.isclass(obj) and issubclass(obj, Formatoption):
