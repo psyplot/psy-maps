@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; psy-maps 1.3.2+15.gd0481ca documentation</title>
+  <title>Installation &mdash; psy-maps 1.3.2+17.gb152db2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
@@ -100,30 +100,18 @@ use the python package manager <code class="docutils literal notranslate"><span 
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install psy-maps
 </pre></div>
 </div>
-<p>Note however, that you have to install <a class="reference external" href="http://scitools.org.uk/cartopy">cartopy</a> beforehand.</p>
+<p>Note however, that you should install <a class="reference external" href="http://scitools.org.uk/cartopy">cartopy</a> beforehand.</p>
 </section>
 </section>
 <section id="running-the-tests">
 <h2>Running the tests<a class="headerlink" href="#running-the-tests" title="Permalink to this headline"></a></h2>
-<p>First, clone out the <a class="reference external" href="https://github.com/psyplot/psy-maps">github</a> repository. First you have to</p>
-<ul>
-<li><p>either checkout the reference figures via:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git submodule update --init <span class="sb">`</span>python tests/get_ref_dir.py<span class="sb">`</span>
+<p>First, clone out the <a class="reference external" href="https://github.com/psyplot/psy-maps">github</a> repository. First, install <a class="reference external" href="https://pytest.org/latest/contents.html">pytest</a> and create the
+reference figures via:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pytest --ref
 </pre></div>
 </div>
-</li>
-<li><p>or create the reference figures via:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python setup.py <span class="nb">test</span> -a <span class="s2">&quot;--ref&quot;</span>
-</pre></div>
-</div>
-</li>
-</ul>
 <p>After that, you can run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python setup.py <span class="nb">test</span>
-</pre></div>
-</div>
-<p>or after having install <a class="reference external" href="https://pytest.org/latest/contents.html">pytest</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ py.test
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pytest
 </pre></div>
 </div>
 </section>
@@ -140,11 +128,7 @@ use the python package manager <code class="docutils literal notranslate"><span 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 
-Copyright (C) 2021 Helmholtz-Zentrum Hereon
-Copyright (C) 2020-2021 Helmholtz-Zentrum Geesthacht
-Copyright (C) 2016-2021 University of Lausanne
-.</p>
+    <p>&#169; Copyright 2021 Helmholtz-Zentrum Hereon, 2020-2021 Helmholtz-Zentrum Geesthacht, 2016-2021 University of Lausanne.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
