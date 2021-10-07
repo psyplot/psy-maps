@@ -196,8 +196,7 @@ intersphinx_mapping = {
     'mpl_toolkits': ('https://matplotlib.org/basemap/', None),
     'psyplot': ('https://psyplot.github.io/psyplot/', None),
     'psy_simple': ('https://psyplot.github.io/psy-simple/', None),
-    'psy_reg': (
-        'https://psyplot.readthedocs.io/projects/psy-reg/en/latest/', None),
+    'psy_reg': ('https://psyplot.github.io/psy-reg/', None),
     "python": ('https://docs.python.org/3/', None),
 }
 
