@@ -10,6 +10,8 @@ Fixed
 -----
 - psy-maps is now officially licensed under LGPL-3.0-only,
   see `#36 <https://github.com/psyplot/psy-maps/pull/36>`__
+- A bug has been resolved that crash makes unstructured plots fill the entire
+  area on zooming in, see `#40 <https://github.com/psyplot/psy-maps/pull/40>`__
 - psy-maps is now compatible with cartopy 0.19 and 0.20
 
 Changed
