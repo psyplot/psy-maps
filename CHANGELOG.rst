@@ -14,6 +14,12 @@ Fixed
   area on zooming in, see `#40 <https://github.com/psyplot/psy-maps/pull/40>`__
 - psy-maps is now compatible with cartopy 0.19 and 0.20
 
+
+Added
+-----
+- psy-maps does now have a CITATION.cff file, see https://citation-file-format.github.io
+
+
 Changed
 -------
 - Documentation is now hosted with Github Pages at https://psyplot.github.io/psy-maps.
