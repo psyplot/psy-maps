@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'psy-simple'
+project = 'psy-maps'
 copyright = '2021, Philipp S. Sommer'
 author = 'Philipp S. Sommer'
 

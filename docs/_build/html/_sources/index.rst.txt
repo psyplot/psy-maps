@@ -3,15 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. _psy-maps:
+.. _psy-simple:
 
-psy-maps: The psyplot plugin for simple visualizations
+psy-simple: The psyplot plugin for simple visualizations
 ========================================================
 
 .. raw:: html
 
     <p>
-        The documentation of psy-maps is now hosted at, <a href="https://psyplot.github.io/psy-maps/">https://psyplot.github.io/psy-maps/</a>.
+        The documentation of psy-simple is now hosted at, <a href="https://psyplot.github.io/psy-simple/">https://psyplot.github.io/psy-simple/</a>.
         You should be redirected within 5 seconds.
     </p>
 
@@ -23,5 +23,14 @@ psy-maps: The psyplot plugin for simple visualizations
     installing
     plot_methods
     contribute
-    api/psy_maps
+    api/psy_simple
     changelog
+
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
