@@ -1,5 +1,11 @@
 {% extends "!layout.html" %}
 
 {% block extrahead %}
-  <meta http-equiv="refresh" content="5; URL=https://psyplot.github.io/psy-maps/{{ pagename }}.html" />
+  {% if pagename == "examples/index" %}
+    <meta http-equiv="refresh" content="5; URL=https://psyplot.github.io/examples/" />
+  {% elif pagename.startswith("examples/") %}
+    <meta http-equiv="refresh" content="5; URL=https://psyplot.github.io/examples/maps/{{ pagename.replace('examples/', '') }}.html" />
+  {% else %}
+    <meta http-equiv="refresh" content="5; URL=https://psyplot.github.io/psy-maps/{{ pagename }}.html" />
+  {% endif %}
 {% endblock %}

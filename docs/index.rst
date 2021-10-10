@@ -24,4 +24,4 @@ psy-maps: The psyplot plugin for simple visualizations
     plot_methods
     contribute
     api/psy_maps
-    changelog
+    examples/index

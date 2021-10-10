@@ -15,11 +15,6 @@ psyplot plot methods
 .. toctree::
     :hidden:
 
-    generated/psyplot.project.plot.lineplot
-    generated/psyplot.project.plot.vector
-    generated/psyplot.project.plot.violinplot
-    generated/psyplot.project.plot.plot2d
-    generated/psyplot.project.plot.combined
-    generated/psyplot.project.plot.density
-    generated/psyplot.project.plot.barplot
-    generated/psyplot.project.plot.fldmean
+    generated/psyplot.project.plot.mapplot
+    generated/psyplot.project.plot.mapcombined
+    generated/psyplot.project.plot.mapvector
