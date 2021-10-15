@@ -319,9 +319,9 @@ class ProjectionBase(Formatoption):
             iter(kwargs['standard_parallels'])
         except TypeError:
             kwargs['standard_parallels'] = [kwargs['standard_parallels']]
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.AlbersEqualArea(**kwargs)
 
@@ -330,9 +330,9 @@ class ProjectionBase(Formatoption):
             central_longitude=crs.longitude_of_projection_origin,
             central_latitude=crs.latitude_of_projection_origin,
             )
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.AzimuthalEquidistant(**kwargs)
 
@@ -342,9 +342,9 @@ class ProjectionBase(Formatoption):
             satellite_height=crs.perspective_point_height,
             sweep_axis=crs.sweep_angle_axis,
             )
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.Geostationary(**kwargs)
 
@@ -353,9 +353,9 @@ class ProjectionBase(Formatoption):
             central_longitude=crs.longitude_of_projection_origin,
             central_latitude=crs.latitude_of_projection_origin,
             )
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.LambertAzimuthalEqualArea(**kwargs)
 
@@ -390,9 +390,9 @@ class ProjectionBase(Formatoption):
             )
         if hasattr(crs, 'scale_factor_at_projection_origin'):
             kwargs['scale_factor'] = crs.scale_factor_at_projection_origin
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.Mercator(**kwargs)
 
@@ -427,9 +427,9 @@ class ProjectionBase(Formatoption):
             kwargs = dict(
                 central_longitude=crs.longitude_of_central_meridian,
                 )
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.Sinusoidal(**kwargs)
 
@@ -451,9 +451,9 @@ class ProjectionBase(Formatoption):
             central_latitude=crs.latitude_of_projection_origin,
             scale_factor=crs.scale_factor_at_central_meridian,
             )
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.TransverseMercator(**kwargs)
 
