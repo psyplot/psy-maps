@@ -369,9 +369,9 @@ class ProjectionBase(Formatoption):
             iter(kwargs['standard_parallels'])
         except TypeError:
             kwargs['standard_parallels'] = [kwargs['standard_parallels']]
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.LambertConformal(**kwargs)
 
@@ -439,9 +439,9 @@ class ProjectionBase(Formatoption):
             central_longitude=crs.longitude_of_projection_origin,
             scale_factor=crs.scale_factor_at_projection_origin
             )
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.Stereographic(**kwargs)
 
