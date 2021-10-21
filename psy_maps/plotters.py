@@ -1121,16 +1121,7 @@ class Transform(ProjectionBase):
         xcoord = data.psy.get_coord('x')
         if xcoord.attrs.get('standard_name') == 'longitude':
             return ccrs.PlateCarree()
-        crs = super().cf_projection
-        # eventually transform to meters if in kilometers
-        self.transform_to_meter(crs)
-        return crs
-
-    def set_projection(self, value, *args, **kwargs):
-        crs = super().set_projection(value, *args, **kwargs)
-        # eventually transform to meters if in kilometers
-        self.transform_to_meter(crs)
-        return crs
+        return super().cf_projection
 
     def update(self, value):
         if value == 'cf':
@@ -1146,45 +1137,6 @@ class Transform(ProjectionBase):
                 getattr(self, key)._kwargs['transform'] = self.projection
             except AttributeError:
                 pass
-
-    def transform_to_meter(self, crs: ccrs.CRS):
-        """Transform x- and y-coordinates to meter.
-
-        This method checks the plotted data and transforms the coordinates to
-        meter if they are in units of kilometer (i.e. ``km``).
-
-        Notes
-        -----
-        The returned data array is a copy of the original `da` if and only if
-        the coordinates have been transformed
-        """
-        in_meters = (
-            ccrs.AlbersEqualArea,
-            ccrs.AzimuthalEquidistant,
-            ccrs.Geostationary,
-            ccrs.LambertAzimuthalEqualArea,
-            ccrs.LambertConformal,
-            ccrs.LambertCylindrical,
-            ccrs.Mercator,
-            ccrs.Orthographic,
-            ccrs.SouthPolarStereo,
-            ccrs.NorthPolarStereo,
-            ccrs.Sinusoidal,
-            ccrs.Stereographic,
-            ccrs.TransverseMercator,
-        )
-        if isinstance(crs, in_meters):
-            for i, da in enumerate(self.iter_data):
-                xcoord = da.psy.get_coord("x")
-                if xcoord.attrs.get("units") == "km":
-                    da = da.psy.copy()
-                    da[xcoord.name] = xcoord * 1000.
-                    self.set_data(da, i)
-                ycoord = da.psy.get_coord("y")
-                if ycoord.attrs.get("units") == "km":
-                    da = da.psy.copy()
-                    da[ycoord.name] = ycoord * 1000.
-                    self.set_data(da, i)
 
 
 class LSM(Formatoption):
