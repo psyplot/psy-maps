@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>psy_maps.plotters &mdash; psy-maps 1.3.2+19.gaa2de37 documentation</title>
+  <title>psy_maps.plotters &mdash; psy-maps 1.4.0+1.gd065d58 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
@@ -28,7 +28,7 @@
             <a href="../../index.html" class="icon icon-home"> psy-maps
           </a>
               <div class="version">
-                1.3.2
+                1.4.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -391,9 +391,9 @@
             <span class="nb">iter</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;standard_parallels&#39;</span><span class="p">])</span>
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;standard_parallels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;standard_parallels&#39;</span><span class="p">]]</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_easting&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_easting</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_northing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_northing</span>
         <span class="k">return</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">AlbersEqualArea</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -402,9 +402,9 @@
             <span class="n">central_longitude</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">longitude_of_projection_origin</span><span class="p">,</span>
             <span class="n">central_latitude</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">latitude_of_projection_origin</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_easting&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_easting</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_northing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_northing</span>
         <span class="k">return</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">AzimuthalEquidistant</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -414,9 +414,9 @@
             <span class="n">satellite_height</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">perspective_point_height</span><span class="p">,</span>
             <span class="n">sweep_axis</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">sweep_angle_axis</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_easting&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_easting</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_northing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_northing</span>
         <span class="k">return</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">Geostationary</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -425,9 +425,9 @@
             <span class="n">central_longitude</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">longitude_of_projection_origin</span><span class="p">,</span>
             <span class="n">central_latitude</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">latitude_of_projection_origin</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_easting&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_easting</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_northing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_northing</span>
         <span class="k">return</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">LambertAzimuthalEqualArea</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -441,9 +441,9 @@
             <span class="nb">iter</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;standard_parallels&#39;</span><span class="p">])</span>
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;standard_parallels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;standard_parallels&#39;</span><span class="p">]]</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_easting&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_easting</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_northing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_northing</span>
         <span class="k">return</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">LambertConformal</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -462,9 +462,9 @@
             <span class="p">)</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;scale_factor_at_projection_origin&#39;</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;scale_factor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">scale_factor_at_projection_origin</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_easting&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_easting</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_northing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_northing</span>
         <span class="k">return</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">Mercator</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -499,9 +499,9 @@
             <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
                 <span class="n">central_longitude</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">longitude_of_central_meridian</span><span class="p">,</span>
                 <span class="p">)</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_easting&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_easting</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_northing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_northing</span>
         <span class="k">return</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">Sinusoidal</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -511,9 +511,9 @@
             <span class="n">central_longitude</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">longitude_of_projection_origin</span><span class="p">,</span>
             <span class="n">scale_factor</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">scale_factor_at_projection_origin</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_easting&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_easting</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_northing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_northing</span>
         <span class="k">return</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">Stereographic</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -523,9 +523,9 @@
             <span class="n">central_latitude</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">latitude_of_projection_origin</span><span class="p">,</span>
             <span class="n">scale_factor</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">scale_factor_at_central_meridian</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_easting&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_easting&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_easting</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="s1">&#39;false_northing&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;false_northing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">false_northing</span>
         <span class="k">return</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">TransverseMercator</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -2119,10 +2119,6 @@
     <span class="sd">&quot;&quot;&quot;Base plotter for visualizing data on a map</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1">#: Boolean that is True if coordinates with units in radian should be</span>
-    <span class="c1">#: converted to degrees</span>
-    <span class="n">convert_radian</span> <span class="o">=</span> <span class="kc">True</span>
-
     <span class="n">_rcparams_string</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;plotter.maps.&#39;</span><span class="p">]</span>
 
     <span class="n">background</span> <span class="o">=</span> <span class="n">MapBackground</span><span class="p">(</span><span class="s1">&#39;background&#39;</span><span class="p">)</span>
@@ -2163,7 +2159,38 @@
 
     <span class="nd">@ax</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span> <span class="o">=</span> <span class="n">value</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="MapPlotter.convert_coordinate"><a class="viewcode-back" href="../../api/psy_maps.plotters.html#psy_maps.plotters.MapPlotter.convert_coordinate">[docs]</a>    <span class="nd">@docstrings</span><span class="o">.</span><span class="n">dedent</span>
+    <span class="k">def</span> <span class="nf">convert_coordinate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="o">*</span><span class="n">variables</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert a coordinate from radian to degree.</span>
+
+<span class="sd">        This method checks if the coordinate or one of the given variables has</span>
+<span class="sd">        units in radian. If yes, the given `coord` is converted to degree.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        %(Formatoption.convert_coordinate.parameters)s</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        %(Formatoption.convert_coordinate.returns)s</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">in_rad</span><span class="p">(</span><span class="n">var</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">var</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;units&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;radian&#39;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">in_km</span><span class="p">(</span><span class="n">var</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">var</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;units&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;km&quot;</span>
+
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">in_rad</span><span class="p">,</span> <span class="n">chain</span><span class="p">([</span><span class="n">coord</span><span class="p">],</span> <span class="n">variables</span><span class="p">))):</span>
+            <span class="n">coord</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">coord</span> <span class="o">*</span> <span class="mf">180.</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+            <span class="n">coord</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;degrees&quot;</span>
+        <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">in_km</span><span class="p">,</span> <span class="n">chain</span><span class="p">([</span><span class="n">coord</span><span class="p">],</span> <span class="n">variables</span><span class="p">))):</span>
+            <span class="n">coord</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">coord</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+            <span class="n">coord</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span>
+
+        <span class="k">return</span> <span class="n">coord</span></div></div>
 
 
 <div class="viewcode-block" id="FieldPlotter"><a class="viewcode-back" href="../../api/psy_maps.plotters.html#psy_maps.plotters.FieldPlotter">[docs]</a><span class="k">class</span> <span class="nc">FieldPlotter</span><span class="p">(</span><span class="n">psyps</span><span class="o">.</span><span class="n">Simple2DBase</span><span class="p">,</span> <span class="n">MapPlotter</span><span class="p">,</span> <span class="n">psyps</span><span class="o">.</span><span class="n">BasePlotter</span><span class="p">):</span>
