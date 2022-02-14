@@ -1,3 +1,21 @@
+v1.4.1
+======
+Fix projection issues
+
+Fixed
+-----
+- ``false_easting`` and ``false_northing`` are now expected to be optional
+  arguments for most projections (see
+  `#41 <https://github.com/psyplot/psy-maps/pull/41>`__)
+
+Changed
+-------
+- we now use the ``convert_coordinate`` method that has been introduced in
+  `psyplot/psyplot#39 <https://github.com/psyplot/psyplot/pull/39>`__ and
+  `psyplot/psy-simple#30 <https://github.com/psyplot/psy-simple/pull/30>`__.
+  See `#41 <https://github.com/psyplot/psy-maps/pull/41>`__
+
+
 v1.4.0
 ======
 Compatibility fixes and LGPL license

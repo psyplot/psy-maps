@@ -123,3 +123,36 @@ def test_rotated_pole_extent(open_grid_ds):
         assert isinstance(plotter.ax.projection, ccrs.RotatedPole)
         lonmin, lonmax = plotter.ax.get_extent()[:2]
         assert lonmax - lonmin < 200
+
+
+def test_false_easting(open_grid_ds, grid, grid_projection):
+    grid_ds = open_grid_ds(grid)
+    grid_var = grid_ds["Band1"].grid_mapping
+    if "false_easting" not in grid_ds[grid_var].attrs:
+        pytest.skip(f"No false_easting parameter for {grid_var} grid.")
+        return
+    del grid_ds[grid_var].attrs["false_easting"]
+    with grid_ds.psy.plot.mapplot() as sp:
+        assert len(sp) == 1
+        plotter = sp.plotters[0]
+        assert isinstance(plotter.transform.projection, grid_projection)
+        assert plotter.plot._kwargs.get('transform') is \
+            plotter.transform.projection
+        assert isinstance(plotter.projection.projection, grid_projection)
+
+
+def test_false_northing(open_grid_ds, grid, grid_projection):
+    grid_ds = open_grid_ds(grid)
+    grid_var = grid_ds["Band1"].grid_mapping
+    if "false_northing" not in grid_ds[grid_var].attrs:
+        pytest.skip(f"No false_northing parameter for {grid_var} grid.")
+        return
+    del grid_ds[grid_var].attrs["false_northing"]
+    with grid_ds.psy.plot.mapplot() as sp:
+        assert len(sp) == 1
+        plotter = sp.plotters[0]
+        assert isinstance(plotter.transform.projection, grid_projection)
+        assert plotter.plot._kwargs.get('transform') is \
+            plotter.transform.projection
+        assert isinstance(plotter.projection.projection, grid_projection)
+

@@ -319,9 +319,9 @@ class ProjectionBase(Formatoption):
             iter(kwargs['standard_parallels'])
         except TypeError:
             kwargs['standard_parallels'] = [kwargs['standard_parallels']]
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.AlbersEqualArea(**kwargs)
 
@@ -330,9 +330,9 @@ class ProjectionBase(Formatoption):
             central_longitude=crs.longitude_of_projection_origin,
             central_latitude=crs.latitude_of_projection_origin,
             )
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.AzimuthalEquidistant(**kwargs)
 
@@ -342,9 +342,9 @@ class ProjectionBase(Formatoption):
             satellite_height=crs.perspective_point_height,
             sweep_axis=crs.sweep_angle_axis,
             )
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.Geostationary(**kwargs)
 
@@ -353,9 +353,9 @@ class ProjectionBase(Formatoption):
             central_longitude=crs.longitude_of_projection_origin,
             central_latitude=crs.latitude_of_projection_origin,
             )
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.LambertAzimuthalEqualArea(**kwargs)
 
@@ -369,9 +369,9 @@ class ProjectionBase(Formatoption):
             iter(kwargs['standard_parallels'])
         except TypeError:
             kwargs['standard_parallels'] = [kwargs['standard_parallels']]
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.LambertConformal(**kwargs)
 
@@ -390,9 +390,9 @@ class ProjectionBase(Formatoption):
             )
         if hasattr(crs, 'scale_factor_at_projection_origin'):
             kwargs['scale_factor'] = crs.scale_factor_at_projection_origin
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.Mercator(**kwargs)
 
@@ -427,9 +427,9 @@ class ProjectionBase(Formatoption):
             kwargs = dict(
                 central_longitude=crs.longitude_of_central_meridian,
                 )
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.Sinusoidal(**kwargs)
 
@@ -439,9 +439,9 @@ class ProjectionBase(Formatoption):
             central_longitude=crs.longitude_of_projection_origin,
             scale_factor=crs.scale_factor_at_projection_origin
             )
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.Stereographic(**kwargs)
 
@@ -451,9 +451,9 @@ class ProjectionBase(Formatoption):
             central_latitude=crs.latitude_of_projection_origin,
             scale_factor=crs.scale_factor_at_central_meridian,
             )
-        if getattr(crs, 'false_easting'):
+        if getattr(crs, 'false_easting', None):
             kwargs['false_easting'] = crs.false_easting
-        if getattr(crs, 'false_northing'):
+        if getattr(crs, 'false_northing', None):
             kwargs['false_northing'] = crs.false_northing
         return ccrs.TransverseMercator(**kwargs)
 
@@ -2047,10 +2047,6 @@ class MapPlotter(psyps.Base2D):
     """Base plotter for visualizing data on a map
     """
 
-    #: Boolean that is True if coordinates with units in radian should be
-    #: converted to degrees
-    convert_radian = True
-
     _rcparams_string = ['plotter.maps.']
 
     background = MapBackground('background')
@@ -2092,6 +2088,37 @@ class MapPlotter(psyps.Base2D):
     @ax.setter
     def ax(self, value):
         self._ax = value
+
+    @docstrings.dedent
+    def convert_coordinate(self, coord, *variables):
+        """Convert a coordinate from radian to degree.
+
+        This method checks if the coordinate or one of the given variables has
+        units in radian. If yes, the given `coord` is converted to degree.
+
+        Parameters
+        ----------
+        %(Formatoption.convert_coordinate.parameters)s
+
+        Returns
+        -------
+        %(Formatoption.convert_coordinate.returns)s
+        """
+
+        def in_rad(var):
+            return var.attrs.get('units', '').startswith('radian')
+
+        def in_km(var):
+            return var.attrs.get('units', '') == "km"
+
+        if any(map(in_rad, chain([coord], variables))):
+            coord = coord.copy(data=coord * 180. / np.pi)
+            coord.attrs["units"] = "degrees"
+        elif any(map(in_km, chain([coord], variables))):
+            coord = coord.copy(data=coord * 1000)
+            coord.attrs["units"] = "m"
+
+        return coord
 
 
 class FieldPlotter(psyps.Simple2DBase, MapPlotter, psyps.BasePlotter):
