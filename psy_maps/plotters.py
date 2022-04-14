@@ -273,6 +273,20 @@ class ProjectionBase(Formatoption):
         #'vertical_perspective',  # not available for cartopy
         ]
 
+    def transform_lonlatbox(self, value):
+        """Transform a lon-lat-box to the specific projection"""
+        value = np.asarray(value)
+        transformed = self.projection.transform_points(
+            ccrs.PlateCarree(), value[:2], value[2:]
+        )[..., :2]
+        value[:2] = transformed[..., 0]
+        value[2:] = transformed[..., 1]
+        if value[0] == value[1] and isinstance(
+                self.projection, ccrs.PlateCarree
+            ):
+            value[1] += 360
+        return value
+
     @property
     def cf_projection(self):
         data = next(self.iter_data)
@@ -514,11 +528,16 @@ class Projection(ProjectionBase):
 
     dependencies = ['clon', 'clat']
 
-    connections = ['transform']
+    connections = ['transform', 'lonlatbox']
 
     def __init__(self, *args, **kwargs):
         super(Projection, self).__init__(*args, **kwargs)
         self.projection = None
+
+    @property
+    def lonlatbox_transformed(self):
+        """Transform the lonlatbox according to the projection"""
+        return self.transform_lonlatbox(self.lonlatbox.lonlatbox)
 
     def initialize_plot(self, value, clear=True):
         """Initialize the plot and set the projection for the axes
@@ -715,15 +734,7 @@ class LonLatBox(BoxBase):
 
     @property
     def lonlatbox_transformed(self):
-        value = np.asarray(self.lonlatbox)
-        transformed = self.transform.projection.transform_points(
-            ccrs.PlateCarree(), value[:2], value[2:])[..., :2]
-        value[:2] = transformed[..., 0]
-        value[2:] = transformed[..., 1]
-        if value[0] == value[1] and isinstance(self.transform.projection,
-                                               ccrs.PlateCarree):
-            value[1] += 360
-        return value
+        return self.transform.transform_lonlatbox(self.lonlatbox)
 
     def data_dependent(self, data, set_data=True):
         if isinstance(data, InteractiveList):
@@ -978,7 +989,7 @@ class MapExtent(BoxBase):
                 value = self.lola_from_pattern(value)
         elif value is None:
             # use autoscale
-            self.ax.autoscale()
+            # self.ax.autoscale()
             return
         else:
             value = list(value)
@@ -1927,9 +1938,12 @@ class MapDensity(psyps.Density):
     --------------
     %(Density.possible_types)s"""
 
+    dependencies = psyps.Density.dependencies + ["projection"]
+
     def _set_quiver_density(self, value):
         if all(val == 1.0 for val in value):
             self.plot._kwargs.pop('regrid_shape', None)
+            self.plot._kwargs.pop('target_extent', None)
         elif self.decoder.is_unstructured(self.raw_data):
             warnings.warn("Quiver plot of unstructered data does not support "
                           "the density keyword!", RuntimeWarning)
@@ -1940,6 +1954,8 @@ class MapDensity(psyps.Density):
             shape = self.data.shape[-2:]
             value = map(int, [value[0]*shape[0], value[1]*shape[1]])
             self.plot._kwargs['regrid_shape'] = tuple(value)
+            lonlatbox = self.projection.lonlatbox_transformed
+            self.plot._kwargs["target_extent"] = lonlatbox
 
     def _unset_quiver_density(self):
         self.plot._kwargs.pop('regrid_shape', None)
