@@ -989,7 +989,7 @@ class MapExtent(BoxBase):
                 value = self.lola_from_pattern(value)
         elif value is None:
             # use autoscale
-            # self.ax.autoscale()
+            self.ax.autoscale()
             return
         else:
             value = list(value)
