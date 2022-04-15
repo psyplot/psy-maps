@@ -1,3 +1,13 @@
+V1.4.2
+======
+Fix mapvector issue
+
+Fixed
+-----
+- This PR fixes an issue that arises when using ``density`` together with
+  ``lonlatbox``, see `#43 <https://github.com/psyplot/psy-maps/issues/43>`__
+  and `#44 <https://github.com/psyplot/psy-maps/pull/44>`__
+
 v1.4.1
 ======
 Fix projection issues
