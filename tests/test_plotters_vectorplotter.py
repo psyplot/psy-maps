@@ -175,5 +175,20 @@ class VectorPlotterTest2D(bt.TestBase2D, VectorPlotterTest):
     var = ['u_2d', 'v_2d']
 
 
+def test_density_with_lonlatbox(regular_test_file):
+    """Test that the lonlatbox still works with density.
+
+    see https://github.com/psyplot/psy-maps/issues/43
+    """
+    sp = psy.plot.mapvector(
+        regular_test_file, name=[["u", "v"]], density=0.5, lonlatbox="Europe"
+    )
+    ax = sp.plotters[0].ax
+    xmin, xmax, ymin, ymax = ax.get_extent()
+    assert xmax - xmin < 180
+    assert ymax - ymin < 90
+
+
+
 if __name__ == '__main__':
     unittest.main()
