@@ -22,6 +22,8 @@
 #
 # You should have received a copy of the GNU LGPL-3.0 license
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+import pytest
+import os.path as osp
 
 try:
     # make sure we import QtWebEngineWidgets at the start
@@ -40,3 +42,8 @@ def pytest_configure(config):
     if config.getoption('ref'):
         import unittest
         unittest.TestLoader.testMethodPrefix = 'ref'
+
+
+@pytest.fixture
+def regular_test_file():
+    return osp.join(osp.dirname(__file__), "test-t2m-u-v.nc")
