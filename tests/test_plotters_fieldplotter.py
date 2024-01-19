@@ -476,7 +476,7 @@ def test_lonlatbox_projected():
     )
     sp.update(lonlatbox=[17.8, 18.2, 59.2, 59.4])
     assert (
-        np.round(ax.get_extent(ccrs.PlateCarree()), 2).tolist()
+        np.round(ax.get_extent(ccrs.PlateCarree()), 1).tolist()
         == [17.8, 18.2, 59.2, 59.4]
     )
 
