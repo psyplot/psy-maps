@@ -39,7 +39,6 @@ import matplotlib.ticker as ticker
 from matplotlib.colors import BoundaryNorm
 import numpy as np
 from psyplot import rcParams
-from psyplot.compat.pycompat import map
 from psyplot.docstring import docstrings
 from psyplot.data import InteractiveList, _infer_interval_breaks
 from psyplot.plotter import (

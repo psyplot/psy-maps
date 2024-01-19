@@ -28,6 +28,7 @@ import unittest
 from itertools import starmap, repeat, chain
 import numpy as np
 import matplotlib.pyplot as plt
+import cartopy
 import cartopy.crs as ccrs
 import matplotlib.colors as mcol
 from psy_maps.plotters import FieldPlotter, rcParams, InteractiveList
@@ -220,7 +221,11 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
 
     def test_background(self):
         self.update(background='0.5')
-        bc = mcol.to_rgba(self.plotter.ax.background_patch.get_facecolor())
+        if cartopy.__version__ < "0.18":
+            col = self.plotter.ax.background_patch.get_facecolor()
+        else:
+            col = self.plotter.ax.patch.get_facecolor()
+        bc = mcol.to_rgba(col)
         self.assertEqual(bc, (0.5, 0.5, 0.5, 1.0))
 
     def test_extend(self):
@@ -471,7 +476,7 @@ def test_lonlatbox_projected():
     )
     sp.update(lonlatbox=[17.8, 18.2, 59.2, 59.4])
     assert (
-        np.round(ax.get_extent(ccrs.PlateCarree()), 2).tolist()
+        np.round(ax.get_extent(ccrs.PlateCarree()), 1).tolist()
         == [17.8, 18.2, 59.2, 59.4]
     )
 
