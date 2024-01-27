@@ -1,31 +1,15 @@
 """Formatoption widgets for psy-maps."""
 
-# Disclaimer
-# ----------
+# SPDX-FileCopyrightText: 2016-2024 University of Lausanne
+# SPDX-FileCopyrightText: 2020-2021 Helmholtz-Zentrum Geesthacht
+# SPDX-FileCopyrightText: 2021-2024 Helmholtz-Zentrum hereon GmbH
 #
-# Copyright (C) 2021 Helmholtz-Zentrum Hereon
-# Copyright (C) 2020-2021 Helmholtz-Zentrum Geesthacht
-# Copyright (C) 2016-2021 University of Lausanne
-#
-# This file is part of psy-maps and is released under the GNU LGPL-3.O license.
-# See COPYING and COPYING.LESSER in the root of the repository for full
-# licensing details.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License version 3.0 as
-# published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU LGPL-3.0 license for more details.
-#
-# You should have received a copy of the GNU LGPL-3.0 license
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0-only
 
 import contextlib
-from PyQt5 import QtWidgets, QtGui
+
 import psy_simple.widgets.colors as psyps_wcol
+from PyQt5 import QtGui, QtWidgets
 
 
 class LSMFmtWidget(QtWidgets.QWidget):
@@ -34,23 +18,24 @@ class LSMFmtWidget(QtWidgets.QWidget):
     def __init__(self, parent, fmto, project):
         super().__init__()
         import cartopy.feature as cf
+
         self.editor = parent
 
-        self.cb_land = QtWidgets.QCheckBox('Land')
-        self.cb_ocean = QtWidgets.QCheckBox('Ocean')
-        self.cb_coast = QtWidgets.QCheckBox('Coastlines')
+        self.cb_land = QtWidgets.QCheckBox("Land")
+        self.cb_ocean = QtWidgets.QCheckBox("Ocean")
+        self.cb_coast = QtWidgets.QCheckBox("Coastlines")
 
-        self.land_color = psyps_wcol.ColorLabel(cf.LAND._kwargs['facecolor'])
-        self.ocean_color = psyps_wcol.ColorLabel(cf.OCEAN._kwargs['facecolor'])
-        self.coast_color = psyps_wcol.ColorLabel('k')
+        self.land_color = psyps_wcol.ColorLabel(cf.LAND._kwargs["facecolor"])
+        self.ocean_color = psyps_wcol.ColorLabel(cf.OCEAN._kwargs["facecolor"])
+        self.coast_color = psyps_wcol.ColorLabel("k")
 
         self.txt_linewidth = QtWidgets.QLineEdit()
         self.txt_linewidth.setValidator(QtGui.QDoubleValidator(0, 100, 4))
-        self.txt_linewidth.setPlaceholderText('Linewidth of coastlines')
-        self.txt_linewidth.setToolTip('Linewidth of coastlines')
+        self.txt_linewidth.setPlaceholderText("Linewidth of coastlines")
+        self.txt_linewidth.setToolTip("Linewidth of coastlines")
 
         self.combo_resolution = QtWidgets.QComboBox()
-        self.combo_resolution.addItems(['110m', '50m', '10m'])
+        self.combo_resolution.addItems(["110m", "50m", "10m"])
 
         self.refresh(fmto.value)
 
@@ -69,7 +54,8 @@ class LSMFmtWidget(QtWidgets.QWidget):
             cb.stateChanged.connect(self.toggle_and_update)
         self.txt_linewidth.textEdited.connect(self.toggle_and_update)
         self.combo_resolution.currentIndexChanged.connect(
-            self.toggle_and_update)
+            self.toggle_and_update
+        )
         for lbl in [self.land_color, self.ocean_color, self.coast_color]:
             lbl.color_changed.connect(self.toggle_and_update)
 
@@ -77,14 +63,14 @@ class LSMFmtWidget(QtWidgets.QWidget):
     def value(self):
         ret = {}
         if self.cb_land.isChecked():
-            ret['land'] = list(self.land_color.color.getRgbF())
+            ret["land"] = list(self.land_color.color.getRgbF())
         if self.cb_ocean.isChecked():
-            ret['ocean'] = list(self.ocean_color.color.getRgbF())
+            ret["ocean"] = list(self.ocean_color.color.getRgbF())
         if self.cb_coast.isChecked():
-            ret['coast'] = list(self.coast_color.color.getRgbF())
-            ret['linewidth'] = float(self.txt_linewidth.text().strip() or 0.0)
+            ret["coast"] = list(self.coast_color.color.getRgbF())
+            ret["linewidth"] = float(self.txt_linewidth.text().strip() or 0.0)
         if ret:
-            ret['res'] = self.combo_resolution.currentText()
+            ret["res"] = self.combo_resolution.currentText()
         return ret
 
     def toggle_and_update(self):
@@ -101,10 +87,16 @@ class LSMFmtWidget(QtWidgets.QWidget):
 
     @contextlib.contextmanager
     def block_widgets(self, *widgets):
-        widgets = widgets or [self.cb_land, self.cb_ocean, self.cb_coast,
-                              self.land_color, self.ocean_color,
-                              self.coast_color,
-                              self.txt_linewidth, self.combo_resolution]
+        widgets = widgets or [
+            self.cb_land,
+            self.cb_ocean,
+            self.cb_coast,
+            self.land_color,
+            self.ocean_color,
+            self.coast_color,
+            self.txt_linewidth,
+            self.combo_resolution,
+        ]
         for w in widgets:
             w.blockSignals(True)
         yield
@@ -113,28 +105,28 @@ class LSMFmtWidget(QtWidgets.QWidget):
 
     def refresh(self, value):
         with self.block_widgets():
-            self.cb_land.setChecked('land' in value)
-            self.cb_ocean.setChecked('ocean' in value)
-            self.cb_coast.setChecked('coast' in value)
+            self.cb_land.setChecked("land" in value)
+            self.cb_ocean.setChecked("ocean" in value)
+            self.cb_coast.setChecked("coast" in value)
 
-            if 'linewidth' in value:
-                self.txt_linewidth.setText(str(value['linewidth']))
-            elif 'coast' in value:
-                self.txt_linewidth.setText('1.0')
+            if "linewidth" in value:
+                self.txt_linewidth.setText(str(value["linewidth"]))
+            elif "coast" in value:
+                self.txt_linewidth.setText("1.0")
             else:
-                self.txt_linewidth.setText('')
+                self.txt_linewidth.setText("")
 
-            if 'res' in value:
-                self.combo_resolution.setCurrentText(value['res'])
+            if "res" in value:
+                self.combo_resolution.setCurrentText(value["res"])
             else:
-                self.combo_resolution.setCurrentText('110m')
+                self.combo_resolution.setCurrentText("110m")
 
-            if 'land' in value:
-                self.land_color._set_color(value['land'])
-            if 'ocean' in value:
-                self.ocean_color._set_color(value['ocean'])
-            if 'coast' in value:
-                self.coast_color._set_color(value['coast'])
+            if "land" in value:
+                self.land_color._set_color(value["land"])
+            if "ocean" in value:
+                self.ocean_color._set_color(value["ocean"])
+            if "coast" in value:
+                self.coast_color._set_color(value["coast"])
 
             self.toggle_color_labels()
 
@@ -142,7 +134,7 @@ class LSMFmtWidget(QtWidgets.QWidget):
 class GridFmtWidget(psyps_wcol.CTicksFmtWidget):
     """The formatoption widget for xgrid and ygrid"""
 
-    methods = ['Discrete', 'Auto', 'Disable']
+    methods = ["Discrete", "Auto", "Disable"]
 
     methods_type = psyps_wcol.BoundsType
 
@@ -154,13 +146,13 @@ class GridFmtWidget(psyps_wcol.CTicksFmtWidget):
     def set_value(self, value):
         if value is False or value is None:
             with self.block_widgets(self.method_combo, self.type_combo):
-                self.type_combo.setCurrentText('Disable')
-            self.refresh_methods('Disable')
+                self.type_combo.setCurrentText("Disable")
+            self.refresh_methods("Disable")
         else:
             super().set_value(value)
 
     def refresh_methods(self, text):
-        if text == 'Disable':
+        if text == "Disable":
             with self.block_widgets(self.method_combo):
                 self.method_combo.clear()
             self.set_obj(False)
@@ -170,7 +162,7 @@ class GridFmtWidget(psyps_wcol.CTicksFmtWidget):
 
     def refresh_current_widget(self):
         w = self.current_widget
-        no_lines = self.type_combo.currentText() == 'Disable'
+        no_lines = self.type_combo.currentText() == "Disable"
         if no_lines and w is not None:
             w.setVisible(False)
             self.current_widget = None

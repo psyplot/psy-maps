@@ -1,53 +1,45 @@
-# YAML 1.2
----
-cff-version: "1.2.0"
-message: "If you use this software, please cite both the article from preferred-citation and the software itself."
-title: "psy-maps: A psyplot plugin for visualization on a map"
+# SPDX-FileCopyrightText: 2021-2024 Helmholtz-Zentrum hereon GmbH
+#
+# SPDX-License-Identifier: CC0-1.0
+
 authors:
-  - family-names: Sommer
+  # list author information. see
+  # https://github.com/citation-file-format/citation-file-format/blob/main/schema-guide.md#definitionsperson
+  # for metadata
+  - family-names: "Philipp S."
     given-names: "Philipp S."
     affiliation: "Helmholtz-Zentrum Hereon"
-    orcid: "https://orcid.org/0000-0001-6171-7716"
-    website: "https://www.philipp-s-sommer.de"
-    post-code: 21502
-    city: Geesthacht
-    country: DE
-    email: philipp.sommer@hereon.de
-doi: "10.5281/zenodo.845645"
-contact:
-  - email: psyplot@hereon.de
-    name: "Psyplot developers at hereon"
-license: "LGPL-3.0-only"
-repository-code: https://github.com/psyplot/psyplot
-type: software
+    # orcid: null
+    email: "philipp.sommer@hereon.de"
+cff-version: 1.2.0
+message: "If you use this software, please cite it using these metadata."
+title: "psy-maps"
 keywords:
-  - psyplot
-  - python
-  - visualization
-  - xarray
-  - matplotlib
-  - netcdf4
-  - climate models
-  - unstructured
-  - earth-sciences
-  - raster
-  - cartopy
-preferred-citation:
-  title: "The psyplot interactive visualization framework"
-  authors:
-    - family-names: Sommer
-      given-names: "Philipp S."
-      affiliation: "Helmholtz-Zentrum Hereon"
-      orcid: "https://orcid.org/0000-0001-6171-7716"
-  year: 2017
-  type: article
-  doi: "10.21105/joss.00363"
-  date-published: 2017-08-22
-  journal: Journal of Open Source Software
-  volume: 2
-  number: 16
-  pages: 363
-  publisher:
-    name: The Open Journal
-  license: CC-BY-4.0
-...
+  - "visualization"
+
+  - "psyplot"
+
+  - "netcdf"
+
+  - "matplotlib"
+
+  - "cartopy"
+
+  - "maps"
+
+  - "georeferenced"
+
+license: 'LGPL-3.0-only'
+repository-code: "https://codebase.helmholtz.cloud/psyplot/psy-maps"
+url: "https://codebase.helmholtz.cloud/psyplot/psy-maps"
+contact:
+  # list maintainer information. see
+  # https://github.com/citation-file-format/citation-file-format/blob/main/schema-guide.md#definitionsperson
+  # for metadata
+  - family-names: "Philipp S."
+    given-names: "Philipp S."
+    affiliation: "Helmholtz-Zentrum Hereon"
+    # orcid: null
+    email: "philipp.sommer@hereon.de"
+abstract: |
+  Psyplot plugin for visualization on a map

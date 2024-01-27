@@ -1,62 +1,21 @@
+.. SPDX-FileCopyrightText: 2021-2024 Helmholtz-Zentrum hereon GmbH
+..
+.. SPDX-License-Identifier: CC-BY-4.0
+
 ========================================================
 psy-maps: The psyplot plugin for visualizations on a map
 ========================================================
 
 .. start-badges
 
-.. list-table::
-    :stub-columns: 1
-    :widths: 10 90
-
-    * - docs
-      - |docs|
-    * - tests
-      - |circleci| |appveyor| |codecov|
-    * - package
-      - |version| |conda| |github| |zenodo|
-    * - implementations
-      - |supported-versions| |supported-implementations|
-
-.. |docs| image:: https://img.shields.io/github/deployments/psyplot/psy-maps/github-pages
-    :alt: Documentation
-    :target: http://psyplot.github.io/psy-maps/
-
-.. |circleci| image:: https://circleci.com/gh/psyplot/psy-maps/tree/master.svg?style=svg
-    :alt: CircleCI
-    :target: https://circleci.com/gh/psyplot/psy-maps/tree/master
-
-.. |appveyor| image:: https://ci.appveyor.com/api/projects/status/rd733xj3tfrk4tot/branch/master?svg=true
-    :alt: AppVeyor
-    :target: https://ci.appveyor.com/project/psyplot/psy-maps
-
-.. |codecov| image:: https://codecov.io/gh/psyplot/psy-maps/branch/master/graph/badge.svg
-    :alt: Coverage
-    :target: https://codecov.io/gh/psyplot/psy-maps
-
-.. |version| image:: https://img.shields.io/pypi/v/psy-maps.svg?style=flat
-    :alt: PyPI Package latest release
-    :target: https://pypi.python.org/pypi/psy-maps
-
-.. |conda| image:: https://anaconda.org/conda-forge/psy-maps/badges/version.svg
-    :alt: conda
-    :target: https://anaconda.org/conda-forge/psy-maps
-
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/psy-maps.svg?style=flat
-    :alt: Supported versions
-    :target: https://pypi.python.org/pypi/psy-maps
-
-.. |supported-implementations| image:: https://img.shields.io/pypi/implementation/psy-maps.svg?style=flat
-    :alt: Supported implementations
-    :target: https://pypi.python.org/pypi/psy-maps
-
-.. |zenodo| image:: https://zenodo.org/badge/83305582.svg
-    :alt: Zenodo
-    :target: https://zenodo.org/badge/latestdoi/83305582
-
-.. |github| image:: https://img.shields.io/github/release/psyplot/psy-simple.svg
-    :target: https://github.com/psyplot/psy-simple/releases/latest
-    :alt: Latest github release
-
+|CI|
+|Code coverage|
+|Latest Release|
+|PyPI version|
+|Code style: black|
+|Imports: isort|
+|PEP8|
+|REUSE status|
 
 .. end-badges
 
@@ -99,3 +58,20 @@ GNU LGPL-3.0 license for more details.
 
 You should have received a copy of the GNU LGPL-3.0 license
 along with this program.  If not, see https://www.gnu.org/licenses/.
+
+.. |CI| image:: https://codebase.helmholtz.cloud/psyplot/psy-maps/badges/main/pipeline.svg
+   :target: https://codebase.helmholtz.cloud/psyplot/psy-maps/-/pipelines?page=1&scope=all&ref=main
+.. |Code coverage| image:: https://codebase.helmholtz.cloud/psyplot/psy-maps/badges/main/coverage.svg
+   :target: https://codebase.helmholtz.cloud/psyplot/psy-maps/-/graphs/main/charts
+.. |Latest Release| image:: https://codebase.helmholtz.cloud/psyplot/psy-maps/-/badges/release.svg
+   :target: https://codebase.helmholtz.cloud/psyplot/psy-maps
+.. |PyPI version| image:: https://img.shields.io/pypi/v/psy-maps.svg
+   :target: https://pypi.python.org/pypi/psy-maps/
+.. |Code style: black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
+.. |Imports: isort| image:: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336
+   :target: https://pycqa.github.io/isort/
+.. |PEP8| image:: https://img.shields.io/badge/code%20style-pep8-orange.svg
+   :target: https://www.python.org/dev/peps/pep-0008/
+.. |REUSE status| image:: https://api.reuse.software/badge/codebase.helmholtz.cloud/psyplot/psy-maps
+   :target: https://api.reuse.software/info/codebase.helmholtz.cloud/psyplot/psy-maps
