@@ -425,20 +425,31 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
             )
         self.compare_figures(next(iter(args), self.get_ref_file("lonlatbox")))
 
+    def test_fix_map_extent(self, *args):
+        """Test fixing the map extent."""
+        ax = self.plotter.ax
+        ax.set_extent((-32.0, 97.0, -8.0, 81.0), ccrs.PlateCarree())
+        self.plotter.fix_map_extent()
+        self.assertAlmostArrayEqual(
+            self.plotter["map_extent"], [-32.0, 97.0, -8.0, 81.0]
+        )
+
+    def test_fix_lonlatbox(self, *args):
+        """Test fixing the map extent."""
+        ax = self.plotter.ax
+        ax.set_extent((-32.0, 97.0, -8.0, 81.0), ccrs.PlateCarree())
+        self.plotter.fix_lonlatbox()
+        self.assertAlmostArrayEqual(
+            self.plotter["lonlatbox"], [-32.0, 97.0, -8.0, 81.0]
+        )
+
     def test_map_extent(self, *args):
         """Test map_extent formatoption"""
         self.update(map_extent="Europe|India")
         ax = self.plotter.ax
-        list(
-            starmap(
-                self.assertAlmostEqual,
-                zip(
-                    ax.get_extent(ccrs.PlateCarree()),
-                    (-32.0, 97.0, -8.0, 81.0),
-                    repeat(5),
-                    repeat("Failed to set the extent to Europe and India!"),
-                ),
-            )
+        self.assertAlmostArrayEqual(
+            ax.get_extent(ccrs.PlateCarree()),
+            [-32.0, 97.0, -8.0, 81.0],
         )
         self.compare_figures(next(iter(args), self.get_ref_file("map_extent")))
 
