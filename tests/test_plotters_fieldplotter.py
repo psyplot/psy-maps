@@ -444,7 +444,7 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
 
     def test_google_map_detail(self, *args):
         """Test map_extent formatoption"""
-        self.update(google_map_detail=6)
+        self.update(google_map_detail=3)
         self.assertIsNotNone(self.plotter.google_map_detail._image)
 
     def test_lsm(self, *args):
