@@ -2369,6 +2369,28 @@ class MapPlotter(psyps.Base2D):
 
         return coord
 
+    def fix_map_extent(self):
+        """Fix the map extent to the current extent of the axes.
+
+        This method updates the :attr:`map_extent` formatoption to the
+        current extent of the axes of the plotter.
+        """
+        self["map_extent"] = self.ax.get_extent(ccrs.PlateCarree())
+
+    @docstrings.dedent
+    def fix_lonlatbox(self, *args, **kwargs):
+        """Fix the data to the current extent of the axes.
+
+        This method updates the :attr:`map_extent` formatoption to the
+        current extent of the axes of the plotter.
+
+        Parameters
+        ----------
+        %(Plotter.update.parameters)s
+        """
+        extent = self.ax.get_extent(ccrs.PlateCarree())
+        self.update(lonlatbox=extent)
+
 
 class FieldPlotter(psyps.Simple2DBase, MapPlotter, psyps.BasePlotter):
     """Plotter for 2D scalar fields on a map"""
