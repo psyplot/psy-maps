@@ -442,6 +442,11 @@ class FieldPlotterTest(tb.BasePlotterTest, MapReferences):
         )
         self.compare_figures(next(iter(args), self.get_ref_file("map_extent")))
 
+    def test_google_map_detail(self, *args):
+        """Test map_extent formatoption"""
+        self.update(google_map_detail=6)
+        self.assertIsNotNone(self.plotter.google_map_detail._image)
+
     def test_lsm(self, *args):
         """Test land-sea-mask formatoption"""
         self.update(lsm=False)
