@@ -23,6 +23,7 @@ from psy_simple.plugin import (
     validate_dict,
     validate_float,
     validate_fontsize,
+    validate_int,
     validate_none,
     validate_str,
 )
@@ -162,6 +163,15 @@ def validate_lonlatbox(value):
             return list(map(validate, value))
 
 
+def validate_google_map_detail(value):
+    if value is None:
+        return value
+    value = validate_int(value)
+    if value < 0:
+        raise ValueError("target_z must be an integer >=0.")
+    return value
+
+
 # -----------------------------------------------------------------------------
 # ------------------------------ rcParams -------------------------------------
 # -----------------------------------------------------------------------------
@@ -233,6 +243,11 @@ rcParams = RcParams(
             None,
             validate_lonlatbox,
             "fmt key to define the extent of the map plot",
+        ],
+        "plotter.maps.google_map_detail": [
+            None,
+            validate_google_map_detail,
+            "fmt add a google image to the plot.",
         ],
         "plotter.maps.clip": [
             None,
