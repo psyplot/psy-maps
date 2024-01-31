@@ -998,6 +998,53 @@ class LonLatBox(BoxBase):
         return lonsin, datain
 
 
+class GoogleMap(Formatoption):
+    """Show a map of google on the plot.
+
+    Possible types
+    --------------
+    None
+        Do not show anything
+    int
+        The level of detail to show (usually between 6 and 9, must be greater
+        than or equal to 0).
+    """
+
+    data_dependent = True
+
+    _image = None
+
+    _factory = None
+
+    dependencies = ["map_extent"]
+
+    def update(self, value):
+        """Draw or remove the image from the plot."""
+        from cartopy.io.img_tiles import GoogleTiles
+
+        if value is None and self._image is not None:
+            self.remove()
+        elif value is not None:
+            self._factory = factory = self._factory or GoogleTiles()
+            if self._image is not None:
+                self.remove()
+            img, extent, origin = factory.image_for_domain(
+                self.ax._get_extent_geom(factory.crs), value
+            )
+            self._image = self.ax.imshow(
+                img, extent=extent, origin=origin, transform=factory.crs
+            )
+
+    def remove(self):
+        if self._image is not None:
+            try:
+                self._image.remove()
+            except ValueError:
+                # image has already been removed
+                pass
+        self._image = None
+
+
 class MapExtent(BoxBase):
     """
     Set the extent of the map
@@ -2261,6 +2308,7 @@ class MapPlotter(psyps.Base2D):
     xgrid = XGrid("xgrid")
     ygrid = YGrid("ygrid")
     map_extent = MapExtent("map_extent")
+    google_map_detail = GoogleMap("google_map_detail")
     datagrid = MapDataGrid("datagrid", index_in_list=0)
     clip = ClipAxes("clip")
 
