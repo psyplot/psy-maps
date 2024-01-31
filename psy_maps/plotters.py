@@ -872,11 +872,14 @@ class LonLatBox(BoxBase):
                         lat,
                         *value,
                         is_unstructured=is_unstructured,
+                        decoder=decoder,
                     )
             lon, lat = self._get_lola(ret, decoder)
             self.data_lonlatbox = self.calc_lonlatbox(
                 lon, lat, is_unstructured
             )
+            ret.psy.decoder = decoder
+            decoder.clear_cache()
             return ret
 
     def to_degree(self, units=None, *args):
@@ -915,6 +918,7 @@ class LonLatBox(BoxBase):
         latmin,
         latmax,
         is_unstructured=False,
+        decoder=None,
     ):
         data.values = data.values.copy()
         ndim = 2 if not is_unstructured else 1
@@ -924,15 +928,16 @@ class LonLatBox(BoxBase):
         mask = np.any(
             [lon < lonmin, lon > lonmax, lat < latmin, lat > latmax], axis=0
         )
+        decoder = decoder or data.psy.decoder
         if data.ndim > ndim:
-            if is_unstructured:
+            if is_unstructured and decoder.supports_spatial_slicing:
                 data = data.psy[:, np.where(~mask)[0]]
             else:
                 for i, arr in enumerate(data.values):
                     arr[mask] = np.nan
                     data.values[i, :] = arr
         else:
-            if is_unstructured:
+            if is_unstructured and decoder.supports_spatial_slicing:
                 data = data.psy[np.where(~mask)[0]]
             else:
                 data.values[mask] = np.nan
