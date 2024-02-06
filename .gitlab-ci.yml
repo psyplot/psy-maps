@@ -36,12 +36,14 @@ test:
     # container runs as root
     # https://doc.qt.io/qt-5/qtwebengine-platform-notes.html#sandboxing-support
     QTWEBENGINE_DISABLE_SANDBOX: "true"
+  tags:
+    - performance
   script:
     # install necessary libraries for pyqt
     - apt-get install -y xvfb python3-pyqt5.qtwebengine
     - pip install pipenv
     - pipenv install
-    - xvfb-run make pipenv-test
+    - NPROCS=auto xvfb-run make pipenv-test
   parallel:
     matrix:
       - SCENARIO:
@@ -50,6 +52,8 @@ test:
     name: pipfile
     paths:
       - "ci/matrix/${SCENARIO}/*"
+      - "tests/reference_figures/*.png"
+      - "tests/test_figures/*.png"
     expire_in: 30 days
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
 
