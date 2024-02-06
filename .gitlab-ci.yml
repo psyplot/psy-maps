@@ -30,26 +30,47 @@ test-package:
 
 test:
   stage: test
+  image: "${IMAGE}"
   variables:
     PIPENV_PIPFILE: "ci/matrix/${SCENARIO}/Pipfile"
     # disable sandboxing, otherwise chrome reports errors when the
     # container runs as root
     # https://doc.qt.io/qt-5/qtwebengine-platform-notes.html#sandboxing-support
     QTWEBENGINE_DISABLE_SANDBOX: "true"
+  tags:
+    - performance
   script:
     # install necessary libraries for pyqt
     - apt-get install -y xvfb python3-pyqt5.qtwebengine
     - pip install pipenv
     - pipenv install
-    - xvfb-run make pipenv-test
+    - NPROCS=auto xvfb-run make pipenv-test
   parallel:
     matrix:
-      - SCENARIO:
-          - default
+      - SCENARIO: default
+        IMAGE: python:3.9
+      # python scenarios
+      - SCENARIO: mpl_38_py39
+        IMAGE: python:3.9
+      - SCENARIO: mpl_38_py310
+        IMAGE: python:3.10
+      - SCENARIO: mpl_38_py311
+        IMAGE: python:3.11
+      - SCENARIO: mpl_38_py312
+        IMAGE: python:3.12
+      # matplotlib scenarios
+      - SCENARIO: mpl_35_py39
+        IMAGE: python:3.9
+      - SCENARIO: mpl_36_py310
+        IMAGE: python:3.10
+      - SCENARIO: mpl_37_py311
+        IMAGE: python:3.11
   artifacts:
     name: pipfile
     paths:
       - "ci/matrix/${SCENARIO}/*"
+      - "tests/reference_figures/*.png"
+      - "tests/test_figures/*.png"
     expire_in: 30 days
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
 

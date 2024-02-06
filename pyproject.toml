@@ -80,6 +80,7 @@ testsite = [
     "pytest-cov",
     "reuse",
     "cffconvert",
+    "pytest-xdist",
     "dask",
     "netCDF4",
     "seaborn",
