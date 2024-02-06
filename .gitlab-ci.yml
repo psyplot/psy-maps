@@ -30,6 +30,7 @@ test-package:
 
 test:
   stage: test
+  image: "${IMAGE}"
   variables:
     PIPENV_PIPFILE: "ci/matrix/${SCENARIO}/Pipfile"
     # disable sandboxing, otherwise chrome reports errors when the
@@ -46,8 +47,24 @@ test:
     - NPROCS=auto xvfb-run make pipenv-test
   parallel:
     matrix:
-      - SCENARIO:
-          - default
+      - SCENARIO: default
+        IMAGE: python:3.9
+      # python scenarios
+      - SCENARIO: mpl_38_py39
+        IMAGE: python:3.9
+      - SCENARIO: mpl_38_py310
+        IMAGE: python:3.10
+      - SCENARIO: mpl_38_py311
+        IMAGE: python:3.11
+      - SCENARIO: mpl_38_py312
+        IMAGE: python:3.12
+      # matplotlib scenarios
+      - SCENARIO: mpl_35_py39
+        IMAGE: python:3.9
+      - SCENARIO: mpl_36_py310
+        IMAGE: python:3.10
+      - SCENARIO: mpl_37_py311
+        IMAGE: python:3.11
   artifacts:
     name: pipfile
     paths:
