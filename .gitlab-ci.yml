@@ -33,6 +33,10 @@ test:
   image: "${IMAGE}"
   variables:
     PIPENV_PIPFILE: "ci/matrix/${SCENARIO}/Pipfile"
+    # to avoid issues with the different backends (psyplot-gui and standard
+    # matplotlib, we set the MPLBACKEND here). Otherwise the CI complained
+    # invalid DISPLAY variables
+    MPLBACKEND: "qt5agg"
     # disable sandboxing, otherwise chrome reports errors when the
     # container runs as root
     # https://doc.qt.io/qt-5/qtwebengine-platform-notes.html#sandboxing-support
