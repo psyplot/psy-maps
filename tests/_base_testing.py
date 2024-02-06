@@ -9,6 +9,7 @@
 import os
 import subprocess as spr
 import sys
+import time
 import unittest
 from unittest import TestCase
 
@@ -98,11 +99,21 @@ class PsyPlotTestCase(TestCase):
         from matplotlib.testing.compare import compare_images
 
         plt.savefig(os.path.join(self.odir, fname), **kwargs)
-        results = compare_images(
-            os.path.join(ref_dir, fname),
-            os.path.join(self.odir, fname),
-            tol=tol,
-        )
+        try:
+            results = compare_images(
+                os.path.join(ref_dir, fname),
+                os.path.join(self.odir, fname),
+                tol=tol,
+            )
+        except Exception:
+            # output file might be empty because not yet written, so just try
+            # again
+            time.sleep(3)
+            results = compare_images(
+                os.path.join(ref_dir, fname),
+                os.path.join(self.odir, fname),
+                tol=tol,
+            )
         self.assertIsNone(results, msg=results)
 
     def assertAlmostArrayEqual(
