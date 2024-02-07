@@ -14,17 +14,11 @@ description = "Psyplot plugin for visualization on a map"
 readme = "README.rst"
 keywords = [
     "visualization",
-
     "psyplot",
-
     "netcdf",
-
     "matplotlib",
-
     "cartopy",
-
     "maps",
-
     "georeferenced",
     ]
 
