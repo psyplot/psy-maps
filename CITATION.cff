@@ -16,17 +16,11 @@ message: "If you use this software, please cite it using these metadata."
 title: "psy-maps"
 keywords:
   - "visualization"
-
   - "psyplot"
-
   - "netcdf"
-
   - "matplotlib"
-
   - "cartopy"
-
   - "maps"
-
   - "georeferenced"
 
 license: 'LGPL-3.0-only'
