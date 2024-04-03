@@ -2,7 +2,25 @@
 ..
 .. SPDX-License-Identifier: CC-BY-4.0
 
-V1.4.2
+v1.5.0
+======
+Compatibility fixes and code formatting
+
+Changed
+-------
+- migrate to psyplot-plugin-template `!47 <https://codebase.helmholtz.cloud/psyplot/psy-maps/-/merge_requests/47>`__
+
+Added
+-----
+- Add google map detail `!48 <https://codebase.helmholtz.cloud/psyplot/psy-maps/-/merge_requests/48>`__
+
+Fixed
+-----
+- Fix map extent `!49 <https://codebase.helmholtz.cloud/psyplot/psy-maps/-/merge_requests/49>`__
+- fixed compatiblity with latest matplotlib version `!50 <https://codebase.helmholtz.cloud/psyplot/psy-maps/-/merge_requests/50>`__
+
+
+v1.4.2
 ======
 Fix mapvector issue
 
