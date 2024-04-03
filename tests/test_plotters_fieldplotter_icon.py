@@ -1,83 +1,92 @@
 """Test module of the :mod:`psyplot.plotter.maps` module"""
 
-# Disclaimer
-# ----------
+# SPDX-FileCopyrightText: 2016-2024 University of Lausanne
+# SPDX-FileCopyrightText: 2020-2021 Helmholtz-Zentrum Geesthacht
+# SPDX-FileCopyrightText: 2021-2024 Helmholtz-Zentrum hereon GmbH
 #
-# Copyright (C) 2021 Helmholtz-Zentrum Hereon
-# Copyright (C) 2020-2021 Helmholtz-Zentrum Geesthacht
-# Copyright (C) 2016-2021 University of Lausanne
-#
-# This file is part of psy-maps and is released under the GNU LGPL-3.O license.
-# See COPYING and COPYING.LESSER in the root of the repository for full
-# licensing details.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License version 3.0 as
-# published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU LGPL-3.0 license for more details.
-#
-# You should have received a copy of the GNU LGPL-3.0 license
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0-only
 
 import os
 import unittest
-from itertools import starmap, repeat
-import numpy as np
-import cartopy.crs as ccrs
-from psy_maps.plotters import InteractiveList
+from itertools import repeat, starmap
+
 import _base_testing as bt
+import cartopy.crs as ccrs
+import numpy as np
 import test_plotters_fieldplotter as tpf
+
+from psy_maps.plotters import InteractiveList
 
 
 class IconFieldPlotterTest(tpf.FieldPlotterTest):
     """Test :class:`psyplot.plotter.maps.FieldPlotter` class for icon grid"""
 
-    grid_type = 'icon'
+    grid_type = "icon"
 
-    ncfile = os.path.join(bt.test_dir, 'icon_test.nc')
+    ncfile = os.path.join(bt.test_dir, "icon_test.nc")
 
     def test_bounds(self):
         """Test bounds formatoption"""
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
-            np.linspace(240, 310, 11, endpoint=True).tolist())
-        self.update(bounds='minmax')
-        bounds = [243.76, 250.04, 256.31, 262.58, 268.85, 275.12, 281.39,
-                  287.66, 293.94, 300.21, 306.48]
+            np.linspace(240, 310, 11, endpoint=True).tolist(),
+        )
+        self.update(bounds="minmax")
+        bounds = [
+            243.76,
+            250.04,
+            256.31,
+            262.58,
+            268.85,
+            275.12,
+            281.39,
+            287.66,
+            293.94,
+            300.21,
+            306.48,
+        ]
         self.assertEqual(
-            np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds)
-        self.update(bounds=['rounded', 5, 5, 95])
+            np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds
+        )
+        self.update(bounds=["rounded", 5, 5, 95])
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
-            np.linspace(255, 305, 5, endpoint=True).tolist())
+            np.linspace(255, 305, 5, endpoint=True).tolist(),
+        )
 
     def test_transpose(self):
         raw = next(self.plotter.plot.iter_raw_data)
-        xcoord = raw.psy.get_coord('x').name
-        ycoord = raw.psy.get_coord('y').name
+        xcoord = raw.psy.get_coord("x").name
+        ycoord = raw.psy.get_coord("y").name
         self.plotter.update(transpose=True)
 
-        for raw, arr in zip(self.plotter.plot.iter_raw_data,
-                            self.plotter.plot.iter_data):
+        for raw, arr in zip(
+            self.plotter.plot.iter_raw_data, self.plotter.plot.iter_data
+        ):
             self.assertEqual(self.plotter.plot.xcoord.name, ycoord)
             self.assertEqual(self.plotter.plot.ycoord.name, xcoord)
 
     def test_lonlatbox(self, *args):
         """Test lonlatbox formatoption"""
+
         def get_unmasked(coord):
             """return the values of the coordinate that is not masked in the
             data"""
             return coord.values[~np.isnan(data.values)]
-        self.update(lonlatbox='Europe|India', map_extent='data')
+
+        self.update(lonlatbox="Europe|India", map_extent="data")
         ax = self.plotter.ax
-        list(starmap(self.assertAlmostEqual, zip(
-            ax.get_extent(ccrs.PlateCarree()), (-32.0, 97.0, -8.0, 81.0),
-            repeat(5), repeat("Failed to set the extent to Europe and India!"))
-            ))
+        list(
+            starmap(
+                self.assertAlmostEqual,
+                zip(
+                    ax.get_extent(ccrs.PlateCarree()),
+                    (-32.0, 97.0, -8.0, 81.0),
+                    repeat(5),
+                    repeat("Failed to set the extent to Europe and India!"),
+                ),
+            )
+        )
         # test whether latitudes and longitudes succeded
         msg = "Failed to fit into lonlatbox limits for %s of %s."
         if isinstance(self.plotter.plot_data, InteractiveList):
@@ -85,37 +94,57 @@ class IconFieldPlotterTest(tpf.FieldPlotterTest):
         else:
             all_data = [self.plotter.plot_data]
         for data in all_data:
-            self.assertGreaterEqual(get_unmasked(data.clon).min(), -32.0,
-                                    msg=msg % ('longitude', 'minimum'))
-            self.assertLessEqual(get_unmasked(data.clon).max(), 97.0,
-                                 msg=msg % ('longitude', 'maximum'))
-            self.assertGreaterEqual(get_unmasked(data.clat).min(), -8.0,
-                                    msg=msg % ('latitude', 'minimum'))
-            self.assertLessEqual(get_unmasked(data.clat).max(), 81.0,
-                                 msg=msg % ('latitude', 'maximum'))
-        self.compare_figures(next(iter(args), self.get_ref_file('lonlatbox')))
+            self.assertGreaterEqual(
+                get_unmasked(data.clon).min(),
+                -32.0,
+                msg=msg % ("longitude", "minimum"),
+            )
+            self.assertLessEqual(
+                get_unmasked(data.clon).max(),
+                97.0,
+                msg=msg % ("longitude", "maximum"),
+            )
+            self.assertGreaterEqual(
+                get_unmasked(data.clat).min(),
+                -8.0,
+                msg=msg % ("latitude", "minimum"),
+            )
+            self.assertLessEqual(
+                get_unmasked(data.clat).max(),
+                81.0,
+                msg=msg % ("latitude", "maximum"),
+            )
+        self.compare_figures(next(iter(args), self.get_ref_file("lonlatbox")))
 
     def ref_pole(self):
         """Test whether the grid cells are correctly displayed at the pole"""
         sp = self.plot()
-        sp.update(projection="northpole", lonlatbox=[-180, 180, 80, 90],
-                  cmap='viridis', datagrid='r-')
-        sp.export(os.path.join(bt.ref_dir, self.get_ref_file('pole')))
+        sp.update(
+            projection="northpole",
+            lonlatbox=[-180, 180, 80, 90],
+            cmap="viridis",
+            datagrid="r-",
+        )
+        sp.export(os.path.join(bt.ref_dir, self.get_ref_file("pole")))
         sp.close(True, True, True)
 
     def test_pole(self):
         """Test whether the grid cells are correctly displayed at the pole"""
-        self.update(projection="northpole", lonlatbox=[-180, 180, 80, 90],
-                    cmap='viridis', datagrid='r-')
-        self.compare_figures(self.get_ref_file('pole'))
+        self.update(
+            projection="northpole",
+            lonlatbox=[-180, 180, 80, 90],
+            cmap="viridis",
+            datagrid="r-",
+        )
+        self.compare_figures(self.get_ref_file("pole"))
 
 
 class IconFieldPlotterTest2D(bt.TestBase2D, IconFieldPlotterTest):
     """Test :class:`psyplot.plotter.maps.FieldPlotter` class for icon grid
     without time and vertical dimension"""
 
-    var = 't2m_2d'
+    var = "t2m_2d"
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

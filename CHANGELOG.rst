@@ -1,3 +1,7 @@
+.. SPDX-FileCopyrightText: 2021-2024 Helmholtz-Zentrum hereon GmbH
+..
+.. SPDX-License-Identifier: CC-BY-4.0
+
 V1.4.2
 ======
 Fix mapvector issue

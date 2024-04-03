@@ -2,49 +2,46 @@
 
 This module defines the rcParams for the psy-maps plugin"""
 
-# Disclaimer
-# ----------
+# SPDX-FileCopyrightText: 2016-2024 University of Lausanne
+# SPDX-FileCopyrightText: 2020-2021 Helmholtz-Zentrum Geesthacht
+# SPDX-FileCopyrightText: 2021-2024 Helmholtz-Zentrum hereon GmbH
 #
-# Copyright (C) 2021 Helmholtz-Zentrum Hereon
-# Copyright (C) 2020-2021 Helmholtz-Zentrum Geesthacht
-# Copyright (C) 2016-2021 University of Lausanne
-#
-# This file is part of psy-maps and is released under the GNU LGPL-3.O license.
-# See COPYING and COPYING.LESSER in the root of the repository for full
-# licensing details.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License version 3.0 as
-# published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU LGPL-3.0 license for more details.
-#
-# You should have received a copy of the GNU LGPL-3.0 license
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0-only
 
+from os.path import exists as validate_path_exists
 
 import six
 import yaml
-from psyplot.config.rcsetup import RcParams
-from os.path import exists as validate_path_exists
 from psy_simple.plugin import (
-    try_and_error, validate_none, validate_str, validate_float,
-    validate_bool_maybe_none, validate_fontsize,
-    validate_color, validate_dict, BoundsValidator, bound_strings,
-    ValidateInStrings, validate_bool, BoundsType, DictValValidator)
+    BoundsType,
+    BoundsValidator,
+    ValidateInStrings,
+    try_and_error,
+    validate_bool,
+    validate_bool_maybe_none,
+    validate_color,
+    validate_dict,
+    validate_float,
+    validate_fontsize,
+    validate_int,
+    validate_none,
+    validate_str,
+)
+from psyplot.config.rcsetup import RcParams
+
 from psy_maps import __version__ as plugin_version
 
 
 def get_versions(requirements=True):
     if requirements:
         import cartopy
-        return {'version': plugin_version,
-                'requirements': {'cartopy': cartopy.__version__}}
+
+        return {
+            "version": plugin_version,
+            "requirements": {"cartopy": cartopy.__version__},
+        }
     else:
-        return {'version': plugin_version}
+        return {"version": plugin_version}
 
 
 def patch_prior_1_0(plotter_d, versions):
@@ -52,16 +49,16 @@ def patch_prior_1_0(plotter_d, versions):
 
     Before psyplot 1.0.0, the plotters in the psy_maps package where part of
     the psyplot.plotter.maps module. This has to be corrected"""
-    plotter_d['cls'] = ('psy_maps.plotters', plotter_d['cls'][1])
+    plotter_d["cls"] = ("psy_maps.plotters", plotter_d["cls"][1])
 
 
 #: patches to apply when loading a project
 patches = {
-    ('psyplot.plotter.maps', 'MapPlotter'): patch_prior_1_0,
-    ('psyplot.plotter.maps', 'VectorPlotter'): patch_prior_1_0,
-    ('psyplot.plotter.maps', 'FieldPlotter'): patch_prior_1_0,
-    ('psyplot.plotter.maps', 'CombinedPlotter'): patch_prior_1_0,
-    }
+    ("psyplot.plotter.maps", "MapPlotter"): patch_prior_1_0,
+    ("psyplot.plotter.maps", "VectorPlotter"): patch_prior_1_0,
+    ("psyplot.plotter.maps", "FieldPlotter"): patch_prior_1_0,
+    ("psyplot.plotter.maps", "CombinedPlotter"): patch_prior_1_0,
+}
 
 
 # -----------------------------------------------------------------------------
@@ -79,12 +76,13 @@ def validate_grid(val):
 
 
 def validate_lsm(val):
-    res_validation = ValidateInStrings('lsm', ['110m', '50m' ,'10m'])
+    res_validation = ValidateInStrings("lsm", ["110m", "50m", "10m"])
     if not val:
         val = {}
     elif isinstance(val, dict):
         invalid = set(val).difference(
-            ['coast', 'land', 'ocean', 'res', 'linewidth'])
+            ["coast", "land", "ocean", "res", "linewidth"]
+        )
         if invalid:
             raise ValueError(f"Invalid keys for lsm: {invalid}")
     else:
@@ -97,44 +95,43 @@ def validate_lsm(val):
         except (ValueError, TypeError):
             pass
         else:
-            val = '110m'
+            val = "110m"
         try:
             val = res_validation(val)
         except (ValueError, TypeError):
             pass
         else:
             if not isinstance(val, str):
-                val = '110m'
-            val = {'res': val, 'linewidth': 1.0, 'coast': 'k'}
+                val = "110m"
+            val = {"res": val, "linewidth": 1.0, "coast": "k"}
         try:
             val = validate_float(val)
         except (ValueError, TypeError):
             pass
         else:
-            val = {'res': '110m', 'linewidth': val, 'coast': 'k'}
+            val = {"res": "110m", "linewidth": val, "coast": "k"}
     if not isinstance(val, dict):
         try:
             res, lw = val
         except (ValueError, TypeError):
             raise ValueError(f"Invalid lsm configuration: {val}")
         else:
-            val = {'res': res, 'linewidth': lw}
+            val = {"res": res, "linewidth": lw}
     val = dict(val)
     for key, v in val.items():
-        if key in ['coast', 'land', 'ocean']:
+        if key in ["coast", "land", "ocean"]:
             val[key] = validate_color(v)
-        elif key == 'res':
+        elif key == "res":
             val[key] = res_validation(v)
         else:
             val[key] = validate_float(v)  # linewidth
     # finally set black color if linewidth is in val
-    if 'linewidth' in val:
-        val.setdefault('coast', 'k')
+    if "linewidth" in val:
+        val.setdefault("coast", "k")
     return val
 
 
 class ProjectionValidator(ValidateInStrings):
-
     def __call__(self, val):
         if isinstance(val, six.string_types):
             return ValidateInStrings.__call__(self, val)
@@ -159,9 +156,20 @@ def validate_lonlatbox(value):
             return validate_str(value)
         except (TypeError, ValueError):
             if len(value) != 4:
-                raise ValueError("Need 4 values for longitude-latitude box, "
-                                 "got %i" % len(value))
+                raise ValueError(
+                    "Need 4 values for longitude-latitude box, "
+                    "got %i" % len(value)
+                )
             return list(map(validate, value))
+
+
+def validate_google_map_detail(value):
+    if value is None:
+        return value
+    value = validate_int(value)
+    if value < 0:
+        raise ValueError("target_z must be an integer >=0.")
+    return value
 
 
 # -----------------------------------------------------------------------------
@@ -170,119 +178,195 @@ def validate_lonlatbox(value):
 
 
 #: the :class:`~psyplot.config.rcsetup.RcParams` for the psy-simple plugin
-rcParams = RcParams(defaultParams={
+rcParams = RcParams(
+    defaultParams={
+        # -------------------------------------------------------------------------
+        # ----------------------- Registered plotters -----------------------------
+        # -------------------------------------------------------------------------
+        "project.plotters": [
+            {
+                "maps": {
+                    "module": "psy_maps.plotters",
+                    "plotter_name": "MapPlotter",
+                    "plot_func": False,
+                    "summary": "The data objects visualized on a map",
+                },
+                "mapplot": {
+                    "module": "psy_maps.plotters",
+                    "plotter_name": "FieldPlotter",
+                    "prefer_list": False,
+                    "default_slice": 0,
+                    "default_dims": {"x": slice(None), "y": slice(None)},
+                    "summary": "Plot a 2D scalar field on a map",
+                },
+                "mapvector": {
+                    "module": "psy_maps.plotters",
+                    "plotter_name": "VectorPlotter",
+                    "prefer_list": False,
+                    "default_slice": 0,
+                    "default_dims": {"x": slice(None), "y": slice(None)},
+                    "summary": "Plot a 2D vector field on a map",
+                    "example_call": "filename, name=[['u_var', 'v_var']], ...",
+                },
+                "mapcombined": {
+                    "module": "psy_maps.plotters",
+                    "plotter_name": "CombinedPlotter",
+                    "prefer_list": True,
+                    "default_slice": 0,
+                    "default_dims": {"x": slice(None), "y": slice(None)},
+                    "summary": (
+                        "Plot a 2D scalar field with an overlying vector "
+                        "field on a map"
+                    ),
+                    "example_call": (
+                        "filename, name=[['my_variable', ['u_var', 'v_var']]], ..."
+                    ),
+                },
+            },
+            validate_dict,
+        ],
+        # -------------------------------------------------------------------------
+        # --------------------- Default formatoptions -----------------------------
+        # -------------------------------------------------------------------------
+        # MapBase
+        "plotter.maps.transpose": [
+            False,
+            validate_bool,
+            "Transpose the input data before plotting",
+        ],
+        "plotter.maps.lonlatbox": [
+            None,
+            validate_lonlatbox,
+            "fmt key to define the longitude latitude box of the data",
+        ],
+        "plotter.maps.map_extent": [
+            None,
+            validate_lonlatbox,
+            "fmt key to define the extent of the map plot",
+        ],
+        "plotter.maps.google_map_detail": [
+            None,
+            validate_google_map_detail,
+            "fmt add a google image to the plot.",
+        ],
+        "plotter.maps.clip": [
+            None,
+            validate_bool_maybe_none,
+            "fmt key to define clip the axes outside the latitudes",
+        ],
+        "plotter.maps.clon": [
+            None,
+            try_and_error(validate_none, validate_float, validate_str),
+            "fmt key to specify the center longitude of the projection",
+        ],
+        "plotter.maps.clat": [
+            None,
+            try_and_error(validate_none, validate_float, validate_str),
+            "fmt key to specify the center latitude of the projection",
+        ],
+        # TODO: Implement the drawing of shape files on a map
+        # 'plotter.maps.lineshapes': [None, try_and_error(
+        #     validate_none, validate_dict, validate_str, validate_stringlist)],
+        "plotter.maps.grid_labels": [
+            None,
+            validate_bool_maybe_none,
+            "fmt key to draw labels of the lat-lon-grid",
+        ],
+        "plotter.maps.grid_labelsize": [
+            12.0,
+            validate_fontsize,
+            "fmt key to modify the fontsize of the lat-lon-grid labels",
+        ],
+        "plotter.maps.grid_color": [
+            "k",
+            try_and_error(validate_none, validate_color),
+            "fmt key to modify the color of the lat-lon-grid",
+        ],
+        "plotter.maps.grid_settings": [
+            {},
+            validate_dict,
+            "fmt key for additional line properties for the lat-lon-grid",
+        ],
+        "plotter.maps.xgrid": [
+            True,
+            validate_grid,
+            "fmt key for drawing meridians on the map",
+        ],
+        "plotter.maps.ygrid": [
+            True,
+            validate_grid,
+            "fmt key for drawing parallels on the map",
+        ],
+        "plotter.maps.projection": [
+            "cf",
+            ProjectionValidator(
+                "projection",
+                [
+                    "cf",
+                    "northpole",
+                    "ortho",
+                    "southpole",
+                    "moll",
+                    "geo",
+                    "robin",
+                    "cyl",
+                    "stereo",
+                    "near",
+                    "rotated",
+                ],
+                True,
+            ),
+            "fmt key to define the projection of the plot",
+        ],
+        "plotter.maps.transform": [
+            "cf",
+            ProjectionValidator(
+                "projection",
+                [
+                    "cf",
+                    "northpole",
+                    "ortho",
+                    "southpole",
+                    "moll",
+                    "geo",
+                    "robin",
+                    "cyl",
+                    "stereo",
+                    "near",
+                    "rotated",
+                ],
+                True,
+            ),
+            "fmt key to define the native projection of the data",
+        ],
+        "plotter.maps.lsm": [
+            True,
+            validate_lsm,
+            "fmt key to draw a land sea mask",
+        ],
+        "plotter.maps.stock_img": [
+            False,
+            validate_bool,
+            "fmt key to draw a stock_img on the map",
+        ],
+        # -------------------------------------------------------------------------
+        # ---------------------------- Miscallaneous ------------------------------
+        # -------------------------------------------------------------------------
+        # yaml file that holds definitions of lonlatboxes
+        "lonlatbox.boxes": [
+            {},
+            validate_dict_yaml,
+            "longitude-latitude boxes that shall be accessible for the lonlatbox, "
+            "map_extent, etc. keywords. May be a dictionary or the path to a "
+            "yaml file",
+        ],
+    }
+)
 
-    # -------------------------------------------------------------------------
-    # ----------------------- Registered plotters -----------------------------
-    # -------------------------------------------------------------------------
 
-    'project.plotters': [
-
-        {'maps': {
-             'module': 'psy_maps.plotters',
-             'plotter_name': 'MapPlotter',
-             'plot_func': False,
-             'summary': 'The data objects visualized on a map'},
-         'mapplot': {
-             'module': 'psy_maps.plotters',
-             'plotter_name': 'FieldPlotter',
-             'prefer_list': False,
-             'default_slice': 0,
-             'default_dims': {'x': slice(None), 'y': slice(None)},
-             'summary': 'Plot a 2D scalar field on a map'},
-         'mapvector': {
-             'module': 'psy_maps.plotters',
-             'plotter_name': 'VectorPlotter',
-             'prefer_list': False,
-             'default_slice': 0,
-             'default_dims': {'x': slice(None), 'y': slice(None)},
-             'summary': 'Plot a 2D vector field on a map',
-             'example_call': "filename, name=[['u_var', 'v_var']], ..."},
-         'mapcombined': {
-             'module': 'psy_maps.plotters',
-             'plotter_name': 'CombinedPlotter',
-             'prefer_list': True,
-             'default_slice': 0,
-             'default_dims': {'x': slice(None), 'y': slice(None)},
-             'summary': ('Plot a 2D scalar field with an overlying vector '
-                         'field on a map'),
-             'example_call': (
-                 "filename, name=[['my_variable', ['u_var', 'v_var']]], ...")},
-         }, validate_dict],
-
-    # -------------------------------------------------------------------------
-    # --------------------- Default formatoptions -----------------------------
-    # -------------------------------------------------------------------------
-    # MapBase
-    'plotter.maps.transpose': [
-        False, validate_bool, "Transpose the input data before plotting"],
-    'plotter.maps.lonlatbox': [
-        None, validate_lonlatbox,
-        'fmt key to define the longitude latitude box of the data'],
-    'plotter.maps.map_extent': [
-        None, validate_lonlatbox,
-        'fmt key to define the extent of the map plot'],
-    'plotter.maps.clip': [
-        None, validate_bool_maybe_none,
-        'fmt key to define clip the axes outside the latitudes'],
-    'plotter.maps.clon': [
-        None, try_and_error(validate_none, validate_float, validate_str),
-        'fmt key to specify the center longitude of the projection'],
-    'plotter.maps.clat': [
-        None, try_and_error(validate_none, validate_float, validate_str),
-        'fmt key to specify the center latitude of the projection'],
-    # TODO: Implement the drawing of shape files on a map
-    # 'plotter.maps.lineshapes': [None, try_and_error(
-    #     validate_none, validate_dict, validate_str, validate_stringlist)],
-    'plotter.maps.grid_labels': [
-        None, validate_bool_maybe_none,
-        'fmt key to draw labels of the lat-lon-grid'],
-    'plotter.maps.grid_labelsize': [
-        12.0, validate_fontsize,
-        'fmt key to modify the fontsize of the lat-lon-grid labels'],
-    'plotter.maps.grid_color': [
-        'k', try_and_error(validate_none, validate_color),
-        'fmt key to modify the color of the lat-lon-grid'],
-    'plotter.maps.grid_settings': [
-        {}, validate_dict,
-        'fmt key for additional line properties for the lat-lon-grid'],
-    'plotter.maps.xgrid': [
-        True, validate_grid, 'fmt key for drawing meridians on the map'],
-    'plotter.maps.ygrid': [
-        True, validate_grid, 'fmt key for drawing parallels on the map'],
-    'plotter.maps.projection': [
-        'cf', ProjectionValidator(
-            'projection', ['cf', 'northpole', 'ortho', 'southpole', 'moll', 'geo',
-                           'robin', 'cyl', 'stereo', 'near', 'rotated'],
-            True),
-        'fmt key to define the projection of the plot'],
-    'plotter.maps.transform': [
-        'cf', ProjectionValidator(
-            'projection', ['cf', 'northpole', 'ortho', 'southpole', 'moll', 'geo',
-                           'robin', 'cyl', 'stereo', 'near', 'rotated'],
-            True),
-        'fmt key to define the native projection of the data'],
-    'plotter.maps.lsm': [
-        True, validate_lsm,
-        'fmt key to draw a land sea mask'],
-    'plotter.maps.stock_img': [
-        False, validate_bool, 'fmt key to draw a stock_img on the map'],
-
-    # -------------------------------------------------------------------------
-    # ---------------------------- Miscallaneous ------------------------------
-    # -------------------------------------------------------------------------
-
-    # yaml file that holds definitions of lonlatboxes
-    'lonlatbox.boxes': [
-        {}, validate_dict_yaml,
-        'longitude-latitude boxes that shall be accessible for the lonlatbox, '
-        'map_extent, etc. keywords. May be a dictionary or the path to a '
-        'yaml file'],
-
-    })
-
-
-rcParams._deprecated_map['plotter.maps.plot.min_circle_ratio'] = (
-    'plotter.plot2d.plot.min_circle_ratio', 0.05)
+rcParams._deprecated_map["plotter.maps.plot.min_circle_ratio"] = (
+    "plotter.plot2d.plot.min_circle_ratio",
+    0.05,
+)
 
 rcParams.update_from_defaultParams()

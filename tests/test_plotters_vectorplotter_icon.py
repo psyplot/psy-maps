@@ -1,57 +1,51 @@
 """Test module of the :mod:`psyplot.plotter.maps` module"""
 
-# Disclaimer
-# ----------
+# SPDX-FileCopyrightText: 2016-2024 University of Lausanne
+# SPDX-FileCopyrightText: 2020-2021 Helmholtz-Zentrum Geesthacht
+# SPDX-FileCopyrightText: 2021-2024 Helmholtz-Zentrum hereon GmbH
 #
-# Copyright (C) 2021 Helmholtz-Zentrum Hereon
-# Copyright (C) 2020-2021 Helmholtz-Zentrum Geesthacht
-# Copyright (C) 2016-2021 University of Lausanne
-#
-# This file is part of psy-maps and is released under the GNU LGPL-3.O license.
-# See COPYING and COPYING.LESSER in the root of the repository for full
-# licensing details.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License version 3.0 as
-# published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU LGPL-3.0 license for more details.
-#
-# You should have received a copy of the GNU LGPL-3.0 license
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0-only
 
 import os
 import unittest
-from itertools import starmap, repeat
-import numpy as np
-import cartopy.crs as ccrs
-from psy_maps.plotters import InteractiveList
+from itertools import repeat, starmap
+
 import _base_testing as bt
+import cartopy.crs as ccrs
+import numpy as np
 import test_plotters_vectorplotter as tpv
+
+from psy_maps.plotters import InteractiveList
 
 
 class IconVectorPlotterTest(tpv.VectorPlotterTest):
     """Test :class:`psyplot.plotter.maps.VectorPlotter` class for icon grid"""
 
-    grid_type = 'icon'
+    grid_type = "icon"
 
-    ncfile = os.path.join(bt.test_dir, 'icon_test.nc')
+    ncfile = os.path.join(bt.test_dir, "icon_test.nc")
 
     def test_lonlatbox(self, *args):
         """Test lonlatbox formatoption"""
+
         def get_unmasked(coord):
             """return the values of the coordinate that is not masked in the
             data"""
             return coord.values[~np.isnan(data[0].values)]
-        self.update(lonlatbox='Europe|India', map_extent='data')
+
+        self.update(lonlatbox="Europe|India", map_extent="data")
         ax = self.plotter.ax
-        list(starmap(self.assertAlmostEqual, zip(
-            ax.get_extent(ccrs.PlateCarree()), (-32.0, 97.0, -8.0, 81.0),
-            repeat(5), repeat("Failed to set the extent to Europe and India!"))
-            ))
+        list(
+            starmap(
+                self.assertAlmostEqual,
+                zip(
+                    ax.get_extent(ccrs.PlateCarree()),
+                    (-32.0, 97.0, -8.0, 81.0),
+                    repeat(5),
+                    repeat("Failed to set the extent to Europe and India!"),
+                ),
+            )
+        )
         # test whether latitudes and longitudes succeded
         msg = "Failed to fit into lonlatbox limits for %s of %s."
         if isinstance(self.plotter.plot_data, InteractiveList):
@@ -59,59 +53,88 @@ class IconVectorPlotterTest(tpv.VectorPlotterTest):
         else:
             all_data = [self.plotter.plot_data]
         for data in all_data:
-            self.assertGreaterEqual(get_unmasked(data.clon).min(), -32.0,
-                                    msg=msg % ('longitude', 'minimum'))
-            self.assertLessEqual(get_unmasked(data.clon).max(), 97.0,
-                                 msg=msg % ('longitude', 'maximum'))
-            self.assertGreaterEqual(get_unmasked(data.clat).min(), -8.0,
-                                    msg=msg % ('latitude', 'minimum'))
-            self.assertLessEqual(get_unmasked(data.clat).max(), 81.0,
-                                 msg=msg % ('latitude', 'maximum'))
-        self.compare_figures(next(iter(args), self.get_ref_file('lonlatbox')))
+            self.assertGreaterEqual(
+                get_unmasked(data.clon).min(),
+                -32.0,
+                msg=msg % ("longitude", "minimum"),
+            )
+            self.assertLessEqual(
+                get_unmasked(data.clon).max(),
+                97.0,
+                msg=msg % ("longitude", "maximum"),
+            )
+            self.assertGreaterEqual(
+                get_unmasked(data.clat).min(),
+                -8.0,
+                msg=msg % ("latitude", "minimum"),
+            )
+            self.assertLessEqual(
+                get_unmasked(data.clat).max(),
+                81.0,
+                msg=msg % ("latitude", "maximum"),
+            )
+        self.compare_figures(next(iter(args), self.get_ref_file("lonlatbox")))
 
-    @unittest.skip("Density for quiver plots of unstructered data is not "
-                   "supported!")
+    @unittest.skip(
+        "Density for quiver plots of unstructered data is not " "supported!"
+    )
     def ref_density(self):
         pass
 
-    @unittest.skip("Density for quiver plots of unstructered data is not "
-                   "supported!")
+    @unittest.skip(
+        "Density for quiver plots of unstructered data is not " "supported!"
+    )
     def test_density(self):
         pass
 
     def test_transpose(self):
         raw = next(self.plotter.plot.iter_raw_data)
-        xcoord = raw.psy.get_coord('x').name
-        ycoord = raw.psy.get_coord('y').name
+        xcoord = raw.psy.get_coord("x").name
+        ycoord = raw.psy.get_coord("y").name
         self.update(transpose=True)
-        for raw, arr in zip(self.plotter.plot.iter_raw_data,
-                            self.plotter.plot.iter_data):
+        for raw, arr in zip(
+            self.plotter.plot.iter_raw_data, self.plotter.plot.iter_data
+        ):
             self.assertEqual(self.plotter.plot.xcoord.name, ycoord)
             self.assertEqual(self.plotter.plot.ycoord.name, xcoord)
 
     def test_bounds(self):
         """Test bounds formatoption"""
-        self.update(color='absolute')
+        self.update(color="absolute")
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
-            np.linspace(0.5, 9.5, 11, endpoint=True).tolist())
-        self.update(bounds='minmax')
-        bounds = [0.66, 1.51, 2.36, 3.21, 4.05, 4.9, 5.75, 6.59, 7.44, 8.29,
-                  9.14]
+            np.linspace(0.5, 9.5, 11, endpoint=True).tolist(),
+        )
+        self.update(bounds="minmax")
+        bounds = [
+            0.66,
+            1.51,
+            2.36,
+            3.21,
+            4.05,
+            4.9,
+            5.75,
+            6.59,
+            7.44,
+            8.29,
+            9.14,
+        ]
         self.assertEqual(
-            np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds)
-        self.update(bounds=['rounded', 5, 5, 95])
+            np.round(self.plotter.bounds.norm.boundaries, 2).tolist(), bounds
+        )
+        self.update(bounds=["rounded", 5, 5, 95])
         self.assertEqual(
             np.round(self.plotter.bounds.norm.boundaries, 2).tolist(),
-            np.round(np.linspace(1.0, 8.0, 5, endpoint=True), 2).tolist())
+            np.round(np.linspace(1.0, 8.0, 5, endpoint=True), 2).tolist(),
+        )
 
 
 class IconVectorPlotterTest2D(bt.TestBase2D, IconVectorPlotterTest):
     """Test :class:`psyplot.plotter.maps.VectorPlotter` class for icon grid
     without time and vertical dimension"""
 
-    var = ['u_2d', 'v_2d']
+    var = ["u_2d", "v_2d"]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
