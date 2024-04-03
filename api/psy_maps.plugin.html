@@ -1,25 +1,31 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>psy_maps.plugin module &mdash; psy-maps 1.4.1+7.g0479a55 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+  <title>&lt;no title&gt; &mdash; psy-maps  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/nc-table-styles.css?v=d585f46f" />
+      <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/design-tabs.js?v=36754332"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="psy_maps.plotters module" href="psy_maps.plotters.html" /> 
+    <link rel="next" title="Contribution and development hints" href="../contributing.html" />
+    <link rel="prev" title="Possible types" href="psy_maps.plotters.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -27,33 +33,106 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> psy-maps
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            psy-maps
           </a>
-              <div class="version">
-                1.4.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../plot_methods.html">psyplot plot methods</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contribute.html">Contributing to psy-maps</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="psy_maps.html">API Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="psy_maps.html#subpackages">Subpackages</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="psy_maps.html#submodules">Submodules</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="psy_maps.boxes.html">psy_maps.boxes module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="psy_maps.plotters.html">psy_maps.plotters module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">psy_maps.plugin module</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installing.html#how-to-install">How to install</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installing.html#installation-using-conda">Installation using conda</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../installing.html#installation-using-pip">Installation using pip</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../installing.html#running-the-tests">Running the tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../plot_methods.html">psyplot plot methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../generated/psyplot.project.plot.mapplot.html">psyplot.project.plot.mapplot</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../generated/psyplot.project.plot.mapplot.html#psyplot.project.plot.mapplot"><code class="docutils literal notranslate"><span class="pre">plot.mapplot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/psyplot.project.plot.mapvector.html">psyplot.project.plot.mapvector</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../generated/psyplot.project.plot.mapvector.html#psyplot.project.plot.mapvector"><code class="docutils literal notranslate"><span class="pre">plot.mapvector</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/psyplot.project.plot.mapcombined.html">psyplot.project.plot.mapcombined</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../generated/psyplot.project.plot.mapcombined.html#psyplot.project.plot.mapcombined"><code class="docutils literal notranslate"><span class="pre">plot.mapcombined</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="psy_maps.html">psy_maps package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="psy_maps.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.widgets.html">psy_maps.widgets package</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="reference internal" href="psy_maps.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.boxes.html"><code class="docutils literal notranslate"><span class="pre">lonlatboxes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html"><code class="docutils literal notranslate"><span class="pre">BoxBase</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.CenterLat"><code class="docutils literal notranslate"><span class="pre">CenterLat</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.CenterLon"><code class="docutils literal notranslate"><span class="pre">CenterLon</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.ClipAxes"><code class="docutils literal notranslate"><span class="pre">ClipAxes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.CombinedMapVectorPlot"><code class="docutils literal notranslate"><span class="pre">CombinedMapVectorPlot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter"><code class="docutils literal notranslate"><span class="pre">CombinedPlotter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.FieldPlotter"><code class="docutils literal notranslate"><span class="pre">FieldPlotter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.GoogleMap"><code class="docutils literal notranslate"><span class="pre">GoogleMap</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.GridBase"><code class="docutils literal notranslate"><span class="pre">GridBase</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.GridColor"><code class="docutils literal notranslate"><span class="pre">GridColor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.GridLabelSize"><code class="docutils literal notranslate"><span class="pre">GridLabelSize</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.GridLabels"><code class="docutils literal notranslate"><span class="pre">GridLabels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.GridSettings"><code class="docutils literal notranslate"><span class="pre">GridSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.LSM"><code class="docutils literal notranslate"><span class="pre">LSM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.LonLatBox"><code class="docutils literal notranslate"><span class="pre">LonLatBox</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.MapBackground"><code class="docutils literal notranslate"><span class="pre">MapBackground</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.MapDataGrid"><code class="docutils literal notranslate"><span class="pre">MapDataGrid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.MapDensity"><code class="docutils literal notranslate"><span class="pre">MapDensity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.MapExtent"><code class="docutils literal notranslate"><span class="pre">MapExtent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.MapPlot2D"><code class="docutils literal notranslate"><span class="pre">MapPlot2D</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.MapPlotter"><code class="docutils literal notranslate"><span class="pre">MapPlotter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.MapVectorColor"><code class="docutils literal notranslate"><span class="pre">MapVectorColor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.MapVectorPlot"><code class="docutils literal notranslate"><span class="pre">MapVectorPlot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.Projection"><code class="docutils literal notranslate"><span class="pre">Projection</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.ProjectionBase"><code class="docutils literal notranslate"><span class="pre">ProjectionBase</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.StockImage"><code class="docutils literal notranslate"><span class="pre">StockImage</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.Transform"><code class="docutils literal notranslate"><span class="pre">Transform</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.Transpose"><code class="docutils literal notranslate"><span class="pre">Transpose</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.VectorPlotter"><code class="docutils literal notranslate"><span class="pre">VectorPlotter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.XGrid"><code class="docutils literal notranslate"><span class="pre">XGrid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.YGrid"><code class="docutils literal notranslate"><span class="pre">YGrid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.degree_format"><code class="docutils literal notranslate"><span class="pre">degree_format()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.format_lats"><code class="docutils literal notranslate"><span class="pre">format_lats()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.format_lons"><code class="docutils literal notranslate"><span class="pre">format_lons()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="psy_maps.plotters.html#psy_maps.plotters.shiftdata"><code class="docutils literal notranslate"><span class="pre">shiftdata()</span></code></a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">ProjectionValidator</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#psy_maps.plugin.get_versions"><code class="docutils literal notranslate"><span class="pre">get_versions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#psy_maps.plugin.patch_prior_1_0"><code class="docutils literal notranslate"><span class="pre">patch_prior_1_0()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#psy_maps.plugin.patches"><code class="docutils literal notranslate"><span class="pre">patches</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#psy_maps.plugin.rcParams"><code class="docutils literal notranslate"><span class="pre">rcParams</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#psy_maps.plugin.validate_dict_yaml"><code class="docutils literal notranslate"><span class="pre">validate_dict_yaml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#psy_maps.plugin.validate_google_map_detail"><code class="docutils literal notranslate"><span class="pre">validate_google_map_detail()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#psy_maps.plugin.validate_grid"><code class="docutils literal notranslate"><span class="pre">validate_grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#psy_maps.plugin.validate_lonlatbox"><code class="docutils literal notranslate"><span class="pre">validate_lonlatbox()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#psy_maps.plugin.validate_lsm"><code class="docutils literal notranslate"><span class="pre">validate_lsm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contribution and development hints</a></li>
 </ul>
 
         </div>
@@ -69,9 +148,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="psy_maps.html">API Reference</a> &raquo;</li>
-      <li>psy_maps.plugin module</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="psy_maps.html">psy_maps package</a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/api/psy_maps.plugin.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -81,28 +161,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-psy_maps.plugin">
-<span id="psy-maps-plugin-module"></span><h1>psy_maps.plugin module<a class="headerlink" href="#module-psy_maps.plugin" title="Permalink to this headline"></a></h1>
-<p>psy-maps psyplot plugin</p>
+  <p id="module-psy_maps.plugin">psy-maps psyplot plugin</p>
 <p>This module defines the rcParams for the psy-maps plugin</p>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#psy_maps.plugin.ProjectionValidator" title="psy_maps.plugin.ProjectionValidator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProjectionValidator</span></code></a>(key, valid[, ...])</p></td>
-<td><p><em>valid</em> is a list of legal strings.</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Functions:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#psy_maps.plugin.get_versions" title="psy_maps.plugin.get_versions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_versions</span></code></a>([requirements])</p></td>
 <td><p></p></td>
@@ -113,23 +183,22 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#psy_maps.plugin.validate_dict_yaml" title="psy_maps.plugin.validate_dict_yaml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_dict_yaml</span></code></a>(s)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#psy_maps.plugin.validate_grid" title="psy_maps.plugin.validate_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_grid</span></code></a>(val)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#psy_maps.plugin.validate_google_map_detail" title="psy_maps.plugin.validate_google_map_detail"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_google_map_detail</span></code></a>(value)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#psy_maps.plugin.validate_lonlatbox" title="psy_maps.plugin.validate_lonlatbox"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_lonlatbox</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psy_maps.plugin.validate_grid" title="psy_maps.plugin.validate_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_grid</span></code></a>(val)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#psy_maps.plugin.validate_lsm" title="psy_maps.plugin.validate_lsm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_lsm</span></code></a>(val)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#psy_maps.plugin.validate_lonlatbox" title="psy_maps.plugin.validate_lonlatbox"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_lonlatbox</span></code></a>(value)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psy_maps.plugin.validate_lsm" title="psy_maps.plugin.validate_lsm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_lsm</span></code></a>(val)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Data:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#psy_maps.plugin.patches" title="psy_maps.plugin.patches"><code class="xref py py-obj docutils literal notranslate"><span class="pre">patches</span></code></a></p></td>
 <td><p>patches to apply when loading a project</p></td>
@@ -138,19 +207,18 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="psy_maps.plugin.ProjectionValidator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">ProjectionValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignorecase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_deprecated_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psy_maps/plugin.html#ProjectionValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psy_maps.plugin.ProjectionValidator" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://matplotlib.org/stable/api/rcsetup_api.html#matplotlib.rcsetup.ValidateInStrings" title="(in Matplotlib v3.5.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.rcsetup.ValidateInStrings</span></code></a></p>
-<p><em>valid</em> is a list of legal strings.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">ProjectionValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignorecase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_deprecated_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psy_maps.plugin.ProjectionValidator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://matplotlib.org/stable/api/rcsetup_api.html#matplotlib.rcsetup.ValidateInStrings" title="(in Matplotlib v3.8.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValidateInStrings</span></code></a></p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="psy_maps.plugin.get_versions">
-<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">get_versions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">requirements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psy_maps/plugin.html#get_versions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psy_maps.plugin.get_versions" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">get_versions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">requirements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psy_maps.plugin.get_versions" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="psy_maps.plugin.patch_prior_1_0">
-<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">patch_prior_1_0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter_d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">versions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psy_maps/plugin.html#patch_prior_1_0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psy_maps.plugin.patch_prior_1_0" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">patch_prior_1_0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter_d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">versions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psy_maps.plugin.patch_prior_1_0" title="Link to this definition"></a></dt>
 <dd><p>Patch psy_maps plotters for versions smaller than 1.0</p>
 <p>Before psyplot 1.0.0, the plotters in the psy_maps package where part of
 the psyplot.plotter.maps module. This has to be corrected</p>
@@ -158,55 +226,80 @@ the psyplot.plotter.maps module. This has to be corrected</p>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="psy_maps.plugin.patches">
-<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">patches</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{('psyplot.plotter.maps',</span> <span class="pre">'CombinedPlotter'):</span> <span class="pre">&lt;function</span> <span class="pre">patch_prior_1_0&gt;,</span> <span class="pre">('psyplot.plotter.maps',</span> <span class="pre">'FieldPlotter'):</span> <span class="pre">&lt;function</span> <span class="pre">patch_prior_1_0&gt;,</span> <span class="pre">('psyplot.plotter.maps',</span> <span class="pre">'MapPlotter'):</span> <span class="pre">&lt;function</span> <span class="pre">patch_prior_1_0&gt;,</span> <span class="pre">('psyplot.plotter.maps',</span> <span class="pre">'VectorPlotter'):</span> <span class="pre">&lt;function</span> <span class="pre">patch_prior_1_0&gt;}</span></em><a class="headerlink" href="#psy_maps.plugin.patches" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">patches</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{('psyplot.plotter.maps',</span> <span class="pre">'CombinedPlotter'):</span> <span class="pre">&lt;function</span> <span class="pre">patch_prior_1_0&gt;,</span> <span class="pre">('psyplot.plotter.maps',</span> <span class="pre">'FieldPlotter'):</span> <span class="pre">&lt;function</span> <span class="pre">patch_prior_1_0&gt;,</span> <span class="pre">('psyplot.plotter.maps',</span> <span class="pre">'MapPlotter'):</span> <span class="pre">&lt;function</span> <span class="pre">patch_prior_1_0&gt;,</span> <span class="pre">('psyplot.plotter.maps',</span> <span class="pre">'VectorPlotter'):</span> <span class="pre">&lt;function</span> <span class="pre">patch_prior_1_0&gt;}</span></em><a class="headerlink" href="#psy_maps.plugin.patches" title="Link to this definition"></a></dt>
 <dd><p>patches to apply when loading a project</p>
 </dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="psy_maps.plugin.rcParams">
-<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">rcParams</span></span><a class="headerlink" href="#psy_maps.plugin.rcParams" title="Permalink to this definition"></a></dt>
-<dd><p>the <a class="reference external" href="https://psyplot.github.io/psyplot/api/psyplot.config.rcsetup.html#psyplot.config.rcsetup.RcParams" title="(in psyplot v1.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RcParams</span></code></a> for the psy-simple plugin</p>
+<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">rcParams</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'lonlatbox.boxes':</span> <span class="pre">{},</span> <span class="pre">'plotter.maps.clat':</span> <span class="pre">None,</span> <span class="pre">'plotter.maps.clip':</span> <span class="pre">None,</span> <span class="pre">'plotter.maps.clon':</span> <span class="pre">None,</span> <span class="pre">'plotter.maps.google_map_detail':</span> <span class="pre">None,</span> <span class="pre">'plotter.maps.grid_color':</span> <span class="pre">'k',</span> <span class="pre">'plotter.maps.grid_labels':</span> <span class="pre">None,</span> <span class="pre">'plotter.maps.grid_labelsize':</span> <span class="pre">12.0,</span> <span class="pre">'plotter.maps.grid_settings':</span> <span class="pre">{},</span> <span class="pre">'plotter.maps.lonlatbox':</span> <span class="pre">None,</span> <span class="pre">'plotter.maps.lsm':</span> <span class="pre">{'coast':</span> <span class="pre">'k',</span> <span class="pre">'linewidth':</span> <span class="pre">1.0,</span> <span class="pre">'res':</span> <span class="pre">'110m'},</span> <span class="pre">'plotter.maps.map_extent':</span> <span class="pre">None,</span> <span class="pre">'plotter.maps.projection':</span> <span class="pre">'cf',</span> <span class="pre">'plotter.maps.stock_img':</span> <span class="pre">False,</span> <span class="pre">'plotter.maps.transform':</span> <span class="pre">'cf',</span> <span class="pre">'plotter.maps.transpose':</span> <span class="pre">False,</span> <span class="pre">'plotter.maps.xgrid':</span> <span class="pre">True,</span> <span class="pre">'plotter.maps.ygrid':</span> <span class="pre">True,</span> <span class="pre">'project.plotters':</span> <span class="pre">{'mapcombined':</span> <span class="pre">{'default_dims':</span> <span class="pre">{'x':</span> <span class="pre">slice(None,</span> <span class="pre">None,</span> <span class="pre">None),</span> <span class="pre">'y':</span> <span class="pre">slice(None,</span> <span class="pre">None,</span> <span class="pre">None)},</span> <span class="pre">'default_slice':</span> <span class="pre">0,</span> <span class="pre">'example_call':</span> <span class="pre">&quot;filename,</span> <span class="pre">name=[['my_variable',</span> <span class="pre">['u_var',</span> <span class="pre">'v_var']]],</span> <span class="pre">...&quot;,</span> <span class="pre">'module':</span> <span class="pre">'psy_maps.plotters',</span> <span class="pre">'plotter_name':</span> <span class="pre">'CombinedPlotter',</span> <span class="pre">'plugin':</span> <span class="pre">'psy_maps.plugin',</span> <span class="pre">'prefer_list':</span> <span class="pre">True,</span> <span class="pre">'summary':</span> <span class="pre">'Plot</span> <span class="pre">a</span> <span class="pre">2D</span> <span class="pre">scalar</span> <span class="pre">field</span> <span class="pre">with</span> <span class="pre">an</span> <span class="pre">overlying</span> <span class="pre">vector</span> <span class="pre">field</span> <span class="pre">on</span> <span class="pre">a</span> <span class="pre">map'},</span> <span class="pre">'mapplot':</span> <span class="pre">{'default_dims':</span> <span class="pre">{'x':</span> <span class="pre">slice(None,</span> <span class="pre">None,</span> <span class="pre">None),</span> <span class="pre">'y':</span> <span class="pre">slice(None,</span> <span class="pre">None,</span> <span class="pre">None)},</span> <span class="pre">'default_slice':</span> <span class="pre">0,</span> <span class="pre">'module':</span> <span class="pre">'psy_maps.plotters',</span> <span class="pre">'plotter_name':</span> <span class="pre">'FieldPlotter',</span> <span class="pre">'plugin':</span> <span class="pre">'psy_maps.plugin',</span> <span class="pre">'prefer_list':</span> <span class="pre">False,</span> <span class="pre">'summary':</span> <span class="pre">'Plot</span> <span class="pre">a</span> <span class="pre">2D</span> <span class="pre">scalar</span> <span class="pre">field</span> <span class="pre">on</span> <span class="pre">a</span> <span class="pre">map'},</span> <span class="pre">'maps':</span> <span class="pre">{'module':</span> <span class="pre">'psy_maps.plotters',</span> <span class="pre">'plot_func':</span> <span class="pre">False,</span> <span class="pre">'plotter_name':</span> <span class="pre">'MapPlotter',</span> <span class="pre">'plugin':</span> <span class="pre">'psy_maps.plugin',</span> <span class="pre">'summary':</span> <span class="pre">'The</span> <span class="pre">data</span> <span class="pre">objects</span> <span class="pre">visualized</span> <span class="pre">on</span> <span class="pre">a</span> <span class="pre">map'},</span> <span class="pre">'mapvector':</span> <span class="pre">{'default_dims':</span> <span class="pre">{'x':</span> <span class="pre">slice(None,</span> <span class="pre">None,</span> <span class="pre">None),</span> <span class="pre">'y':</span> <span class="pre">slice(None,</span> <span class="pre">None,</span> <span class="pre">None)},</span> <span class="pre">'default_slice':</span> <span class="pre">0,</span> <span class="pre">'example_call':</span> <span class="pre">&quot;filename,</span> <span class="pre">name=[['u_var',</span> <span class="pre">'v_var']],</span> <span class="pre">...&quot;,</span> <span class="pre">'module':</span> <span class="pre">'psy_maps.plotters',</span> <span class="pre">'plotter_name':</span> <span class="pre">'VectorPlotter',</span> <span class="pre">'plugin':</span> <span class="pre">'psy_maps.plugin',</span> <span class="pre">'prefer_list':</span> <span class="pre">False,</span> <span class="pre">'summary':</span> <span class="pre">'Plot</span> <span class="pre">a</span> <span class="pre">2D</span> <span class="pre">vector</span> <span class="pre">field</span> <span class="pre">on</span> <span class="pre">a</span> <span class="pre">map'}}}</span></em><a class="headerlink" href="#psy_maps.plugin.rcParams" title="Link to this definition"></a></dt>
+<dd><p>the <a class="reference external" href="https://psyplot.github.io/psyplot/api/psyplot.config.rcsetup.html#psyplot.config.rcsetup.RcParams" title="(in psyplot)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RcParams</span></code></a> for the psy-simple plugin</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="psy_maps.plugin.validate_dict_yaml">
-<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">validate_dict_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psy_maps/plugin.html#validate_dict_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psy_maps.plugin.validate_dict_yaml" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">validate_dict_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psy_maps.plugin.validate_dict_yaml" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="psy_maps.plugin.validate_google_map_detail">
+<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">validate_google_map_detail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psy_maps.plugin.validate_google_map_detail" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="psy_maps.plugin.validate_grid">
-<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">validate_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psy_maps/plugin.html#validate_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psy_maps.plugin.validate_grid" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">validate_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psy_maps.plugin.validate_grid" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="psy_maps.plugin.validate_lonlatbox">
-<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">validate_lonlatbox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psy_maps/plugin.html#validate_lonlatbox"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psy_maps.plugin.validate_lonlatbox" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">validate_lonlatbox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psy_maps.plugin.validate_lonlatbox" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="psy_maps.plugin.validate_lsm">
-<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">validate_lsm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psy_maps/plugin.html#validate_lsm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psy_maps.plugin.validate_lsm" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">psy_maps.plugin.</span></span><span class="sig-name descname"><span class="pre">validate_lsm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psy_maps.plugin.validate_lsm" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-</section>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="psy_maps.plotters.html" class="btn btn-neutral float-left" title="psy_maps.plotters module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <!--
+SPDX-FileCopyrightText: 2021-2024 Helmholtz-Zentrum hereon GmbH
+
+SPDX-License-Identifier: CC-BY-4.0
+-->
+
+<footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="psy_maps.plotters.html" class="btn btn-neutral float-left" title="Possible types" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../contributing.html" class="btn btn-neutral float-right" title="Contribution and development hints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021 Helmholtz-Zentrum Hereon, 2020-2021 Helmholtz-Zentrum Geesthacht, 2016-2021 University of Lausanne.</p>
+    <p>&#169; Copyright 2021-2024 Helmholtz-Zentrum hereon GmbH.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+  
+
+<div class="footer">
+    <span class="creativecommons">
+    <a href="https://creativecommons.org/licenses/by/4.0/" >
+    <img style="height: 1.5em;" src="../_static/license_logo.png" border="0" alt="Creative Commons License"/>
+    </a>
+    This documentation is licensed under
+    <a href="https://creativecommons.org/licenses/by/4.0/">
+    CC-BY-4.0
+    </a>
+    </span>
+</div>
+
+
 
 </footer>
         </div>

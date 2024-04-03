@@ -1,4 +1,4 @@
-API Reference
+psy\_maps package
 =================
 
 .. automodule:: psy_maps

@@ -1,6 +1,3 @@
-psy\_maps.boxes module
-======================
-
 .. automodule:: psy_maps.boxes
    :members:
    :undoc-members:

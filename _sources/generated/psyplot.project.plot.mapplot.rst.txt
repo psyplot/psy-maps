@@ -1,4 +1,4 @@
-psyplot.project.plot.mapplot
+﻿psyplot.project.plot.mapplot
 ============================
 
 .. currentmodule:: psyplot.project

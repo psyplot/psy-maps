@@ -1,21 +1,26 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>psyplot plot methods &mdash; psy-maps 1.4.1+7.g0479a55 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
+  <title>psyplot plot methods &mdash; psy-maps  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/nc-table-styles.css?v=d585f46f" />
+      <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/design-tabs.js?v=36754332"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -28,29 +33,106 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> psy-maps
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            psy-maps
           </a>
-              <div class="version">
-                1.4.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">psyplot plot methods</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="generated/psyplot.project.plot.mapplot.html">psyplot.project.plot.mapplot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/psyplot.project.plot.mapvector.html">psyplot.project.plot.mapvector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/psyplot.project.plot.mapcombined.html">psyplot.project.plot.mapcombined</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#how-to-install">How to install</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#installation-using-conda">Installation using conda</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#installation-using-pip">Installation using pip</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to psy-maps</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/psy_maps.html">API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#running-the-tests">Running the tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">psyplot plot methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/psyplot.project.plot.mapplot.html">psyplot.project.plot.mapplot</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/psyplot.project.plot.mapplot.html#psyplot.project.plot.mapplot"><code class="docutils literal notranslate"><span class="pre">plot.mapplot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generated/psyplot.project.plot.mapvector.html">psyplot.project.plot.mapvector</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/psyplot.project.plot.mapvector.html#psyplot.project.plot.mapvector"><code class="docutils literal notranslate"><span class="pre">plot.mapvector</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generated/psyplot.project.plot.mapcombined.html">psyplot.project.plot.mapcombined</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/psyplot.project.plot.mapcombined.html#psyplot.project.plot.mapcombined"><code class="docutils literal notranslate"><span class="pre">plot.mapcombined</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/psy_maps.html">psy_maps package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/psy_maps.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.widgets.html">psy_maps.widgets package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/psy_maps.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.boxes.html"><code class="docutils literal notranslate"><span class="pre">lonlatboxes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html"><code class="docutils literal notranslate"><span class="pre">BoxBase</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.CenterLat"><code class="docutils literal notranslate"><span class="pre">CenterLat</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.CenterLon"><code class="docutils literal notranslate"><span class="pre">CenterLon</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.ClipAxes"><code class="docutils literal notranslate"><span class="pre">ClipAxes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.CombinedMapVectorPlot"><code class="docutils literal notranslate"><span class="pre">CombinedMapVectorPlot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.CombinedPlotter"><code class="docutils literal notranslate"><span class="pre">CombinedPlotter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.FieldPlotter"><code class="docutils literal notranslate"><span class="pre">FieldPlotter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.GoogleMap"><code class="docutils literal notranslate"><span class="pre">GoogleMap</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.GridBase"><code class="docutils literal notranslate"><span class="pre">GridBase</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.GridColor"><code class="docutils literal notranslate"><span class="pre">GridColor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.GridLabelSize"><code class="docutils literal notranslate"><span class="pre">GridLabelSize</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.GridLabels"><code class="docutils literal notranslate"><span class="pre">GridLabels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.GridSettings"><code class="docutils literal notranslate"><span class="pre">GridSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.LSM"><code class="docutils literal notranslate"><span class="pre">LSM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.LonLatBox"><code class="docutils literal notranslate"><span class="pre">LonLatBox</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.MapBackground"><code class="docutils literal notranslate"><span class="pre">MapBackground</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.MapDataGrid"><code class="docutils literal notranslate"><span class="pre">MapDataGrid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.MapDensity"><code class="docutils literal notranslate"><span class="pre">MapDensity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.MapExtent"><code class="docutils literal notranslate"><span class="pre">MapExtent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.MapPlot2D"><code class="docutils literal notranslate"><span class="pre">MapPlot2D</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.MapPlotter"><code class="docutils literal notranslate"><span class="pre">MapPlotter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.MapVectorColor"><code class="docutils literal notranslate"><span class="pre">MapVectorColor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.MapVectorPlot"><code class="docutils literal notranslate"><span class="pre">MapVectorPlot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.Projection"><code class="docutils literal notranslate"><span class="pre">Projection</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.ProjectionBase"><code class="docutils literal notranslate"><span class="pre">ProjectionBase</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.StockImage"><code class="docutils literal notranslate"><span class="pre">StockImage</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.Transform"><code class="docutils literal notranslate"><span class="pre">Transform</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.Transpose"><code class="docutils literal notranslate"><span class="pre">Transpose</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.VectorPlotter"><code class="docutils literal notranslate"><span class="pre">VectorPlotter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.XGrid"><code class="docutils literal notranslate"><span class="pre">XGrid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.YGrid"><code class="docutils literal notranslate"><span class="pre">YGrid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.degree_format"><code class="docutils literal notranslate"><span class="pre">degree_format()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.format_lats"><code class="docutils literal notranslate"><span class="pre">format_lats()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.format_lons"><code class="docutils literal notranslate"><span class="pre">format_lons()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plotters.html#psy_maps.plotters.shiftdata"><code class="docutils literal notranslate"><span class="pre">shiftdata()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plugin.html"><code class="docutils literal notranslate"><span class="pre">ProjectionValidator</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plugin.html#psy_maps.plugin.get_versions"><code class="docutils literal notranslate"><span class="pre">get_versions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plugin.html#psy_maps.plugin.patch_prior_1_0"><code class="docutils literal notranslate"><span class="pre">patch_prior_1_0()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plugin.html#psy_maps.plugin.patches"><code class="docutils literal notranslate"><span class="pre">patches</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plugin.html#psy_maps.plugin.rcParams"><code class="docutils literal notranslate"><span class="pre">rcParams</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plugin.html#psy_maps.plugin.validate_dict_yaml"><code class="docutils literal notranslate"><span class="pre">validate_dict_yaml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plugin.html#psy_maps.plugin.validate_google_map_detail"><code class="docutils literal notranslate"><span class="pre">validate_google_map_detail()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plugin.html#psy_maps.plugin.validate_grid"><code class="docutils literal notranslate"><span class="pre">validate_grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plugin.html#psy_maps.plugin.validate_lonlatbox"><code class="docutils literal notranslate"><span class="pre">validate_lonlatbox()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/psy_maps.plugin.html#psy_maps.plugin.validate_lsm"><code class="docutils literal notranslate"><span class="pre">validate_lsm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contribution and development hints</a></li>
 </ul>
 
         </div>
@@ -66,8 +148,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>psyplot plot methods</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">psyplot plot methods</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/plot_methods.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -78,21 +160,11 @@
            <div itemprop="articleBody">
              
   <section id="psyplot-plot-methods">
-<span id="plot-methods"></span><h1>psyplot plot methods<a class="headerlink" href="#psyplot-plot-methods" title="Permalink to this headline"></a></h1>
+<span id="plot-methods"></span><h1>psyplot plot methods<a class="headerlink" href="#psyplot-plot-methods" title="Link to this heading"></a></h1>
 <p>This plugin defines the following new plot methods for the
-<a class="reference external" href="https://psyplot.github.io/psyplot/api/psyplot.project.html#psyplot.project.ProjectPlotter" title="(in psyplot v1.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">psyplot.project.ProjectPlotter</span></code></a> class. They can, for example, be
+<a class="reference external" href="https://psyplot.github.io/psyplot/api/psyplot.project.html#psyplot.project.ProjectPlotter" title="(in psyplot)"><code class="xref py py-class docutils literal notranslate"><span class="pre">psyplot.project.ProjectPlotter</span></code></a> class. They can, for example, be
 accessed through</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">import</span> <span class="nn">psyplot.project</span> <span class="k">as</span> <span class="nn">psy</span>
-
-<span class="gp">In [2]: </span><span class="n">psy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">mapplot</span>
-<span class="gh">Out[2]: </span><span class="go">&lt;psyplot.project.ProjectPlotter._register_plotter.&lt;locals&gt;.PlotMethod at 0x7f5d4cf2a730&gt;</span>
-</pre></div>
-</div>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/psyplot.project.plot.mapplot.html#psyplot.project.plot.mapplot" title="psyplot.project.plot.mapplot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mapplot</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Plot a 2D scalar field on a map</p></td>
@@ -110,7 +182,13 @@ accessed through</p>
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <!--
+SPDX-FileCopyrightText: 2021-2024 Helmholtz-Zentrum hereon GmbH
+
+SPDX-License-Identifier: CC-BY-4.0
+-->
+
+<footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="installing.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="generated/psyplot.project.plot.mapplot.html" class="btn btn-neutral float-right" title="psyplot.project.plot.mapplot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
@@ -118,13 +196,27 @@ accessed through</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021 Helmholtz-Zentrum Hereon, 2020-2021 Helmholtz-Zentrum Geesthacht, 2016-2021 University of Lausanne.</p>
+    <p>&#169; Copyright 2021-2024 Helmholtz-Zentrum hereon GmbH.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+  
+
+<div class="footer">
+    <span class="creativecommons">
+    <a href="https://creativecommons.org/licenses/by/4.0/" >
+    <img style="height: 1.5em;" src="_static/license_logo.png" border="0" alt="Creative Commons License"/>
+    </a>
+    This documentation is licensed under
+    <a href="https://creativecommons.org/licenses/by/4.0/">
+    CC-BY-4.0
+    </a>
+    </span>
+</div>
+
+
 
 </footer>
         </div>

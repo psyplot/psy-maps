@@ -1,4 +1,4 @@
-psyplot.project.plot.mapcombined
+﻿psyplot.project.plot.mapcombined
 ================================
 
 .. currentmodule:: psyplot.project
